@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="33684c39add140fa804946cce604e6d9" Name="Diagram1">
-        <EntityTypeShape EntityType="HotelSystemModel.Booking" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+      <Diagram DiagramId="33684c39add140fa804946cce604e6d9" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="HotelSystemModel.Booking" Width="1.5" PointX="5.375" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelSystemModel.BookingService" Width="1.5" PointX="8.25" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelSystemModel.Customer" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelSystemModel.Customer" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelSystemModel.Employee" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelSystemModel.Invoice" Width="1.5" PointX="10.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelSystemModel.Invoice" Width="1.5" PointX="10.625" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelSystemModel.Room" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelSystemModel.RoomHistory" Width="1.5" PointX="8.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelSystemModel.RoomHistory" Width="1.5" PointX="8.375" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelSystemModel.Service" Width="1.5" PointX="6" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelSystemModel.sysdiagram" Width="1.5" PointX="7.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelSystemModel.User" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelSystemModel.WorkSchedule" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelSystemModel.User" Width="1.5" PointX="0.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelSystemModel.WorkSchedule" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
         <AssociationConnector Association="HotelSystemModel.FK__Booking__custome__4CA06362" ManuallyRouted="false" />
         <AssociationConnector Association="HotelSystemModel.FK__Booking__room_id__4D94879B" ManuallyRouted="false" />
         <AssociationConnector Association="HotelSystemModel.FK__Invoice__booking__72C60C4A" ManuallyRouted="false" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HotelSystem.View;
+using HotelSystem.View.AdminForm;
 
 namespace HotelSystem
 {
@@ -17,7 +18,7 @@ namespace HotelSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            Application.Run(new AdminForm());
         }
     }
 }
