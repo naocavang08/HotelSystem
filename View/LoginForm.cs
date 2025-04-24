@@ -39,7 +39,7 @@ namespace HotelSystem.View
                 var user = db.Users.FirstOrDefault(u => u.username == username && u.password == password);
                 if (user != null)
                 {
-                    if (user.role == "admin")
+                    if (user.username == "admin")
                     {
                         AdminForm.AdminForm op = new AdminForm.AdminForm();
                         op.Show();

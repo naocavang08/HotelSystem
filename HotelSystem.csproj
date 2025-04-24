@@ -15,6 +15,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,6 +76,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\CustomerBLL.cs" />
+    <Compile Include="DAL\CustomerDAL.cs" />
+    <Compile Include="DAL\QLNV.cs" />
+    <Compile Include="DAL\QLP.cs" />
+    <Compile Include="DTO\CustomerDTO.cs" />
     <Compile Include="Model\Booking.cs">
       <DependentUpon>DBHotelSystem.tt</DependentUpon>
     </Compile>
@@ -206,21 +226,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controller\" />
     <Folder Include="View\CustomerForm\" />
     <Folder Include="View\StaffForm\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model\DBHotelSystem.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBHotelSystem.edmx</DependentUpon>
-      <LastGenOutput>DBHotelSystem.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\DBHotelSystem.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBHotelSystem.edmx</DependentUpon>
-      <LastGenOutput>DBHotelSystem.cs</LastGenOutput>
-    </Content>
     <None Include="Resources\icons8-room-48.png" />
     <None Include="Resources\icons8-staff-48.png" />
     <None Include="Resources\icons8-customer-48.png" />
@@ -237,6 +246,30 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model\DBHotelSystem.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBHotelSystem.edmx</DependentUpon>
+      <LastGenOutput>DBHotelSystem.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\DBHotelSystem.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBHotelSystem.edmx</DependentUpon>
+      <LastGenOutput>DBHotelSystem.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

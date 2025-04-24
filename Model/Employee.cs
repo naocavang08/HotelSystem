@@ -24,6 +24,7 @@ namespace HotelSystem.Model
         public string name { get; set; }
         public string phone { get; set; }
         public string cccd { get; set; }
+        public Nullable<bool> gender { get; set; }
         public string position { get; set; }
         public decimal salary { get; set; }
         public int id { get; set; }
