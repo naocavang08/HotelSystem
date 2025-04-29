@@ -22,6 +22,13 @@ namespace HotelSystem.Model
                 });
             }
 
+            if (!db.RoomTypes.Any())
+            {
+                db.RoomTypes.Add(new RoomType { room_type = "VIP", price = 1200000 });
+                db.RoomTypes.Add(new RoomType { room_type = "Deluxe", price = 800000 });
+                db.RoomTypes.Add(new RoomType { room_type = "Standard", price = 500000 });
+            }
+
             base.Seed(db);
         }
     }

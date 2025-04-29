@@ -76,8 +76,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\BookingBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
+    <Compile Include="DAL\BookingDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="DTO\BookingDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Migrations\202504250404573_InitialCreate.cs" />
     <Compile Include="Migrations\202504250404573_InitialCreate.Designer.cs">
@@ -134,11 +137,11 @@
     <Compile Include="View\AdminForm\Statistic.Designer.cs">
       <DependentUpon>Statistic.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\CustomerForm\Booking.cs">
+    <Compile Include="View\CustomerForm\BookingRoom.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CustomerForm\Booking.Designer.cs">
-      <DependentUpon>Booking.cs</DependentUpon>
+    <Compile Include="View\CustomerForm\BookingRoom.Designer.cs">
+      <DependentUpon>BookingRoom.cs</DependentUpon>
     </Compile>
     <Compile Include="View\CustomerForm\CustomerForm.cs">
       <SubType>Form</SubType>
@@ -189,8 +192,8 @@
     <EmbeddedResource Include="View\AdminForm\Statistic.resx">
       <DependentUpon>Statistic.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CustomerForm\Booking.resx">
-      <DependentUpon>Booking.cs</DependentUpon>
+    <EmbeddedResource Include="View\CustomerForm\BookingRoom.resx">
+      <DependentUpon>BookingRoom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\CustomerForm\CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>
