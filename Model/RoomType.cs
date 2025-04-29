@@ -8,26 +8,22 @@ using System.Threading.Tasks;
 
 namespace HotelSystem.Model
 {
-    public class BookingService
+    public class RoomType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BookingService()
+        public RoomType()
         {
-            this.Invoices = new HashSet<Invoice>();
+            this.Rooms = new HashSet<Room>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int booking_service_id { get; set; }
+        public int roomtype_id { get; set; }
         [Required]
-        [ForeignKey("Service")]
-        public int service_id { get; set; }
+        public string room_type { get; set; }
         [Required]
-        public int quantity { get; set; }
-        [Required]
-        public decimal total_price { get; set; }
+        public decimal price { get; set; }
 
-        public virtual Service Service { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }

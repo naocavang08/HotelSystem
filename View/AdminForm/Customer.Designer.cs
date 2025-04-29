@@ -73,7 +73,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(286, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(334, 46);
+            this.label1.Size = new System.Drawing.Size(327, 45);
             this.label1.TabIndex = 3;
             this.label1.Text = "Quản lý khách hàng";
             // 
@@ -150,7 +150,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(511, 373);
+            this.button4.Location = new System.Drawing.Point(509, 373);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(109, 34);
             this.button4.TabIndex = 11;

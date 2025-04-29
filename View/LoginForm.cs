@@ -1,5 +1,4 @@
-﻿using HotelSystem.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,11 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HotelSystem.View.AdminForm;
+using System.Drawing.Text;
+using HotelSystem.BLL;
+using HotelSystem.DTO;
+using HotelSystem.Session;
+using HotelSystem.Model;
 
 namespace HotelSystem.View
 {
     public partial class LoginForm: Form
     {
+        private UserBLL UserBLL = new UserBLL();
+
         public LoginForm()
         {
             InitializeComponent();
@@ -34,34 +40,36 @@ namespace HotelSystem.View
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text;
 
-            using (var db = new DBHotelSystem())
+            UserDTO user = UserBLL.Login(username, password);
+                
+            if (user != null)    
             {
-                var user = db.Users.FirstOrDefault(u => u.username == username && u.password == password);
-                if (user != null)
-                {
-                    if (user.username == "admin")
+                UserSession.UserId = user.UserId;
+                UserSession.Username = user.Username;
+                UserSession.Role = user.Role;
+
+                if (user.Role == "admin")
                     {
                         AdminForm.AdminForm op = new AdminForm.AdminForm();
                         op.Show();
                     }
-                    else if (user.role == "customer")
+                else if (user.Role == "customer")
                     {
-                        //CustomerForm op = new CustomerForm();
-                        //op.Show();
+                        CustomerForm.Booking op = new CustomerForm.Booking();
+                        op.Show();
                     }
-                    else if (user.role == "staff")
+                else if (user.Role == "staff")
                     {
                         //UserForm op = new UserForm();
                         //op.Show();
                     }
                     this.Hide();
-                }
+                    }
                 else
                 {
                     MessageBox.Show("Invalid username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
 
         private void lblSignup_Click(object sender, EventArgs e)
         {

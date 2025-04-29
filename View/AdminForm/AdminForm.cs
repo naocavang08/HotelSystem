@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelSystem.Session;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -29,6 +30,7 @@ namespace HotelSystem.View.AdminForm
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
+            UserSession.Clear();
             LoginForm op = new LoginForm();
             op.Show();
             this.Hide();

@@ -76,59 +76,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\CustomerBLL.cs" />
-    <Compile Include="DAL\CustomerDAL.cs" />
-    <Compile Include="DAL\QLNV.cs" />
-    <Compile Include="DAL\QLP.cs" />
-    <Compile Include="DTO\CustomerDTO.cs" />
-    <Compile Include="Model\Booking.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
+    <Compile Include="BLL\UserBLL.cs" />
+    <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="Migrations\202504250404573_InitialCreate.cs" />
+    <Compile Include="Migrations\202504250404573_InitialCreate.Designer.cs">
+      <DependentUpon>202504250404573_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\BookingService.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
+    <Compile Include="Migrations\202504250941256_UpdateModel.cs" />
+    <Compile Include="Migrations\202504250941256_UpdateModel.Designer.cs">
+      <DependentUpon>202504250941256_UpdateModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Customer.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DBHotelSystem.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBHotelSystem.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DBHotelSystem.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DBHotelSystem.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBHotelSystem.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Employee.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Invoice.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Room.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\RoomHistory.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Service.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\User.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\WorkSchedule.cs">
-      <DependentUpon>DBHotelSystem.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\Booking.cs" />
+    <Compile Include="Model\BookingService.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\DBHotelSystem.cs" />
+    <Compile Include="Model\Employee.cs" />
+    <Compile Include="Model\HotelDB.cs" />
+    <Compile Include="Model\Invoice.cs" />
+    <Compile Include="Model\Room.cs" />
+    <Compile Include="Model\RoomHistory.cs" />
+    <Compile Include="Model\RoomType.cs" />
+    <Compile Include="Model\Service.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Model\WorkSchedule.cs" />
+    <Compile Include="Session\UserSession.cs" />
     <Compile Include="View\AdminForm\AdminForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +134,18 @@
     <Compile Include="View\AdminForm\Statistic.Designer.cs">
       <DependentUpon>Statistic.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\CustomerForm\Booking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CustomerForm\Booking.Designer.cs">
+      <DependentUpon>Booking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerForm\CustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CustomerForm\CustomerForm.Designer.cs">
+      <DependentUpon>CustomerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +158,12 @@
     <Compile Include="View\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Migrations\202504250404573_InitialCreate.resx">
+      <DependentUpon>202504250404573_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504250941256_UpdateModel.resx">
+      <DependentUpon>202504250941256_UpdateModel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -198,19 +189,18 @@
     <EmbeddedResource Include="View\AdminForm\Statistic.resx">
       <DependentUpon>Statistic.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\CustomerForm\Booking.resx">
+      <DependentUpon>Booking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CustomerForm\CustomerForm.resx">
+      <DependentUpon>CustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EntityDeploy Include="Model\DBHotelSystem.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBHotelSystem.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\DBHotelSystem.edmx.diagram">
-      <DependentUpon>DBHotelSystem.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -226,7 +216,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="View\CustomerForm\" />
     <Folder Include="View\StaffForm\" />
   </ItemGroup>
   <ItemGroup>
@@ -260,16 +249,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model\DBHotelSystem.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBHotelSystem.edmx</DependentUpon>
-      <LastGenOutput>DBHotelSystem.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\DBHotelSystem.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBHotelSystem.edmx</DependentUpon>
-      <LastGenOutput>DBHotelSystem.cs</LastGenOutput>
-    </Content>
+    <None Include="Resources\icons8-user-100.png" />
+    <None Include="Resources\icons8-account-961.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hotel_background2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
