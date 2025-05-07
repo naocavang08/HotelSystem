@@ -21,10 +21,7 @@ namespace HotelSystem
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AdminDAL adminDAL = new AdminDAL();
-            adminDAL.ConnectToDatabase();  // Gọi phương thức kiểm tra kết nối
-
-            //Application.Run(new BookingRoom());
+            Application.Run(new Room());
         }
     }
 }

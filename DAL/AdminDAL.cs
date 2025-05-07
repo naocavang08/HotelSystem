@@ -11,6 +11,152 @@ namespace HotelSystem.DAL
 {
     internal class AdminDAL
     {
+        // New method to fetch occupied rooms
+        public List<string> GetOccupiedRooms()
+        {
+            var occupiedRooms = new List<string>();
+            string connectionString = ConfigurationManager.ConnectionStrings["DBHotelSystem"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT status FROM Rooms WHERE status = 'in use'";
+                    // gia su status = "in use" la phong da co nguoi dat
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                occupiedRooms.Add(reader.GetString(0)); 
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while retrieving occupied rooms: {ex.Message}");
+                }
+            }
+
+            return occupiedRooms;
+        }
+
+        //New method to fetch available rooms
+        public List<string> GetAvailableRooms()
+        {
+            var availableRooms = new List<string>();
+            string connectionString = ConfigurationManager.ConnectionStrings["DBHotelSystem"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT status FROM Rooms WHERE status = 'available'";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                availableRooms.Add(reader.GetString(0)); 
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while retrieving available rooms: {ex.Message}");
+                }
+            }
+
+            return availableRooms;
+        }
+
+        //New method to fetch all customers
+        public List<int> GetAllCustomers()
+        {
+            var customers = new List<int>();
+            string connectionString = ConfigurationManager.ConnectionStrings["DBHotelSystem"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT customer_id FROM Customers";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                customers.Add(reader.GetInt32(0)); 
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while retrieving customers: {ex.Message}");
+                }
+            }
+            return customers;
+        }
+
+        //New method to get all Revenue
+        public decimal GetAllRevenue()
+        {
+            decimal totalRevenue = 0;
+            string connectionString = ConfigurationManager.ConnectionStrings["DBHotelSystem"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = @"
+                SELECT SUM(total_amount) 
+                FROM Invoice 
+                WHERE payment_date BETWEEN '2025-07-01' AND '2025-07-31'";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        object result = command.ExecuteScalar();
+                        if (result != DBNull.Value)
+                        {
+                            totalRevenue = Convert.ToDecimal(result);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while retrieving revenue: {ex.Message}");
+                }
+            }
+
+            return totalRevenue;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public void ConnectToDatabase()
         {
             // Retrieve the connection string from the configuration file
@@ -68,7 +214,7 @@ namespace HotelSystem.DAL
                 try
                 {
                     connection.Open();
-                    string query = "SELECT user_id, username, password FROM Users WHERE role = 'Admin'";
+                    string query = "SELECT user_id, username, password, role, status, date_register FROM Users WHERE role = 'Admin'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -79,7 +225,10 @@ namespace HotelSystem.DAL
                                 var admin = new AdminDTO(
                                     reader.GetInt32(0), // user_id
                                     reader.GetString(1), // username
-                                    reader.GetString(2)  // password
+                                    reader.GetString(2), // password
+                                    reader.GetString(3), // role
+                                    reader.GetString(4), // status
+                                    reader.GetDateTime(5) // date_register
                                 );
                                 admins.Add(admin);
                             }
@@ -94,6 +243,7 @@ namespace HotelSystem.DAL
 
             return admins;
         }
+
 
         public void AddAdmin(AdminDTO admin)
         {
