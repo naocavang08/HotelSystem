@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlClient, Version=4.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Data.SqlClient.4.9.0\lib\net462\System.Data.SqlClient.dll</HintPath>
@@ -76,10 +77,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\AdminBLL.cs" />
     <Compile Include="BLL\BookingBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
+    <Compile Include="DAL\AdminDAL.cs" />
     <Compile Include="DAL\BookingDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="DTO\AdminDTO.cs" />
     <Compile Include="DTO\BookingDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Migrations\202504250404573_InitialCreate.cs" />

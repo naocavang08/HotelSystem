@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HotelSystem.DAL;
 using HotelSystem.View;
 using HotelSystem.View.AdminForm;
 using HotelSystem.View.CustomerForm;
@@ -19,7 +20,11 @@ namespace HotelSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BookingRoom());
+
+            AdminDAL adminDAL = new AdminDAL();
+            adminDAL.ConnectToDatabase();  // Gọi phương thức kiểm tra kết nối
+
+            //Application.Run(new BookingRoom());
         }
     }
 }
