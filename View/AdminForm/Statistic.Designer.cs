@@ -28,138 +28,147 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblTotalRooms = new System.Windows.Forms.Label();
-            this.lblOccupiedRooms = new System.Windows.Forms.Label();
-            this.lblAvailableRooms = new System.Windows.Forms.Label();
-            this.lblTotalCustomers = new System.Windows.Forms.Label();
-            this.lblRevenue = new System.Windows.Forms.Label();
-            this.lblResultTotalRooms = new System.Windows.Forms.Label();
-            this.lblResultOccupiedRooms = new System.Windows.Forms.Label();
-            this.lblResultAvailableRooms = new System.Windows.Forms.Label();
-            this.lblResultTotalCustomers = new System.Windows.Forms.Label();
-            this.lblResultRevenue = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.chartMonth = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartQuarter = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartYear = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.chartMonth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartQuarter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartYear)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(392, 39);
+            this.label1.Location = new System.Drawing.Point(391, 38);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(164, 45);
             this.label1.TabIndex = 4;
             this.label1.Text = "Thống kê";
             // 
-            // lblTotalRooms
+            // button1
             // 
-            this.lblTotalRooms.AutoSize = true;
-            this.lblTotalRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalRooms.Location = new System.Drawing.Point(83, 164);
-            this.lblTotalRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTotalRooms.Name = "lblTotalRooms";
-            this.lblTotalRooms.Size = new System.Drawing.Size(149, 28);
-            this.lblTotalRooms.TabIndex = 5;
-            this.lblTotalRooms.Text = "Tổng số phòng:\t";
+            this.button1.Location = new System.Drawing.Point(576, 509);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(99, 35);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Thống kê";
+            this.button1.UseVisualStyleBackColor = true;
             // 
-            // lblOccupiedRooms
+            // label4
             // 
-            this.lblOccupiedRooms.AutoSize = true;
-            this.lblOccupiedRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOccupiedRooms.Location = new System.Drawing.Point(83, 246);
-            this.lblOccupiedRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblOccupiedRooms.Name = "lblOccupiedRooms";
-            this.lblOccupiedRooms.Size = new System.Drawing.Size(228, 28);
-            this.lblOccupiedRooms.TabIndex = 7;
-            this.lblOccupiedRooms.Text = "Số phòng đang sử dụng:";
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(187, 519);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 20);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Năm";
             // 
-            // lblAvailableRooms
+            // comboBox3
             // 
-            this.lblAvailableRooms.AutoSize = true;
-            this.lblAvailableRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAvailableRooms.Location = new System.Drawing.Point(83, 322);
-            this.lblAvailableRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAvailableRooms.Name = "lblAvailableRooms";
-            this.lblAvailableRooms.Size = new System.Drawing.Size(198, 28);
-            this.lblAvailableRooms.TabIndex = 8;
-            this.lblAvailableRooms.Text = "Số phòng còn trống: ";
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(249, 515);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(121, 24);
+            this.comboBox3.TabIndex = 10;
             // 
-            // lblTotalCustomers
+            // chartMonth
             // 
-            this.lblTotalCustomers.AutoSize = true;
-            this.lblTotalCustomers.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalCustomers.Location = new System.Drawing.Point(77, 401);
-            this.lblTotalCustomers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTotalCustomers.Name = "lblTotalCustomers";
-            this.lblTotalCustomers.Size = new System.Drawing.Size(216, 28);
-            this.lblTotalCustomers.TabIndex = 9;
-            this.lblTotalCustomers.Text = "Tổng số khách hiện tại: \t";
+            chartArea1.Name = "ChartArea1";
+            this.chartMonth.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartMonth.Legends.Add(legend1);
+            this.chartMonth.Location = new System.Drawing.Point(44, 165);
+            this.chartMonth.Name = "chartMonth";
+            this.chartMonth.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartMonth.Series.Add(series1);
+            this.chartMonth.Size = new System.Drawing.Size(245, 200);
+            this.chartMonth.TabIndex = 12;
+            this.chartMonth.Text = "chart1";
             // 
-            // lblRevenue
+            // chartQuarter
             // 
-            this.lblRevenue.AutoSize = true;
-            this.lblRevenue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRevenue.Location = new System.Drawing.Point(77, 482);
-            this.lblRevenue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblRevenue.Name = "lblRevenue";
-            this.lblRevenue.Size = new System.Drawing.Size(205, 28);
-            this.lblRevenue.TabIndex = 10;
-            this.lblRevenue.Text = "Doanh thu tháng nay: \t";
+            chartArea2.Name = "ChartArea1";
+            this.chartQuarter.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartQuarter.Legends.Add(legend2);
+            this.chartQuarter.Location = new System.Drawing.Point(345, 165);
+            this.chartQuarter.Name = "chartQuarter";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartQuarter.Series.Add(series2);
+            this.chartQuarter.Size = new System.Drawing.Size(245, 200);
+            this.chartQuarter.TabIndex = 13;
+            this.chartQuarter.Text = "chart2";
             // 
-            // lblResultTotalRooms
+            // chartYear
             // 
-            this.lblResultTotalRooms.AutoSize = true;
-            this.lblResultTotalRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultTotalRooms.Location = new System.Drawing.Point(421, 166);
-            this.lblResultTotalRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblResultTotalRooms.Name = "lblResultTotalRooms";
-            this.lblResultTotalRooms.Size = new System.Drawing.Size(34, 28);
-            this.lblResultTotalRooms.TabIndex = 11;
-            this.lblResultTotalRooms.Text = "10";
+            chartArea3.Name = "ChartArea1";
+            this.chartYear.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chartYear.Legends.Add(legend3);
+            this.chartYear.Location = new System.Drawing.Point(646, 165);
+            this.chartYear.Name = "chartYear";
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chartYear.Series.Add(series3);
+            this.chartYear.Size = new System.Drawing.Size(245, 200);
+            this.chartYear.TabIndex = 14;
+            this.chartYear.Text = "chart3";
             // 
-            // lblResultOccupiedRooms
+            // label5
             // 
-            this.lblResultOccupiedRooms.AutoSize = true;
-            this.lblResultOccupiedRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultOccupiedRooms.Location = new System.Drawing.Point(421, 246);
-            this.lblResultOccupiedRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblResultOccupiedRooms.Name = "lblResultOccupiedRooms";
-            this.lblResultOccupiedRooms.Size = new System.Drawing.Size(65, 28);
-            this.lblResultOccupiedRooms.TabIndex = 12;
-            this.lblResultOccupiedRooms.Text = "label8";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(137, 382);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 20);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Tháng";
             // 
-            // lblResultAvailableRooms
+            // label6
             // 
-            this.lblResultAvailableRooms.AutoSize = true;
-            this.lblResultAvailableRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultAvailableRooms.Location = new System.Drawing.Point(421, 322);
-            this.lblResultAvailableRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblResultAvailableRooms.Name = "lblResultAvailableRooms";
-            this.lblResultAvailableRooms.Size = new System.Drawing.Size(65, 28);
-            this.lblResultAvailableRooms.TabIndex = 13;
-            this.lblResultAvailableRooms.Text = "label9";
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(432, 382);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(39, 20);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Quý";
             // 
-            // lblResultTotalCustomers
+            // label7
             // 
-            this.lblResultTotalCustomers.AutoSize = true;
-            this.lblResultTotalCustomers.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultTotalCustomers.Location = new System.Drawing.Point(421, 401);
-            this.lblResultTotalCustomers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblResultTotalCustomers.Name = "lblResultTotalCustomers";
-            this.lblResultTotalCustomers.Size = new System.Drawing.Size(76, 28);
-            this.lblResultTotalCustomers.TabIndex = 14;
-            this.lblResultTotalCustomers.Text = "label10";
-            // 
-            // lblResultRevenue
-            // 
-            this.lblResultRevenue.AutoSize = true;
-            this.lblResultRevenue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultRevenue.Location = new System.Drawing.Point(421, 482);
-            this.lblResultRevenue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblResultRevenue.Name = "lblResultRevenue";
-            this.lblResultRevenue.Size = new System.Drawing.Size(76, 28);
-            this.lblResultRevenue.TabIndex = 15;
-            this.lblResultRevenue.Text = "label11";
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(749, 382);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(44, 20);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Năm";
             // 
             // Statistic
             // 
@@ -167,22 +176,24 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(208)))), ((int)(((byte)(204)))));
             this.ClientSize = new System.Drawing.Size(949, 710);
-            this.Controls.Add(this.lblResultRevenue);
-            this.Controls.Add(this.lblResultTotalCustomers);
-            this.Controls.Add(this.lblResultAvailableRooms);
-            this.Controls.Add(this.lblResultOccupiedRooms);
-            this.Controls.Add(this.lblResultTotalRooms);
-            this.Controls.Add(this.lblRevenue);
-            this.Controls.Add(this.lblTotalCustomers);
-            this.Controls.Add(this.lblAvailableRooms);
-            this.Controls.Add(this.lblOccupiedRooms);
-            this.Controls.Add(this.lblTotalRooms);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.chartYear);
+            this.Controls.Add(this.chartQuarter);
+            this.Controls.Add(this.chartMonth);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Statistic";
             this.Text = "Statistic";
             this.Load += new System.EventHandler(this.Statistic_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.chartMonth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartQuarter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartYear)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -191,15 +202,14 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblTotalRooms;
-        private System.Windows.Forms.Label lblOccupiedRooms;
-        private System.Windows.Forms.Label lblAvailableRooms;
-        private System.Windows.Forms.Label lblTotalCustomers;
-        private System.Windows.Forms.Label lblRevenue;
-        private System.Windows.Forms.Label lblResultTotalRooms;
-        private System.Windows.Forms.Label lblResultOccupiedRooms;
-        private System.Windows.Forms.Label lblResultAvailableRooms;
-        private System.Windows.Forms.Label lblResultTotalCustomers;
-        private System.Windows.Forms.Label lblResultRevenue;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartMonth;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartQuarter;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartYear;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }

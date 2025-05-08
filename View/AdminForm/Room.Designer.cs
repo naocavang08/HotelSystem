@@ -34,12 +34,12 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.txbRoomNumber = new System.Windows.Forms.TextBox();
-            this.txbRoomType = new System.Windows.Forms.TextBox();
             this.txbRoomPrice = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.cbbRoomType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,14 +52,13 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(460, 302);
+            this.dataGridView1.Size = new System.Drawing.Size(838, 296);
             this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // btnAdd
             // 
             this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(46, 560);
+            this.btnAdd.Location = new System.Drawing.Point(524, 465);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(125, 41);
@@ -71,7 +70,7 @@
             // btnSearch
             // 
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(758, 560);
+            this.btnSearch.Location = new System.Drawing.Point(671, 542);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(125, 41);
@@ -83,7 +82,7 @@
             // btnUpdate
             // 
             this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUpdate.Location = new System.Drawing.Point(285, 560);
+            this.btnUpdate.Location = new System.Drawing.Point(524, 542);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(125, 41);
@@ -95,7 +94,7 @@
             // btnDelete
             // 
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(519, 560);
+            this.btnDelete.Location = new System.Drawing.Point(671, 465);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(125, 41);
@@ -107,25 +106,16 @@
             // txbRoomNumber
             // 
             this.txbRoomNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txbRoomNumber.Location = new System.Drawing.Point(672, 136);
+            this.txbRoomNumber.Location = new System.Drawing.Point(184, 466);
             this.txbRoomNumber.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txbRoomNumber.Name = "txbRoomNumber";
             this.txbRoomNumber.Size = new System.Drawing.Size(163, 34);
             this.txbRoomNumber.TabIndex = 5;
             // 
-            // txbRoomType
-            // 
-            this.txbRoomType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txbRoomType.Location = new System.Drawing.Point(672, 201);
-            this.txbRoomType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txbRoomType.Name = "txbRoomType";
-            this.txbRoomType.Size = new System.Drawing.Size(163, 34);
-            this.txbRoomType.TabIndex = 6;
-            // 
             // txbRoomPrice
             // 
             this.txbRoomPrice.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txbRoomPrice.Location = new System.Drawing.Point(672, 274);
+            this.txbRoomPrice.Location = new System.Drawing.Point(184, 568);
             this.txbRoomPrice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txbRoomPrice.Name = "txbRoomPrice";
             this.txbRoomPrice.Size = new System.Drawing.Size(163, 34);
@@ -135,7 +125,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(546, 136);
+            this.label1.Location = new System.Drawing.Point(45, 466);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 28);
             this.label1.TabIndex = 8;
@@ -145,7 +135,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(546, 201);
+            this.label2.Location = new System.Drawing.Point(45, 517);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(111, 28);
             this.label2.TabIndex = 9;
@@ -155,7 +145,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(546, 274);
+            this.label3.Location = new System.Drawing.Point(44, 568);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(104, 28);
             this.label3.TabIndex = 10;
@@ -171,18 +161,28 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Quản lý phòng";
             // 
+            // cbbRoomType
+            // 
+            this.cbbRoomType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbbRoomType.FormattingEnabled = true;
+            this.cbbRoomType.Location = new System.Drawing.Point(184, 517);
+            this.cbbRoomType.Name = "cbbRoomType";
+            this.cbbRoomType.Size = new System.Drawing.Size(163, 36);
+            this.cbbRoomType.TabIndex = 12;
+            this.cbbRoomType.SelectedIndexChanged += new System.EventHandler(this.cbbRoomType_SelectedIndexChanged);
+            // 
             // Room
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(208)))), ((int)(((byte)(204)))));
             this.ClientSize = new System.Drawing.Size(949, 710);
+            this.Controls.Add(this.cbbRoomType);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txbRoomPrice);
-            this.Controls.Add(this.txbRoomType);
             this.Controls.Add(this.txbRoomNumber);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
@@ -207,11 +207,11 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.TextBox txbRoomNumber;
-        private System.Windows.Forms.TextBox txbRoomType;
         private System.Windows.Forms.TextBox txbRoomPrice;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbbRoomType;
     }
 }

@@ -19,6 +19,8 @@ namespace HotelSystem.View.AdminForm
         public Room()
         {
             InitializeComponent();
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            LoadCBBRoomType();
             LoadRoomData();
         }
 
@@ -28,7 +30,7 @@ namespace HotelSystem.View.AdminForm
             {
                 // Validate input fields
                 if (string.IsNullOrEmpty(txbRoomNumber.Text) ||
-                    string.IsNullOrEmpty(txbRoomType.Text) ||
+                    string.IsNullOrEmpty(cbbRoomType.Text) ||
                     string.IsNullOrEmpty(txbRoomPrice.Text))
                 {
                     MessageBox.Show("Please fill in all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -43,7 +45,7 @@ namespace HotelSystem.View.AdminForm
                 }
 
                 // Parse room type (roomtype_id is an integer !?)
-                if (!int.TryParse(txbRoomType.Text, out int roomTypeId))
+                if (!int.TryParse(cbbRoomType.Text, out int roomTypeId))
                 {
                     MessageBox.Show("Room type must be a valid integer (roomtype_id)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -99,7 +101,7 @@ namespace HotelSystem.View.AdminForm
 
                 // Validate input fields
                 if (string.IsNullOrEmpty(txbRoomNumber.Text) ||
-                    string.IsNullOrEmpty(txbRoomType.Text) ||
+                    string.IsNullOrEmpty(cbbRoomType.Text) ||
                     string.IsNullOrEmpty(txbRoomPrice.Text))
                 {
                     MessageBox.Show("Please fill in all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -180,7 +182,7 @@ namespace HotelSystem.View.AdminForm
             {
                 // Get search criteria
                 string roomNumber = txbRoomNumber.Text.Trim();
-                string roomType = txbRoomType.Text.Trim();
+                string roomType = cbbRoomType.Text.Trim();
                 string roomPrice = txbRoomPrice.Text.Trim();
 
                 // Search logic would go here
@@ -206,19 +208,9 @@ namespace HotelSystem.View.AdminForm
         private void ClearFields()
         {
             txbRoomNumber.Text = string.Empty;
-            txbRoomType.Text = string.Empty;
+            cbbRoomType.Text = string.Empty;
             txbRoomPrice.Text = string.Empty;
             txbRoomNumber.Focus();
-        }
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                txbRoomNumber.Text = row.Cells["RoomNumber"].Value.ToString();
-                txbRoomType.Text = row.Cells["RoomType"].Value.ToString();
-                txbRoomPrice.Text = row.Cells["RoomPrice"].Value.ToString();
-            }
         }
 
         private void LoadRoomData()
@@ -228,7 +220,17 @@ namespace HotelSystem.View.AdminForm
                 using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DBHotelSystem"].ConnectionString))
                 {
                     connection.Open();
-                    string query = "SELECT room_id, room_number, status FROM Rooms";
+                    string query = @"
+                SELECT 
+                    Rooms.room_id, 
+                    Rooms.room_number, 
+                    Rooms.status, 
+                    RoomTypes.room_type, 
+                    RoomTypes.price
+                FROM 
+                    Rooms
+                INNER JOIN 
+                    RoomTypes ON Rooms.roomtype_id = RoomTypes.roomtype_id";
                     SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
                     DataTable dataTable = new DataTable();
                     adapter.Fill(dataTable);
@@ -242,5 +244,21 @@ namespace HotelSystem.View.AdminForm
                 MessageBox.Show($"Error loading room data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void cbbRoomType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void LoadCBBRoomType()
+        {
+            using (var db = new DBHotelSystem())
+            {
+                var roomTypes = db.RoomTypes.ToList();
+                cbbRoomType.DataSource = roomTypes;
+                cbbRoomType.DisplayMember = "room_type";
+                cbbRoomType.ValueMember = "roomtype_id";
+            }
+        }
+
     }
 }
