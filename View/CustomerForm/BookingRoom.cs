@@ -33,7 +33,7 @@ namespace HotelSystem.View.CustomerForm
         {
             using (var db = new DBHotelSystem())
             {
-                var roomTypes = db.RoomTypes.ToList();
+                    var roomTypes = db.RoomTypes.ToList();
                 cbbRoomType.DataSource = roomTypes;
                 cbbRoomType.DisplayMember = "room_type";
                 cbbRoomType.ValueMember = "roomtype_id";

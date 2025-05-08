@@ -77,10 +77,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BookingBLL.cs" />
+    <Compile Include="BLL\InvoiceBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="DAL\BookingDAL.cs" />
+    <Compile Include="DAL\InvoiceDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="DTO\BookingDTO.cs" />
+    <Compile Include="DTO\InvoiceDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Migrations\202504250404573_InitialCreate.cs" />
     <Compile Include="Migrations\202504250404573_InitialCreate.Designer.cs">
@@ -161,6 +164,18 @@
     <Compile Include="View\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Staff\InvoiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Staff\InvoiceForm.Designer.cs">
+      <DependentUpon>InvoiceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Staff\StaffForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Staff\StaffForm.Designer.cs">
+      <DependentUpon>StaffForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Migrations\202504250404573_InitialCreate.resx">
       <DependentUpon>202504250404573_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
@@ -204,6 +219,12 @@
     <EmbeddedResource Include="View\RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\Staff\InvoiceForm.resx">
+      <DependentUpon>InvoiceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Staff\StaffForm.resx">
+      <DependentUpon>StaffForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -219,7 +240,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="View\StaffForm\" />
+    <Content Include="Resources\2332039.png" />
+    <None Include="Resources\download.png" />
+    <None Include="Resources\23320391.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-room-48.png" />

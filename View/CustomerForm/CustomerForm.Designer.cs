@@ -128,6 +128,7 @@
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "CustomerForm";
             this.Text = "CustomerForm";
+            this.Load += new System.EventHandler(this.CustomerForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
