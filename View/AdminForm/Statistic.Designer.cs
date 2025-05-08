@@ -45,10 +45,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(294, 32);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(392, 39);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(136, 37);
+            this.label1.Size = new System.Drawing.Size(164, 45);
             this.label1.TabIndex = 4;
             this.label1.Text = "Thống kê";
             // 
@@ -56,9 +55,10 @@
             // 
             this.lblTotalRooms.AutoSize = true;
             this.lblTotalRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalRooms.Location = new System.Drawing.Point(62, 133);
+            this.lblTotalRooms.Location = new System.Drawing.Point(83, 164);
+            this.lblTotalRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalRooms.Name = "lblTotalRooms";
-            this.lblTotalRooms.Size = new System.Drawing.Size(117, 21);
+            this.lblTotalRooms.Size = new System.Drawing.Size(149, 28);
             this.lblTotalRooms.TabIndex = 5;
             this.lblTotalRooms.Text = "Tổng số phòng:\t";
             // 
@@ -66,9 +66,10 @@
             // 
             this.lblOccupiedRooms.AutoSize = true;
             this.lblOccupiedRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOccupiedRooms.Location = new System.Drawing.Point(62, 200);
+            this.lblOccupiedRooms.Location = new System.Drawing.Point(83, 246);
+            this.lblOccupiedRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblOccupiedRooms.Name = "lblOccupiedRooms";
-            this.lblOccupiedRooms.Size = new System.Drawing.Size(179, 21);
+            this.lblOccupiedRooms.Size = new System.Drawing.Size(228, 28);
             this.lblOccupiedRooms.TabIndex = 7;
             this.lblOccupiedRooms.Text = "Số phòng đang sử dụng:";
             // 
@@ -76,9 +77,10 @@
             // 
             this.lblAvailableRooms.AutoSize = true;
             this.lblAvailableRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAvailableRooms.Location = new System.Drawing.Point(62, 262);
+            this.lblAvailableRooms.Location = new System.Drawing.Point(83, 322);
+            this.lblAvailableRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAvailableRooms.Name = "lblAvailableRooms";
-            this.lblAvailableRooms.Size = new System.Drawing.Size(155, 21);
+            this.lblAvailableRooms.Size = new System.Drawing.Size(198, 28);
             this.lblAvailableRooms.TabIndex = 8;
             this.lblAvailableRooms.Text = "Số phòng còn trống: ";
             // 
@@ -86,9 +88,10 @@
             // 
             this.lblTotalCustomers.AutoSize = true;
             this.lblTotalCustomers.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalCustomers.Location = new System.Drawing.Point(58, 326);
+            this.lblTotalCustomers.Location = new System.Drawing.Point(77, 401);
+            this.lblTotalCustomers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalCustomers.Name = "lblTotalCustomers";
-            this.lblTotalCustomers.Size = new System.Drawing.Size(172, 21);
+            this.lblTotalCustomers.Size = new System.Drawing.Size(216, 28);
             this.lblTotalCustomers.TabIndex = 9;
             this.lblTotalCustomers.Text = "Tổng số khách hiện tại: \t";
             // 
@@ -96,9 +99,10 @@
             // 
             this.lblRevenue.AutoSize = true;
             this.lblRevenue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRevenue.Location = new System.Drawing.Point(58, 392);
+            this.lblRevenue.Location = new System.Drawing.Point(77, 482);
+            this.lblRevenue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRevenue.Name = "lblRevenue";
-            this.lblRevenue.Size = new System.Drawing.Size(163, 21);
+            this.lblRevenue.Size = new System.Drawing.Size(205, 28);
             this.lblRevenue.TabIndex = 10;
             this.lblRevenue.Text = "Doanh thu tháng nay: \t";
             // 
@@ -106,9 +110,10 @@
             // 
             this.lblResultTotalRooms.AutoSize = true;
             this.lblResultTotalRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultTotalRooms.Location = new System.Drawing.Point(316, 135);
+            this.lblResultTotalRooms.Location = new System.Drawing.Point(421, 166);
+            this.lblResultTotalRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultTotalRooms.Name = "lblResultTotalRooms";
-            this.lblResultTotalRooms.Size = new System.Drawing.Size(28, 21);
+            this.lblResultTotalRooms.Size = new System.Drawing.Size(34, 28);
             this.lblResultTotalRooms.TabIndex = 11;
             this.lblResultTotalRooms.Text = "10";
             // 
@@ -116,9 +121,10 @@
             // 
             this.lblResultOccupiedRooms.AutoSize = true;
             this.lblResultOccupiedRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultOccupiedRooms.Location = new System.Drawing.Point(316, 200);
+            this.lblResultOccupiedRooms.Location = new System.Drawing.Point(421, 246);
+            this.lblResultOccupiedRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultOccupiedRooms.Name = "lblResultOccupiedRooms";
-            this.lblResultOccupiedRooms.Size = new System.Drawing.Size(52, 21);
+            this.lblResultOccupiedRooms.Size = new System.Drawing.Size(65, 28);
             this.lblResultOccupiedRooms.TabIndex = 12;
             this.lblResultOccupiedRooms.Text = "label8";
             // 
@@ -126,9 +132,10 @@
             // 
             this.lblResultAvailableRooms.AutoSize = true;
             this.lblResultAvailableRooms.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultAvailableRooms.Location = new System.Drawing.Point(316, 262);
+            this.lblResultAvailableRooms.Location = new System.Drawing.Point(421, 322);
+            this.lblResultAvailableRooms.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultAvailableRooms.Name = "lblResultAvailableRooms";
-            this.lblResultAvailableRooms.Size = new System.Drawing.Size(52, 21);
+            this.lblResultAvailableRooms.Size = new System.Drawing.Size(65, 28);
             this.lblResultAvailableRooms.TabIndex = 13;
             this.lblResultAvailableRooms.Text = "label9";
             // 
@@ -136,9 +143,10 @@
             // 
             this.lblResultTotalCustomers.AutoSize = true;
             this.lblResultTotalCustomers.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultTotalCustomers.Location = new System.Drawing.Point(316, 326);
+            this.lblResultTotalCustomers.Location = new System.Drawing.Point(421, 401);
+            this.lblResultTotalCustomers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultTotalCustomers.Name = "lblResultTotalCustomers";
-            this.lblResultTotalCustomers.Size = new System.Drawing.Size(61, 21);
+            this.lblResultTotalCustomers.Size = new System.Drawing.Size(76, 28);
             this.lblResultTotalCustomers.TabIndex = 14;
             this.lblResultTotalCustomers.Text = "label10";
             // 
@@ -146,18 +154,19 @@
             // 
             this.lblResultRevenue.AutoSize = true;
             this.lblResultRevenue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultRevenue.Location = new System.Drawing.Point(316, 392);
+            this.lblResultRevenue.Location = new System.Drawing.Point(421, 482);
+            this.lblResultRevenue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblResultRevenue.Name = "lblResultRevenue";
-            this.lblResultRevenue.Size = new System.Drawing.Size(61, 21);
+            this.lblResultRevenue.Size = new System.Drawing.Size(76, 28);
             this.lblResultRevenue.TabIndex = 15;
             this.lblResultRevenue.Text = "label11";
             // 
             // Statistic
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(208)))), ((int)(((byte)(204)))));
-            this.ClientSize = new System.Drawing.Size(712, 577);
+            this.ClientSize = new System.Drawing.Size(949, 710);
             this.Controls.Add(this.lblResultRevenue);
             this.Controls.Add(this.lblResultTotalCustomers);
             this.Controls.Add(this.lblResultAvailableRooms);
@@ -170,7 +179,7 @@
             this.Controls.Add(this.lblTotalRooms);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Statistic";
             this.Text = "Statistic";
             this.Load += new System.EventHandler(this.Statistic_Load);
