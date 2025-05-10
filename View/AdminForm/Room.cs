@@ -30,8 +30,7 @@ namespace HotelSystem.View.AdminForm
             {
                 // Validate input fields
                 if (string.IsNullOrEmpty(txbRoomNumber.Text) ||
-                    string.IsNullOrEmpty(cbbRoomType.Text) ||
-                    string.IsNullOrEmpty(txbRoomPrice.Text))
+                    cbbRoomType.SelectedValue == null)
                 {
                     MessageBox.Show("Please fill in all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -44,33 +43,21 @@ namespace HotelSystem.View.AdminForm
                     return;
                 }
 
-                // Parse room type (roomtype_id is an integer !?)
-                if (!int.TryParse(cbbRoomType.Text, out int roomTypeId))
-                {
-                    MessageBox.Show("Room type must be a valid integer (roomtype_id)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                // Get room type ID from the selected value of the combo box
+                int roomTypeId = Convert.ToInt32(cbbRoomType.SelectedValue);
 
-                // Parse room price
-                if (!decimal.TryParse(txbRoomPrice.Text, out decimal roomPrice))
+                // Add room to database using Entity Framework
+                using (var db = new DBHotelSystem())
                 {
-                    MessageBox.Show("Room price must be a valid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Add room to database
-                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DBHotelSystem"].ConnectionString))
-                {
-                    connection.Open();
-                    string query = "INSERT INTO Rooms (room_number, status, roomtype_id) VALUES (@RoomNumber, @Status, @RoomTypeId)";
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    var newRoom = new Model.Room
                     {
-                        command.Parameters.AddWithValue("@RoomNumber", roomNumber);
-                        command.Parameters.AddWithValue("@Status", "Available"); // Default status
-                        command.Parameters.AddWithValue("@RoomTypeId", roomTypeId);
+                        room_number = roomNumber.ToString(),
+                        status = "Available",
+                        roomtype_id = roomTypeId
+                    };
 
-                        command.ExecuteNonQuery();
-                    }
+                    db.Rooms.Add(newRoom);
+                    db.SaveChanges();
                 }
 
                 MessageBox.Show("Room added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -101,36 +88,53 @@ namespace HotelSystem.View.AdminForm
 
                 // Validate input fields
                 if (string.IsNullOrEmpty(txbRoomNumber.Text) ||
-                    string.IsNullOrEmpty(cbbRoomType.Text) ||
-                    string.IsNullOrEmpty(txbRoomPrice.Text))
+                    cbbRoomType.SelectedValue == null)
                 {
                     MessageBox.Show("Please fill in all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Parse room number and price
+                // Parse room number
                 if (!int.TryParse(txbRoomNumber.Text, out int roomNumber))
                 {
                     MessageBox.Show("Room number must be a valid integer", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                if (!decimal.TryParse(txbRoomPrice.Text, out decimal roomPrice))
+                // Get room ID from the selected row
+                int roomId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["room_id"].Value);
+
+                // Get room type ID from the selected value of the combo box
+                int roomTypeId = Convert.ToInt32(cbbRoomType.SelectedValue);
+
+                // Update room in database using Entity Framework
+                using (var db = new DBHotelSystem())
                 {
-                    MessageBox.Show("Room price must be a valid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    // Find the room to update
+                    var room = db.Rooms.FirstOrDefault(r => r.room_id == roomId);
+
+                    if (room != null)
+                    {
+                        // Update room properties
+                        room.room_number = roomNumber.ToString();
+                        room.roomtype_id = roomTypeId;
+
+                        // Save changes to database
+                        db.SaveChanges();
+
+                        MessageBox.Show("Room updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Clear input fields
+                        ClearFields();
+
+                        // Refresh the data grid
+                        LoadRoomData();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Room not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-
-                // Update room in database logic would go here
-                // Example: roomService.UpdateRoom(roomId, roomNumber, txbRoomType.Text, roomPrice);
-
-                MessageBox.Show("Room updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Clear input fields
-                ClearFields();
-
-                // Refresh the data grid
-                // LoadRoomData();
             }
             catch (Exception ex)
             {
@@ -155,19 +159,36 @@ namespace HotelSystem.View.AdminForm
 
                 if (result == DialogResult.Yes)
                 {
-                    // Get the selected room ID
-                    // int roomId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["RoomId"].Value);
+                    // Get room ID from the selected row
+                    int roomId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["room_id"].Value);
 
-                    // Delete room from database logic would go here
-                    // Example: roomService.DeleteRoom(roomId);
+                    // Delete room from database using Entity Framework
+                    using (var db = new DBHotelSystem())
+                    {
+                        // Find the room to delete
+                        var room = db.Rooms.FirstOrDefault(r => r.room_id == roomId);
 
-                    MessageBox.Show("Room deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (room != null)
+                        {
+                            // Remove room from database
+                            db.Rooms.Remove(room);
 
-                    // Clear input fields
-                    ClearFields();
+                            // Save changes to database
+                            db.SaveChanges();
 
-                    // Refresh the data grid
-                    // LoadRoomData();
+                            MessageBox.Show("Room deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // Clear input fields
+                            ClearFields();
+
+                            // Refresh the data grid
+                            LoadRoomData();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Room not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -182,21 +203,47 @@ namespace HotelSystem.View.AdminForm
             {
                 // Get search criteria
                 string roomNumber = txbRoomNumber.Text.Trim();
-                string roomType = cbbRoomType.Text.Trim();
-                string roomPrice = txbRoomPrice.Text.Trim();
+                int? roomTypeId = cbbRoomType.SelectedValue != null ?
+                                  Convert.ToInt32(cbbRoomType.SelectedValue) : (int?)null;
 
-                // Search logic would go here
-                // Example: var results = roomService.SearchRooms(roomNumber, roomType, roomPrice);
-
-                // Update the data grid with search results
-                // dataGridView1.DataSource = results;
-
-                // If no search criteria provided, load all rooms
-                if (string.IsNullOrEmpty(roomNumber) &&
-                    string.IsNullOrEmpty(roomType) &&
-                    string.IsNullOrEmpty(roomPrice))
+                using (var db = new DBHotelSystem())
                 {
-                    // LoadRoomData();
+                    // Create base query first
+                    IQueryable<Model.Room> baseQuery = db.Rooms.AsQueryable();
+
+                    // Apply filters to the base query if provided
+                    if (!string.IsNullOrEmpty(roomNumber))
+                    {
+                        baseQuery = baseQuery.Where(r => r.room_number.Contains(roomNumber));
+                    }
+
+                    if (roomTypeId.HasValue)
+                    {
+                        baseQuery = baseQuery.Where(r => r.roomtype_id == roomTypeId.Value);
+                    }
+
+                    // Now join with RoomTypes and project to the final result
+                    var results = (from r in baseQuery
+                                   join rt in db.RoomTypes on r.roomtype_id equals rt.roomtype_id
+                                   select new
+                                   {
+                                       r.room_id,
+                                       r.room_number,
+                                       r.status,
+                                       rt.room_type,
+                                       rt.price
+                                   }).ToList();
+
+                    // Update the data grid with search results
+                    dataGridView1.DataSource = results;
+                    dataGridView1.Refresh();
+
+                    // If no results found
+                    if (results.Count == 0)
+                    {
+                        MessageBox.Show("No rooms found matching the search criteria", "Search Results",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
             catch (Exception ex)
@@ -217,25 +264,20 @@ namespace HotelSystem.View.AdminForm
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DBHotelSystem"].ConnectionString))
+                using (var db = new DBHotelSystem())
                 {
-                    connection.Open();
-                    string query = @"
-                SELECT 
-                    Rooms.room_id, 
-                    Rooms.room_number, 
-                    Rooms.status, 
-                    RoomTypes.room_type, 
-                    RoomTypes.price
-                FROM 
-                    Rooms
-                INNER JOIN 
-                    RoomTypes ON Rooms.roomtype_id = RoomTypes.roomtype_id";
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
+                    var rooms = (from r in db.Rooms
+                                 join rt in db.RoomTypes on r.roomtype_id equals rt.roomtype_id
+                                 select new
+                                 {
+                                     r.room_id,
+                                     r.room_number,
+                                     r.status,
+                                     rt.room_type,
+                                     rt.price
+                                 }).ToList();
 
-                    dataGridView1.DataSource = dataTable;
+                    dataGridView1.DataSource = rooms;
                     dataGridView1.Refresh();
                 }
             }
@@ -251,12 +293,19 @@ namespace HotelSystem.View.AdminForm
         }
         private void LoadCBBRoomType()
         {
-            using (var db = new DBHotelSystem())
+            try
             {
-                var roomTypes = db.RoomTypes.ToList();
-                cbbRoomType.DataSource = roomTypes;
-                cbbRoomType.DisplayMember = "room_type";
-                cbbRoomType.ValueMember = "roomtype_id";
+                using (var db = new DBHotelSystem())
+                {
+                    var roomTypes = db.RoomTypes.ToList();
+                    cbbRoomType.DataSource = roomTypes;
+                    cbbRoomType.DisplayMember = "room_type";
+                    cbbRoomType.ValueMember = "roomtype_id";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading room types: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
