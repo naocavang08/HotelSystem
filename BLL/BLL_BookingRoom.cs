@@ -17,7 +17,7 @@ namespace HotelSystem.BLL
         }
 
         // Thêm booking mới
-        public void AddBooking(DTO_Booking dtoBooking)
+        public void AddBooking(DTO_BookingRoom dtoBooking)
         {
             var booking = new Booking
             {

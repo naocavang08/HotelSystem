@@ -27,6 +27,8 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            CustomerForm customerForm = new CustomerForm();
+            customerForm.Show();
             this.Close();
         }
 
@@ -52,11 +54,6 @@ namespace HotelSystem.View.CustomerForm
                 MessageBox.Show("Vui lòng điền đầy đủ thông tin.");
                 return;
             }
-            if (UserSession.UserId <= 0)
-            {
-                MessageBox.Show("Vui lòng đăng nhập để sử dụng chức năng này.");
-                return;
-            }
             bool? gender = null;
             if (rbMale.Checked)
             {
@@ -69,7 +66,7 @@ namespace HotelSystem.View.CustomerForm
 
             var bllTTKH = new BLL_TTKH();
             var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
-
+            
             if (customer == null)
             {
                 var newCustomer = new DTO_Customer
@@ -94,6 +91,8 @@ namespace HotelSystem.View.CustomerForm
                 bllTTKH.UpdateCustomer(customer);
                 MessageBox.Show("Cập nhật thông tin thành công.");
             }
+            CustomerForm customerForm = new CustomerForm();
+            customerForm.Show();
             this.Close();
         }
 

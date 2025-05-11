@@ -77,25 +77,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BLL_BookingRoom.cs" />
+    <Compile Include="BLL\BLL_BookingService.cs" />
     <Compile Include="BLL\BLL_TTKH.cs" />
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="DAL\DAL_BookingRoom.cs" />
+    <Compile Include="DAL\DAL_BookingService.cs" />
     <Compile Include="DAL\DAL_TTKH.cs" />
     <Compile Include="DAL\UserDAL.cs" />
-    <Compile Include="DTO\DTO_Booking.cs" />
+    <Compile Include="DTO\DTO_BookingRoom.cs" />
+    <Compile Include="DTO\DTO_BookingService.cs" />
     <Compile Include="DTO\DTO_Customer.cs" />
     <Compile Include="DTO\UserDTO.cs" />
-    <Compile Include="Migrations\202504250404573_InitialCreate.cs" />
-    <Compile Include="Migrations\202504250404573_InitialCreate.Designer.cs">
-      <DependentUpon>202504250404573_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504250941256_UpdateModel.cs" />
-    <Compile Include="Migrations\202504250941256_UpdateModel.Designer.cs">
-      <DependentUpon>202504250941256_UpdateModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202505110428338_BookServiceUpdate.cs" />
-    <Compile Include="Migrations\202505110428338_BookServiceUpdate.Designer.cs">
-      <DependentUpon>202505110428338_BookServiceUpdate.cs</DependentUpon>
+    <Compile Include="Migrations\202505110556274_BookingService.cs" />
+    <Compile Include="Migrations\202505110556274_BookingService.Designer.cs">
+      <DependentUpon>202505110556274_BookingService.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Booking.cs" />
@@ -180,14 +175,8 @@
     <Compile Include="View\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Migrations\202504250404573_InitialCreate.resx">
-      <DependentUpon>202504250404573_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504250941256_UpdateModel.resx">
-      <DependentUpon>202504250941256_UpdateModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202505110428338_BookServiceUpdate.resx">
-      <DependentUpon>202505110428338_BookServiceUpdate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202505110556274_BookingService.resx">
+      <DependentUpon>202505110556274_BookingService.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

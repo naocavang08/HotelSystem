@@ -27,6 +27,20 @@ namespace HotelSystem.View.CustomerForm
             LoadCBBRoomType();
             dtpCheck_in.Value = DateTime.Today;
             dtpCheck_out.Value = DateTime.Today.AddDays(1);
+
+            LoadCustomerInfo();
+        }
+
+        private void LoadCustomerInfo()
+        {
+            var bllTTKH = new BLL_TTKH();
+            var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
+            if (customer != null)
+            {
+                txtName.Text = customer.Name;
+                txtCCCD.Text = customer.CCCD;
+                txtPhone.Text = customer.Phone;
+            }
         }
 
         private void LoadCBBRoomType()
@@ -62,16 +76,21 @@ namespace HotelSystem.View.CustomerForm
                 MessageBox.Show("Vui lòng chọn loại phòng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtCCCD.Text) || string.IsNullOrEmpty(txtPhone.Text))
-            {
-                MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
             var bllTTKH = new BLL_TTKH();
             var customer = bllTTKH.GetCustomerByName(txtName.Text);
             if (customer == null)
             {
-                MessageBox.Show("Họ tên không tồn tại, vui lòng thêm thông tin cá nhân!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogResult result = MessageBox.Show("Họ tên không tồn tại, vui lòng thêm thông tin cá nhân!", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    CustomerInfo opform = new CustomerInfo();
+                    opform.ShowDialog();    
+                }
+                return;
+            }
+            if (string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtCCCD.Text) || string.IsNullOrEmpty(txtPhone.Text))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (customer.CCCD != txtCCCD.Text.Trim() || customer.Phone != txtPhone.Text.Trim())
@@ -102,7 +121,7 @@ namespace HotelSystem.View.CustomerForm
             var selectedRoom = availableRooms.First();
             decimal totalPrice = selectedRoom.RoomType.price * (decimal)(checkOut - checkIn).TotalDays;
 
-            var dtobooking = new DTO_Booking
+            var dtobooking = new DTO_BookingRoom
             {
                 CustomerId = customer.CustomerId,
                 RoomId = selectedRoom.room_id,
@@ -115,12 +134,16 @@ namespace HotelSystem.View.CustomerForm
             bllBookingRoom.AddBooking(dtobooking);
 
             MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            CustomerForm op = new CustomerForm();
+            op.Show();
             this.Close();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+            CustomerForm op = new CustomerForm();
+            op.Show();
         }
     }
 }

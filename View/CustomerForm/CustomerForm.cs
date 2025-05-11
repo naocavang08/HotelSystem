@@ -20,7 +20,12 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            DialogResult result = MessageBox.Show("Bạn có muốn thoát không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                UserSession.Clear();
+                Application.Exit();
+            }
         }
 
         private void btnHide_Click(object sender, EventArgs e)
@@ -30,9 +35,12 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            // Xóa thông tin đăng nhập
-            UserSession.Clear();
-            this.Close();
+            DialogResult result = MessageBox.Show("Bạn có muốn đăng xuất không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                UserSession.Clear();
+                Application.Exit();
+            }
         }
 
         private void lblCusInfo_Click(object sender, EventArgs e)
