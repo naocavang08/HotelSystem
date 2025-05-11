@@ -19,7 +19,7 @@ namespace HotelSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BookingRoom());
+            Application.Run(new LoginForm());
         }
     }
 }

@@ -23,6 +23,7 @@ namespace HotelSystem.Model
         public int service_id { get; set; }
         [Required]
         public int quantity { get; set; }
+        public DateTime service_date { get; set; }
         [Required]
         public decimal total_price { get; set; }
 

@@ -29,13 +29,25 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnHide = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnLogout = new System.Windows.Forms.Panel();
+            this.lblWelcome = new System.Windows.Forms.Label();
+            this.picBookService = new System.Windows.Forms.PictureBox();
+            this.picBookRoom = new System.Windows.Forms.PictureBox();
+            this.picCusInfo = new System.Windows.Forms.PictureBox();
+            this.btnLogout = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblCusInfo = new System.Windows.Forms.Label();
+            this.lblBookRoom = new System.Windows.Forms.Label();
+            this.lblBookService = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.pnLogout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBookService)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBookRoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCusInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,17 +61,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1200, 40);
             this.panel1.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(76)))), ((int)(((byte)(172)))));
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.pictureBox1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel2.Location = new System.Drawing.Point(0, 40);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(250, 710);
-            this.panel2.TabIndex = 1;
             // 
             // btnClose
             // 
@@ -89,6 +90,87 @@
             this.btnHide.UseVisualStyleBackColor = false;
             this.btnHide.Click += new System.EventHandler(this.btnHide_Click);
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(76)))), ((int)(((byte)(172)))));
+            this.panel2.Controls.Add(this.pnLogout);
+            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel2.Location = new System.Drawing.Point(0, 40);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(250, 710);
+            this.panel2.TabIndex = 1;
+            // 
+            // pnLogout
+            // 
+            this.pnLogout.Controls.Add(this.btnLogout);
+            this.pnLogout.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnLogout.Location = new System.Drawing.Point(0, 638);
+            this.pnLogout.Name = "pnLogout";
+            this.pnLogout.Size = new System.Drawing.Size(247, 60);
+            this.pnLogout.TabIndex = 5;
+            // 
+            // lblWelcome
+            // 
+            this.lblWelcome.AutoSize = true;
+            this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWelcome.Location = new System.Drawing.Point(334, 79);
+            this.lblWelcome.Name = "lblWelcome";
+            this.lblWelcome.Size = new System.Drawing.Size(196, 50);
+            this.lblWelcome.TabIndex = 1;
+            this.lblWelcome.Text = "Welcome!";
+            this.lblWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // picBookService
+            // 
+            this.picBookService.Image = global::HotelSystem.Properties.Resources.icons8_service_96;
+            this.picBookService.Location = new System.Drawing.Point(935, 265);
+            this.picBookService.Name = "picBookService";
+            this.picBookService.Size = new System.Drawing.Size(150, 150);
+            this.picBookService.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBookService.TabIndex = 4;
+            this.picBookService.TabStop = false;
+            this.picBookService.Click += new System.EventHandler(this.picBookService_Click);
+            // 
+            // picBookRoom
+            // 
+            this.picBookRoom.Image = global::HotelSystem.Properties.Resources.icons8_booking_100;
+            this.picBookRoom.Location = new System.Drawing.Point(649, 316);
+            this.picBookRoom.Name = "picBookRoom";
+            this.picBookRoom.Size = new System.Drawing.Size(150, 150);
+            this.picBookRoom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBookRoom.TabIndex = 3;
+            this.picBookRoom.TabStop = false;
+            this.picBookRoom.Click += new System.EventHandler(this.picBookRoom_Click);
+            // 
+            // picCusInfo
+            // 
+            this.picCusInfo.Image = global::HotelSystem.Properties.Resources.customers_icon_3;
+            this.picCusInfo.Location = new System.Drawing.Point(359, 265);
+            this.picCusInfo.Name = "picCusInfo";
+            this.picCusInfo.Size = new System.Drawing.Size(150, 150);
+            this.picCusInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCusInfo.TabIndex = 2;
+            this.picCusInfo.TabStop = false;
+            this.picCusInfo.Click += new System.EventHandler(this.picCusInfo_Click);
+            // 
+            // btnLogout
+            // 
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogout.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogout.ForeColor = System.Drawing.Color.White;
+            this.btnLogout.Image = global::HotelSystem.Properties.Resources.icons8_log_out_64_white_rotate;
+            this.btnLogout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLogout.Location = new System.Drawing.Point(-10, -8);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.btnLogout.Size = new System.Drawing.Size(269, 77);
+            this.btnLogout.TabIndex = 2;
+            this.btnLogout.Text = "               Đăng xuất";
+            this.btnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::HotelSystem.Properties.Resources.icons8_user_100;
@@ -99,15 +181,38 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // label1
+            // lblCusInfo
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(70, 168);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 28);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Welcome!";
+            this.lblCusInfo.AutoSize = true;
+            this.lblCusInfo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCusInfo.Location = new System.Drawing.Point(326, 418);
+            this.lblCusInfo.Name = "lblCusInfo";
+            this.lblCusInfo.Size = new System.Drawing.Size(219, 28);
+            this.lblCusInfo.TabIndex = 5;
+            this.lblCusInfo.Text = "Thông tin khách hàng";
+            this.lblCusInfo.Click += new System.EventHandler(this.lblCusInfo_Click);
+            // 
+            // lblBookRoom
+            // 
+            this.lblBookRoom.AutoSize = true;
+            this.lblBookRoom.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBookRoom.Location = new System.Drawing.Point(666, 469);
+            this.lblBookRoom.Name = "lblBookRoom";
+            this.lblBookRoom.Size = new System.Drawing.Size(112, 28);
+            this.lblBookRoom.TabIndex = 6;
+            this.lblBookRoom.Text = "Đặt phòng";
+            this.lblBookRoom.Click += new System.EventHandler(this.lblBookRoom_Click);
+            // 
+            // lblBookService
+            // 
+            this.lblBookService.AutoSize = true;
+            this.lblBookService.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBookService.Location = new System.Drawing.Point(951, 418);
+            this.lblBookService.Name = "lblBookService";
+            this.lblBookService.Size = new System.Drawing.Size(121, 28);
+            this.lblBookService.TabIndex = 7;
+            this.lblBookService.Text = "Đặt dịch vụ";
+            this.lblBookService.Click += new System.EventHandler(this.lblBookService_Click);
             // 
             // CustomerForm
             // 
@@ -115,16 +220,28 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(208)))), ((int)(((byte)(204)))));
             this.ClientSize = new System.Drawing.Size(1200, 750);
+            this.Controls.Add(this.lblBookService);
+            this.Controls.Add(this.lblWelcome);
+            this.Controls.Add(this.lblBookRoom);
+            this.Controls.Add(this.lblCusInfo);
+            this.Controls.Add(this.picBookService);
+            this.Controls.Add(this.picBookRoom);
+            this.Controls.Add(this.picCusInfo);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CustomerForm";
             this.Text = "CustomerForm";
+            this.Load += new System.EventHandler(this.CustomerForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.pnLogout.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBookService)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBookRoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCusInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -135,6 +252,14 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnHide;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblWelcome;
+        private System.Windows.Forms.Panel pnLogout;
+        private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.PictureBox picCusInfo;
+        private System.Windows.Forms.PictureBox picBookRoom;
+        private System.Windows.Forms.PictureBox picBookService;
+        private System.Windows.Forms.Label lblCusInfo;
+        private System.Windows.Forms.Label lblBookRoom;
+        private System.Windows.Forms.Label lblBookService;
     }
 }

@@ -55,7 +55,7 @@ namespace HotelSystem.View
                     }
                 else if (user.Role == "customer")
                     {
-                        CustomerForm.BookingRoom op = new CustomerForm.BookingRoom();
+                        CustomerForm.CustomerForm op = new CustomerForm.CustomerForm();
                         op.Show();
                     }
                 else if (user.Role == "staff")

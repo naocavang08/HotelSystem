@@ -57,14 +57,26 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtCCCD.Text) || string.IsNullOrEmpty(txtPhone.Text) || string.IsNullOrEmpty(txtName.Text)) 
-            {
-                MessageBox.Show("Please fill in all personal information.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             if (cbbRoomType.SelectedValue == null)
             {
-                MessageBox.Show("Please select a room type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vui lòng chọn loại phòng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtCCCD.Text) || string.IsNullOrEmpty(txtPhone.Text))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var bllTTKH = new BLL_TTKH();
+            var customer = bllTTKH.GetCustomerByName(txtName.Text);
+            if (customer == null)
+            {
+                MessageBox.Show("Họ tên không tồn tại, vui lòng thêm thông tin cá nhân!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (customer.CCCD != txtCCCD.Text.Trim() || customer.Phone != txtPhone.Text.Trim())
+            {
+                MessageBox.Show("CCCD hoặc số điện thoại không đúng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -72,40 +84,37 @@ namespace HotelSystem.View.CustomerForm
             DateTime checkIn = dtpCheck_in.Value;
             DateTime checkOut = dtpCheck_out.Value;
 
-            // Kiểm tra ngày hợp lệ
             if (checkIn >= checkOut)
             {
-                MessageBox.Show("Check-in date must be before check-out date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ngày trả phòng không hợp lê!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            BookingBLL bookingBLL = new BookingBLL();
-            var availableRooms = bookingBLL.GetAvailableRoom(roomTypeId, checkIn, checkOut);
+            var bllBookingRoom = new BLL_BookingRoom();
+            var availableRooms = bllBookingRoom.GetAvailableRooms(roomTypeId, checkIn, checkOut);
 
             if (availableRooms.Count == 0)
             {
-                MessageBox.Show("No available rooms for the selected dates.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Không có phòng trống trong khoảng thời gian này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            // Lấy phòng đầu tiên trong danh sách phòng trống
-            var selectedRoom = availableRooms.First();
 
-            // Tổng tiền phòng
+            var selectedRoom = availableRooms.First();
             decimal totalPrice = selectedRoom.RoomType.price * (decimal)(checkOut - checkIn).TotalDays;
 
-            // Tạo booking
-            BookingDTO bookingDTO = new BookingDTO
+            var dtobooking = new DTO_Booking
             {
-                CustomerId = UserSession.UserId,
+                CustomerId = customer.CustomerId,
                 RoomId = selectedRoom.room_id,
                 CheckIn = checkIn,
                 CheckOut = checkOut,
                 Status = "Booked",
                 TotalPrice = totalPrice
             };
-            bookingBLL.AddBooking(bookingDTO);
 
-            MessageBox.Show("Booking successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            bllBookingRoom.AddBooking(dtobooking);
+
+            MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
 

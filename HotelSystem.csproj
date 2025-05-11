@@ -76,11 +76,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\BookingBLL.cs" />
+    <Compile Include="BLL\BLL_BookingRoom.cs" />
+    <Compile Include="BLL\BLL_TTKH.cs" />
     <Compile Include="BLL\UserBLL.cs" />
-    <Compile Include="DAL\BookingDAL.cs" />
+    <Compile Include="DAL\DAL_BookingRoom.cs" />
+    <Compile Include="DAL\DAL_TTKH.cs" />
     <Compile Include="DAL\UserDAL.cs" />
-    <Compile Include="DTO\BookingDTO.cs" />
+    <Compile Include="DTO\DTO_Booking.cs" />
+    <Compile Include="DTO\DTO_Customer.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Migrations\202504250404573_InitialCreate.cs" />
     <Compile Include="Migrations\202504250404573_InitialCreate.Designer.cs">
@@ -89,6 +92,10 @@
     <Compile Include="Migrations\202504250941256_UpdateModel.cs" />
     <Compile Include="Migrations\202504250941256_UpdateModel.Designer.cs">
       <DependentUpon>202504250941256_UpdateModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505110428338_BookServiceUpdate.cs" />
+    <Compile Include="Migrations\202505110428338_BookServiceUpdate.Designer.cs">
+      <DependentUpon>202505110428338_BookServiceUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Booking.cs" />
@@ -143,11 +150,23 @@
     <Compile Include="View\CustomerForm\BookingRoom.Designer.cs">
       <DependentUpon>BookingRoom.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\CustomerForm\BookingService.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CustomerForm\BookingService.Designer.cs">
+      <DependentUpon>BookingService.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\CustomerForm\CustomerForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\CustomerForm\CustomerForm.Designer.cs">
       <DependentUpon>CustomerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerForm\CustomerInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CustomerForm\CustomerInfo.Designer.cs">
+      <DependentUpon>CustomerInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="View\LoginForm.cs">
       <SubType>Form</SubType>
@@ -166,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504250941256_UpdateModel.resx">
       <DependentUpon>202504250941256_UpdateModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505110428338_BookServiceUpdate.resx">
+      <DependentUpon>202505110428338_BookServiceUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -195,8 +217,14 @@
     <EmbeddedResource Include="View\CustomerForm\BookingRoom.resx">
       <DependentUpon>BookingRoom.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\CustomerForm\BookingService.resx">
+      <DependentUpon>BookingService.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\CustomerForm\CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CustomerForm\CustomerInfo.resx">
+      <DependentUpon>CustomerInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -257,6 +285,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\hotel_background2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hotel_service.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-customer-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-customer-64 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\customers-icon-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-booking-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-service-96.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
