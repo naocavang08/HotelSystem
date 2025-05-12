@@ -213,6 +213,16 @@ namespace HotelSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_invoice_96 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-invoice-96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_lock_100 {
             get {
                 object obj = ResourceManager.GetObject("icons8-lock-100", resourceCulture);

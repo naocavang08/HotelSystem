@@ -69,6 +69,26 @@ namespace HotelSystem.BLL
             return dtoBookingServices;
         }
 
+        // Lấy danh sách dịch vụ đã đặt theo CustomerId
+        public List<DTO_BookingService> GetBookingServicesByCustomerId(int customerId)
+        {
+            var bookingServices = dalBookingService.GetBookingServicesByCustomerId(customerId);
+            var dtoBookingServices = new List<DTO_BookingService>();
+            foreach (var bs in bookingServices)
+            {
+                dtoBookingServices.Add(new DTO_BookingService
+                {
+                    Booking_service_id = bs.booking_service_id,
+                    CustomerId = bs.customer_id,
+                    Service_id = bs.service_id,
+                    Quantity = bs.quantity,
+                    Service_date = bs.service_date,
+                    TotalPrice = bs.total_price
+                });
+            }
+            return dtoBookingServices;
+        }
+
         // Xóa dịch vụ đã đặt
         public void DeleteBookingService(int bookingServiceId)
         {

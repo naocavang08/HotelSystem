@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cbbRoomType = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpCheck_in = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,19 +44,10 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.txtRoomNumber = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // cbbRoomType
-            // 
-            this.cbbRoomType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbbRoomType.FormattingEnabled = true;
-            this.cbbRoomType.Location = new System.Drawing.Point(197, 272);
-            this.cbbRoomType.Name = "cbbRoomType";
-            this.cbbRoomType.Size = new System.Drawing.Size(333, 36);
-            this.cbbRoomType.TabIndex = 0;
-            this.cbbRoomType.SelectedIndexChanged += new System.EventHandler(this.cbbRoomType_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -114,9 +104,9 @@
             this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(61, 272);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(115, 28);
+            this.label4.Size = new System.Drawing.Size(102, 28);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Loại phòng:";
+            this.label4.Text = "Số phòng:";
             // 
             // txtName
             // 
@@ -192,10 +182,10 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.txtRoomNumber);
             this.panel1.Controls.Add(this.btnClose);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btnSubmit);
-            this.panel1.Controls.Add(this.cbbRoomType);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.dtpCheck_in);
             this.panel1.Controls.Add(this.txtPhone);
@@ -222,7 +212,7 @@
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(146, 50);
             this.btnClose.TabIndex = 17;
-            this.btnClose.Text = "Cancel";
+            this.btnClose.Text = "Thoát";
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -236,6 +226,15 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 18;
             this.pictureBox1.TabStop = false;
+            // 
+            // txtRoomNumber
+            // 
+            this.txtRoomNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtRoomNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRoomNumber.Location = new System.Drawing.Point(197, 272);
+            this.txtRoomNumber.Name = "txtRoomNumber";
+            this.txtRoomNumber.Size = new System.Drawing.Size(333, 34);
+            this.txtRoomNumber.TabIndex = 18;
             // 
             // BookingRoom
             // 
@@ -258,8 +257,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox cbbRoomType;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtpCheck_in;
         private System.Windows.Forms.Label label2;
@@ -276,5 +273,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.TextBox txtRoomNumber;
     }
 }

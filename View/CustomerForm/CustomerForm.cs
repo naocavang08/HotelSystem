@@ -7,15 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HotelSystem.BLL;
+using HotelSystem.DTO;
 using HotelSystem.Session;
 
 namespace HotelSystem.View.CustomerForm
 {
     public partial class CustomerForm: Form
     {
+        private BLL_Room bllRoom;
         public CustomerForm()
         {
             InitializeComponent();
+            bllRoom = new BLL_Room();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -39,13 +43,15 @@ namespace HotelSystem.View.CustomerForm
             if (result == DialogResult.Yes)
             {
                 UserSession.Clear();
-                Application.Exit();
+                this.Close();
+                LoginForm op = new LoginForm();
+                op.Show();
             }
         }
 
         private void lblCusInfo_Click(object sender, EventArgs e)
         {
-            CustomerInfo op = new CustomerInfo();
+            CustomerInfo op = new CustomerInfo(this);
             op.Show();
 
             this.Hide();
@@ -53,23 +59,7 @@ namespace HotelSystem.View.CustomerForm
 
         private void picCusInfo_Click(object sender, EventArgs e)
         {
-            CustomerInfo op = new CustomerInfo();
-            op.Show();
-
-            this.Hide();
-        }
-
-        private void lblBookRoom_Click(object sender, EventArgs e)
-        {
-            BookingRoom op = new BookingRoom();
-            op.Show();
-
-            this.Hide();
-        }
-
-        private void picBookRoom_Click(object sender, EventArgs e)
-        {
-            BookingRoom op = new BookingRoom();
+            CustomerInfo op = new CustomerInfo(this);
             op.Show();
 
             this.Hide();
@@ -94,6 +84,90 @@ namespace HotelSystem.View.CustomerForm
         private void CustomerForm_Load(object sender, EventArgs e)
         {
             lblWelcome.Text = $"Xin chào, {UserSession.Username}!";
+            LoadRoomPanel();
+        }
+
+        private void LoadRoomPanel()
+        {
+            var rooms = bllRoom.GetAllRooms();
+
+            foreach (var room in rooms)
+            {
+                Panel roomPanel = new Panel()
+                {
+                    Size = new Size(200, 150),
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Margin = new Padding(10),
+                    Tag = room
+                };
+                Label lblRoomName = new Label
+                {
+                    Text = $"Phòng: {room.RoomName}",
+                    Font = new Font("Arial", 10, FontStyle.Bold),
+                    Location = new Point(10, 10),
+                    AutoSize = true
+                };
+
+                Label lblRoomType = new Label
+                {
+                    Text = $"Loại: {room.RoomType}",
+                    Location = new Point(10, 40),
+                    AutoSize = true
+                };
+
+                Label lblPrice = new Label
+                {
+                    Text = $"Giá: {room.Price:C}",
+                    Location = new Point(10, 70),
+                    AutoSize = true
+                };
+
+                Label lblStatus = new Label
+                {
+                    Text = room.Status,
+                    ForeColor = room.Status == "Available" ? Color.Green : Color.Red,
+                    Location = new Point(10, 100),
+                    AutoSize = true
+                };
+                roomPanel.Controls.Add(lblRoomName);
+                roomPanel.Controls.Add(lblRoomType);
+                roomPanel.Controls.Add(lblPrice);
+                roomPanel.Controls.Add(lblStatus);
+
+                roomPanel.Click += (s, e) => RoomPanel_Click(s, e, room);
+
+                flowLayoutPanel.Controls.Add(roomPanel);
+            }
+            this.Controls.Add(flowLayoutPanel);
+        }
+
+        private void RoomPanel_Click(object sender, EventArgs e, DTO_Room room)
+        {
+            if (room.Status != "Available")
+            {
+                return;
+            }
+
+            // Chuyển đến form đặt phòng
+            BookingRoom bookingRoomForm = new BookingRoom(room.RoomName);
+            bookingRoomForm.Show();
+            this.Hide();
+        }
+
+        private void lblInvoice_Click(object sender, EventArgs e)
+        {
+            Invoice op = new Invoice();
+            op.Show();
+
+            this.Hide();
+        }
+
+        private void picInvoice_Click(object sender, EventArgs e)
+        {
+            Invoice op = new Invoice();
+            op.Show();
+
+            this.Hide();
         }
     }
 }

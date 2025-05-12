@@ -17,22 +17,20 @@ namespace HotelSystem.View.CustomerForm
 {
     public partial class BookingRoom: Form
     {
-        public BookingRoom()
+        private string _roomNumber;
+        public BookingRoom(string roomNumber)
         {
             InitializeComponent();
+            _roomNumber = roomNumber;
         }
 
         private void Booking_Load(object sender, EventArgs e)
         {
-            LoadCBBRoomType();
             dtpCheck_in.Value = DateTime.Today;
             dtpCheck_out.Value = DateTime.Today.AddDays(1);
 
-            LoadCustomerInfo();
-        }
+            txtRoomNumber.Text = _roomNumber;
 
-        private void LoadCustomerInfo()
-        {
             var bllTTKH = new BLL_TTKH();
             var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
             if (customer != null)
@@ -41,22 +39,6 @@ namespace HotelSystem.View.CustomerForm
                 txtCCCD.Text = customer.CCCD;
                 txtPhone.Text = customer.Phone;
             }
-        }
-
-        private void LoadCBBRoomType()
-        {
-            using (var db = new DBHotelSystem())
-            {
-                var roomTypes = db.RoomTypes.ToList();
-                cbbRoomType.DataSource = roomTypes;
-                cbbRoomType.DisplayMember = "room_type";
-                cbbRoomType.ValueMember = "roomtype_id";
-            }
-        }
-
-        private void cbbRoomType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string roomType = cbbRoomType.SelectedItem.ToString();
         }
 
         private void dtpCheck_in_ValueChanged(object sender, EventArgs e)
@@ -71,11 +53,6 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (cbbRoomType.SelectedValue == null)
-            {
-                MessageBox.Show("Vui lòng chọn loại phòng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
             var bllTTKH = new BLL_TTKH();
             var customer = bllTTKH.GetCustomerByName(txtName.Text);
             if (customer == null)
@@ -83,7 +60,7 @@ namespace HotelSystem.View.CustomerForm
                 DialogResult result = MessageBox.Show("Họ tên không tồn tại, vui lòng thêm thông tin cá nhân!", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
-                    CustomerInfo opform = new CustomerInfo();
+                    CustomerInfo opform = new CustomerInfo(this);
                     opform.ShowDialog();    
                 }
                 return;
@@ -99,7 +76,6 @@ namespace HotelSystem.View.CustomerForm
                 return;
             }
 
-            int roomTypeId = (int)cbbRoomType.SelectedValue;
             DateTime checkIn = dtpCheck_in.Value;
             DateTime checkOut = dtpCheck_out.Value;
 
@@ -109,28 +85,26 @@ namespace HotelSystem.View.CustomerForm
                 return;
             }
 
-            var bllBookingRoom = new BLL_BookingRoom();
-            var availableRooms = bllBookingRoom.GetAvailableRooms(roomTypeId, checkIn, checkOut);
+            var bllRoom = new BLL_Room();
+            var rooms = bllRoom.GetAllRooms();
+            var selectedRoom = rooms.FirstOrDefault(r => r.RoomName == _roomNumber);
 
-            if (availableRooms.Count == 0)
-            {
-                MessageBox.Show("Không có phòng trống trong khoảng thời gian này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            // Tính tổng giá tiền
+            decimal totalPrice = selectedRoom.Price * (decimal)(checkOut - checkIn).TotalDays;
 
-            var selectedRoom = availableRooms.First();
-            decimal totalPrice = selectedRoom.RoomType.price * (decimal)(checkOut - checkIn).TotalDays;
-
+            // Tạo DTO_BookingRoom
             var dtobooking = new DTO_BookingRoom
             {
                 CustomerId = customer.CustomerId,
-                RoomId = selectedRoom.room_id,
+                RoomId = selectedRoom.RoomId, // Gán RoomId từ phòng đã tìm thấy
                 CheckIn = checkIn,
                 CheckOut = checkOut,
                 Status = "Booked",
                 TotalPrice = totalPrice
             };
 
+            // Thêm booking
+            var bllBookingRoom = new BLL_BookingRoom();
             bllBookingRoom.AddBooking(dtobooking);
 
             MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

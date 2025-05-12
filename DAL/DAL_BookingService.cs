@@ -22,10 +22,15 @@ namespace HotelSystem.DAL
         {
             return db.BookingServices.ToList();
         }
-        // Lấy booking service theo ID
+        // Lấy booking service theo ServiceID
         public List<BookingService> GetBookingServicesByServiceId(int serviceId)
         {
             return db.BookingServices.Where(bs => bs.service_id == serviceId).ToList();
+        }
+        // Lấy booking service theo CustomerID
+        public List<BookingService> GetBookingServicesByCustomerId(int customerId)
+        {
+            return db.BookingServices.Where(bs => bs.customer_id == customerId).ToList();
         }
         // Xóa dịch vụ đã đặt
         public void DeleteBookingService(int bookingServiceId)

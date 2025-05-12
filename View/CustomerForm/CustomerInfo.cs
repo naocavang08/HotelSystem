@@ -15,9 +15,11 @@ namespace HotelSystem.View.CustomerForm
 {
     public partial class CustomerInfo : Form
     {
-        public CustomerInfo()
+        Form callerForm;
+        public CustomerInfo(Form caller)
         {
             InitializeComponent();
+            this.callerForm = caller;
         }
 
         private void rbMale_CheckedChanged(object sender, EventArgs e)
@@ -27,8 +29,11 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            CustomerForm customerForm = new CustomerForm();
-            customerForm.Show();
+            if (callerForm != null)
+            {
+                callerForm.Show();
+            }
+
             this.Close();
         }
 
