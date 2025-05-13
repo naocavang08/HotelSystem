@@ -16,6 +16,28 @@ namespace HotelSystem.BLL
             return dalBookingRoom.GetAvailableRooms(roomTypeId, checkIn, checkOut);
         }
 
+        public List<DTO_BookingRoom> GetBookingRoomsByCustomerId(int customerId)
+        {
+            var bookingRooms = dalBookingRoom.GetBookingRoomsByCustomerId(customerId);
+            var dtoBookingRooms = new List<DTO_BookingRoom>();
+
+            foreach (var br in bookingRooms)
+            {
+                dtoBookingRooms.Add(new DTO_BookingRoom
+                {
+                    BookingId = br.booking_id,
+                    CustomerId = br.customer_id,
+                    RoomId = br.room_id,
+                    CheckIn = br.check_in,
+                    CheckOut = br.check_out,
+                    Status = br.status,
+                    TotalPrice = br.total_price
+                });
+            }
+
+            return dtoBookingRooms;
+        }
+
         // Thêm booking mới
         public void AddBooking(DTO_BookingRoom dtoBooking)
         {

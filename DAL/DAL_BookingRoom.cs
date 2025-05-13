@@ -19,6 +19,13 @@ namespace HotelSystem.DAL
                 .ToList();
         }
 
+        public List<Booking> GetBookingRoomsByCustomerId(int customerId)
+        {
+           return db.Bookings
+                .Where(b => b.customer_id == customerId)
+                .ToList();
+        }
+
         // Thêm booking mới
         public void AddBooking(Booking booking)
         {

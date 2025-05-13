@@ -107,6 +107,9 @@ namespace HotelSystem.View.CustomerForm
             var bllBookingRoom = new BLL_BookingRoom();
             bllBookingRoom.AddBooking(dtobooking);
 
+            // Cập nhật trạng thái phòng
+            bllRoom.UpdateRoomStatus(selectedRoom.RoomId, "Booked");
+
             MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             CustomerForm op = new CustomerForm();
             op.Show();

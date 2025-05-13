@@ -16,7 +16,6 @@ namespace HotelSystem.Model
         [Required]
         [ForeignKey("Booking")]
         public int booking_id { get; set; }
-        [Required]
         [ForeignKey("BookingService")]
         public int booking_service_id { get; set; }
         [Required]

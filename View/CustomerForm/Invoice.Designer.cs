@@ -36,8 +36,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dgvListRoom = new System.Windows.Forms.DataGridView();
+            this.dgvListService = new System.Windows.Forms.DataGridView();
             this.lbInvoiceID = new System.Windows.Forms.Label();
             this.lbCusName = new System.Windows.Forms.Label();
             this.lbCusCCCD = new System.Windows.Forms.Label();
@@ -45,8 +45,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.lbTotalAmount = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListRoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListService)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCheckout
@@ -134,25 +134,25 @@
             this.label6.Text = "Dịch vụ đã đặt:";
             this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
-            // dataGridView1
+            // dgvListRoom
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(32, 276);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(494, 140);
-            this.dataGridView1.TabIndex = 8;
+            this.dgvListRoom.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListRoom.Location = new System.Drawing.Point(32, 276);
+            this.dgvListRoom.Name = "dgvListRoom";
+            this.dgvListRoom.RowHeadersWidth = 51;
+            this.dgvListRoom.RowTemplate.Height = 24;
+            this.dgvListRoom.Size = new System.Drawing.Size(494, 140);
+            this.dgvListRoom.TabIndex = 8;
             // 
-            // dataGridView2
+            // dgvListService
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(32, 459);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersWidth = 51;
-            this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(494, 140);
-            this.dataGridView2.TabIndex = 9;
+            this.dgvListService.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListService.Location = new System.Drawing.Point(32, 459);
+            this.dgvListService.Name = "dgvListService";
+            this.dgvListService.RowHeadersWidth = 51;
+            this.dgvListService.RowTemplate.Height = 24;
+            this.dgvListService.Size = new System.Drawing.Size(494, 140);
+            this.dgvListService.TabIndex = 9;
             // 
             // lbInvoiceID
             // 
@@ -196,10 +196,10 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(34)))), ((int)(((byte)(217)))));
+            this.panel1.BackColor = System.Drawing.Color.Black;
             this.panel1.Location = new System.Drawing.Point(12, 605);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(531, 1);
+            this.panel1.Size = new System.Drawing.Size(531, 2);
             this.panel1.TabIndex = 14;
             // 
             // label7
@@ -235,8 +235,8 @@
             this.Controls.Add(this.lbCusCCCD);
             this.Controls.Add(this.lbCusName);
             this.Controls.Add(this.lbInvoiceID);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvListService);
+            this.Controls.Add(this.dgvListRoom);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -247,10 +247,11 @@
             this.Controls.Add(this.btnCheckout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Invoice";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Phòng đã đặt";
             this.Load += new System.EventHandler(this.Invoice_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListRoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListService)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,8 +267,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvListRoom;
+        private System.Windows.Forms.DataGridView dgvListService;
         private System.Windows.Forms.Label lbInvoiceID;
         private System.Windows.Forms.Label lbCusName;
         private System.Windows.Forms.Label lbCusCCCD;

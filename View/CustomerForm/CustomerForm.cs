@@ -10,12 +10,25 @@ using System.Windows.Forms;
 using HotelSystem.BLL;
 using HotelSystem.DTO;
 using HotelSystem.Session;
+using System.Runtime.InteropServices;
 
 namespace HotelSystem.View.CustomerForm
 {
     public partial class CustomerForm: Form
     {
+        // Dùng để gọi hàm API từ Windows
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+        // Các hằng số
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HTCAPTION = 0x2;
+
         private BLL_Room bllRoom;
+
         public CustomerForm()
         {
             InitializeComponent();
@@ -156,18 +169,40 @@ namespace HotelSystem.View.CustomerForm
 
         private void lblInvoice_Click(object sender, EventArgs e)
         {
-            Invoice op = new Invoice();
-            op.Show();
-
-            this.Hide();
+            ShowInvoice();
         }
 
         private void picInvoice_Click(object sender, EventArgs e)
         {
-            Invoice op = new Invoice();
-            op.Show();
+            ShowInvoice();
+        }
 
+        private void ShowInvoice()
+        {
+            var bllTTKH = new BLL_TTKH();
+            var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
+            int customerId = customer.CustomerId;
+
+            var bllBookingRoom = new BLL_BookingRoom();
+            var bllBookingService = new BLL_BookingService();
+
+            var bookingRooms = bllBookingRoom.GetBookingRoomsByCustomerId(customerId);
+            var bookingServices = bllBookingService.GetBookingServicesByCustomerId(customerId);
+
+            Invoice invoiceForm = new Invoice
+            (
+                bookingRooms, 
+                (bookingServices != null && bookingServices.Count > 0) ? bookingServices : null
+            );
+            invoiceForm.Show();
             this.Hide();
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Gửi thông điệp để giả lập việc kéo thanh tiêu đề
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
         }
     }
 }

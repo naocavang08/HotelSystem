@@ -28,5 +28,9 @@ namespace HotelSystem.BLL
                 Status = r.status
             }).ToList();
         }
+        public void UpdateRoomStatus(int roomId, string status)
+        {
+            dalRoom.UpdateRoomStatus(roomId, status);
+        }
     }
 }
