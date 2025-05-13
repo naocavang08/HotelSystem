@@ -201,28 +201,24 @@ namespace HotelSystem.View.AdminForm
         {
             try
             {
-                // Get search criteria
                 string roomNumber = txbRoomNumber.Text.Trim();
-                int? roomTypeId = cbbRoomType.SelectedValue != null ?
-                                  Convert.ToInt32(cbbRoomType.SelectedValue) : (int?)null;
+                int? roomTypeId = cbbRoomType.SelectedValue != null ? Convert.ToInt32(cbbRoomType.SelectedValue) : (int?)null;
 
                 using (var db = new DBHotelSystem())
                 {
-                    // Create base query first
                     IQueryable<Model.Room> baseQuery = db.Rooms.AsQueryable();
 
-                    // Apply filters to the base query if provided
                     if (!string.IsNullOrEmpty(roomNumber))
                     {
                         baseQuery = baseQuery.Where(r => r.room_number.Contains(roomNumber));
                     }
 
-                    if (roomTypeId.HasValue)
+                    // Chỉ lọc theo loại phòng nếu không phải "Tất cả" (tức roomtype_id != 0)
+                    if (roomTypeId.HasValue && roomTypeId.Value != 0)
                     {
                         baseQuery = baseQuery.Where(r => r.roomtype_id == roomTypeId.Value);
                     }
 
-                    // Now join with RoomTypes and project to the final result
                     var results = (from r in baseQuery
                                    join rt in db.RoomTypes on r.roomtype_id equals rt.roomtype_id
                                    select new
@@ -234,11 +230,9 @@ namespace HotelSystem.View.AdminForm
                                        rt.price
                                    }).ToList();
 
-                    // Update the data grid with search results
                     dataGridView1.DataSource = results;
                     dataGridView1.Refresh();
 
-                    // If no results found
                     if (results.Count == 0)
                     {
                         MessageBox.Show("No rooms found matching the search criteria", "Search Results",
@@ -249,6 +243,33 @@ namespace HotelSystem.View.AdminForm
             catch (Exception ex)
             {
                 MessageBox.Show($"Error searching rooms: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void LoadCBBRoomType()
+        {
+            try
+            {
+                using (var db = new DBHotelSystem())
+                {
+                    var roomTypes = db.RoomTypes.ToList();
+
+                    // Thêm mục "Tất cả" vào đầu danh sách
+                    roomTypes.Insert(0, new RoomType
+                    {
+                        roomtype_id = 0,
+                        room_type = "Tất cả"
+                    });
+
+                    cbbRoomType.DataSource = roomTypes;
+                    cbbRoomType.DisplayMember = "room_type";
+                    cbbRoomType.ValueMember = "roomtype_id";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading room types: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -291,23 +312,10 @@ namespace HotelSystem.View.AdminForm
         {
 
         }
-        private void LoadCBBRoomType()
-        {
-            try
-            {
-                using (var db = new DBHotelSystem())
-                {
-                    var roomTypes = db.RoomTypes.ToList();
-                    cbbRoomType.DataSource = roomTypes;
-                    cbbRoomType.DisplayMember = "room_type";
-                    cbbRoomType.ValueMember = "roomtype_id";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading room types: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
+        private void btnTaiLai_Click(object sender, EventArgs e)
+        {
+            LoadRoomData();
+        }
     }
 }
