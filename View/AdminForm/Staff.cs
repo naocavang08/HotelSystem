@@ -427,5 +427,10 @@ namespace HotelSystem.View.AdminForm
                 MessageBox.Show($"Lỗi tìm kiếm: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnTaiLai_Click(object sender, EventArgs e)
+        {
+            LoadStaffData();
+        }
     }
 }
