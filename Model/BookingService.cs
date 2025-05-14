@@ -14,6 +14,7 @@ namespace HotelSystem.Model
         public BookingService()
         {
             this.Invoices = new HashSet<Invoice>();
+            this.status = "Booked";
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -30,6 +31,8 @@ namespace HotelSystem.Model
         public DateTime service_date { get; set; }
         [Required]
         public decimal total_price { get; set; }
+        [Required]
+        public string status { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Service Service { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

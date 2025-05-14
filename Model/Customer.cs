@@ -13,13 +13,14 @@ namespace HotelSystem.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customer()
         {
-            this.Bookings = new HashSet<Booking>();
+            this.Bookings = new HashSet<BookingRoom>();
             this.RoomHistories = new HashSet<RoomHistory>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int customer_id { get; set; }
         [Required]
+        [Column(TypeName ="nvarchar")]
         public string name { get; set; }
         [Required]
         [StringLength(11)]
@@ -33,7 +34,7 @@ namespace HotelSystem.Model
         public int id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<BookingRoom> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookingService> BookingServices { get; set; }
         public virtual User User { get; set; }

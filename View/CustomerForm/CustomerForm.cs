@@ -94,6 +94,26 @@ namespace HotelSystem.View.CustomerForm
             this.Hide();
         }
 
+        private void picDelRoom_Click(object sender, EventArgs e)
+        {
+            var bllTTKH = new BLL_TTKH();
+            var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
+            BookingRoomInfo op = new BookingRoomInfo(customer.CustomerId);
+            op.Show();
+
+            this.Hide();
+        }
+
+        private void lblDelRoom_Click(object sender, EventArgs e)
+        {
+            var bllTTKH = new BLL_TTKH();
+            var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
+            BookingRoomInfo op = new BookingRoomInfo(customer.CustomerId);
+            op.Show();
+
+            this.Hide();
+        }
+
         private void CustomerForm_Load(object sender, EventArgs e)
         {
             lblWelcome.Text = $"Xin chào, {UserSession.Username}!";
@@ -186,8 +206,21 @@ namespace HotelSystem.View.CustomerForm
             var bllBookingRoom = new BLL_BookingRoom();
             var bllBookingService = new BLL_BookingService();
 
-            var bookingRooms = bllBookingRoom.GetBookingRoomsByCustomerId(customerId);
-            var bookingServices = bllBookingService.GetBookingServicesByCustomerId(customerId);
+            // Lấy danh sách booking room và lọc theo trạng thái "Booked"
+            var allBookingRooms = bllBookingRoom.GetBookingRoomsByCustomerId(customerId);
+            var bookingRooms = allBookingRooms.Where(br => br.Status == "Booked").ToList();
+
+            // Lấy danh sách booking service và lọc theo trạng thái "Booked"
+            var allBookingServices = bllBookingService.GetBookingServicesByCustomerId(customerId);
+            var bookingServices = allBookingServices.Where(bs => bs.Status == "Booked").ToList();
+
+            // Kiểm tra nếu không có booking nào có trạng thái "Booked"
+            if (bookingRooms.Count == 0)
+            {
+                MessageBox.Show("Không có phòng nào đang trong trạng thái chờ thanh toán!", 
+                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             Invoice invoiceForm = new Invoice
             (
@@ -203,6 +236,11 @@ namespace HotelSystem.View.CustomerForm
             // Gửi thông điệp để giả lập việc kéo thanh tiêu đề
             ReleaseCapture();
             SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

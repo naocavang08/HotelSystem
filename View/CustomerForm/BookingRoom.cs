@@ -18,21 +18,92 @@ namespace HotelSystem.View.CustomerForm
     public partial class BookingRoom: Form
     {
         private string _roomNumber;
+        private int? _bookingId;
+        private int? _customerId;
+        private bool _isEditMode = false;
+        
+        // Constructor mặc định cho đặt phòng mới
         public BookingRoom(string roomNumber)
         {
             InitializeComponent();
             _roomNumber = roomNumber;
+            _isEditMode = false;
+        }
+        
+        // Constructor mới cho chỉnh sửa đặt phòng
+        public BookingRoom(int? customerId, int bookingId)
+        {
+            InitializeComponent();
+            _bookingId = bookingId;
+            _customerId = customerId;
+            _isEditMode = true;
         }
 
         private void Booking_Load(object sender, EventArgs e)
         {
-            dtpCheck_in.Value = DateTime.Today;
-            dtpCheck_out.Value = DateTime.Today.AddDays(1);
-
-            txtRoomNumber.Text = _roomNumber;
-
+            if (_isEditMode)
+            {
+                // Chế độ chỉnh sửa - Tải thông tin đặt phòng hiện có
+                LoadBookingData();
+                LoadCustomerData(UserSession.UserId);
+                this.Text = "Chỉnh sửa đặt phòng";
+                btnSubmit.Text = "Cập nhật";
+            }
+            else
+            {
+                // Chế độ thêm mới - Khởi tạo giá trị mặc định
+                dtpCheck_in.Value = DateTime.Today;
+                dtpCheck_out.Value = DateTime.Today.AddDays(1);
+                txtRoomNumber.Text = _roomNumber;
+                
+                // Tải thông tin khách hàng từ UserId hiện tại
+                LoadCustomerData(UserSession.UserId);
+            }
+        }
+        
+        private void LoadBookingData()
+        {
+            try
+            {
+                using (var db = new DBHotelSystem())
+                {
+                    // Tìm thông tin đặt phòng
+                    var booking = db.Bookings.Find(_bookingId);
+                    if (booking != null)
+                    {
+                        // Tìm thông tin phòng
+                        var room = db.Rooms.Find(booking.room_id);
+                        if (room != null)
+                        {
+                            _roomNumber = room.room_number;
+                            txtRoomNumber.Text = _roomNumber;
+                        }
+                        
+                        // Đặt ngày nhận và trả phòng
+                        dtpCheck_in.Value = booking.check_in;
+                        dtpCheck_out.Value = booking.check_out;
+                        
+                        // Tải thông tin khách hàng
+                        LoadCustomerData(booking.customer_id);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy thông tin đặt phòng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải thông tin đặt phòng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+        }
+        
+        private void LoadCustomerData(int userId)
+        {
             var bllTTKH = new BLL_TTKH();
-            var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
+            var customer = bllTTKH.GetCustomerByUserId(userId);
             if (customer != null)
             {
                 txtName.Text = customer.Name;
@@ -92,25 +163,47 @@ namespace HotelSystem.View.CustomerForm
             // Tính tổng giá tiền
             decimal totalPrice = selectedRoom.Price * (decimal)(checkOut - checkIn).TotalDays;
 
-            // Tạo DTO_BookingRoom
-            var dtobooking = new DTO_BookingRoom
-            {
-                CustomerId = customer.CustomerId,
-                RoomId = selectedRoom.RoomId, // Gán RoomId từ phòng đã tìm thấy
-                CheckIn = checkIn,
-                CheckOut = checkOut,
-                Status = "Booked",
-                TotalPrice = totalPrice
-            };
-
-            // Thêm booking
             var bllBookingRoom = new BLL_BookingRoom();
-            bllBookingRoom.AddBooking(dtobooking);
+            
+            if (_isEditMode && _bookingId.HasValue)
+            {
+                // Cập nhật thông tin đặt phòng
+                var dtoUpdateBooking = new DTO_BookingRoom
+                {
+                    BookingId = _bookingId.Value,
+                    CustomerId = customer.CustomerId,
+                    RoomId = selectedRoom.RoomId,
+                    CheckIn = checkIn,
+                    CheckOut = checkOut,
+                    Status = "Booked", // Vẫn giữ trạng thái đã đặt
+                    TotalPrice = totalPrice
+                };
+                
+                bllBookingRoom.UpdateBooking(dtoUpdateBooking);
+                MessageBox.Show("Cập nhật đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                // Tạo đặt phòng mới
+                var dtobooking = new DTO_BookingRoom
+                {
+                    CustomerId = customer.CustomerId,
+                    RoomId = selectedRoom.RoomId,
+                    CheckIn = checkIn,
+                    CheckOut = checkOut,
+                    Status = "Booked",
+                    TotalPrice = totalPrice
+                };
 
-            // Cập nhật trạng thái phòng
-            bllRoom.UpdateRoomStatus(selectedRoom.RoomId, "Booked");
+                // Thêm booking
+                bllBookingRoom.AddBooking(dtobooking);
 
-            MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Cập nhật trạng thái phòng
+                bllRoom.UpdateRoomStatus(selectedRoom.RoomId, "Booked");
+                
+                MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
             CustomerForm op = new CustomerForm();
             op.Show();
             this.Close();
@@ -124,3 +217,4 @@ namespace HotelSystem.View.CustomerForm
         }
     }
 }
+

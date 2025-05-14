@@ -19,6 +19,7 @@ namespace HotelSystem.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int employee_id { get; set; }
         [Required]
+        [Column(TypeName = "nvarchar")]
         [StringLength(100)]
         public string name { get; set; }
         [Required]

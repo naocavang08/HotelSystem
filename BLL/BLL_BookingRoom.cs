@@ -41,7 +41,7 @@ namespace HotelSystem.BLL
         // Thêm booking mới
         public void AddBooking(DTO_BookingRoom dtoBooking)
         {
-            var booking = new Booking
+            var booking = new BookingRoom
             {
                 customer_id = dtoBooking.CustomerId,
                 room_id = dtoBooking.RoomId,
@@ -52,6 +52,35 @@ namespace HotelSystem.BLL
             };
 
             dalBookingRoom.AddBooking(booking);
+        }
+        
+        // Cập nhật booking
+        public void UpdateBooking(DTO_BookingRoom dtoBooking)
+        {
+            var booking = new BookingRoom
+            {
+                booking_id = dtoBooking.BookingId,
+                customer_id = dtoBooking.CustomerId,
+                room_id = dtoBooking.RoomId,
+                check_in = dtoBooking.CheckIn,
+                check_out = dtoBooking.CheckOut,
+                status = dtoBooking.Status,
+                total_price = dtoBooking.TotalPrice
+            };
+
+            dalBookingRoom.UpdateBooking(booking);
+        }
+        
+        // Cập nhật trạng thái booking
+        public bool UpdateBookingStatus(int bookingId, string newStatus)
+        {
+            return dalBookingRoom.UpdateStatus(bookingId, newStatus);
+        }
+        
+        // Chuyển trạng thái từ Booked sang Payment
+        public bool SetBookingToPayment(int bookingId)
+        {
+            return dalBookingRoom.UpdateStatus(bookingId, "Payment");
         }
     }
 }

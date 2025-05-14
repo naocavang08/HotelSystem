@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace HotelSystem.Model
 {
-    public class Booking
+    public class BookingRoom
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Booking()
+        public BookingRoom()
         {
             this.Invoices = new HashSet<Invoice>();
         }
@@ -31,7 +31,7 @@ namespace HotelSystem.Model
         public System.DateTime check_out { get; set; }
         [Required]
         [StringLength(50)]
-        public string status { get; set; }
+        public string status { get; set; } // booked, checked in, checked out
         [Required]
         [Column("total_price")]
         public decimal total_price { get; set; }

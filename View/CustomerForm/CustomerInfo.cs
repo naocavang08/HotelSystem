@@ -107,7 +107,7 @@ namespace HotelSystem.View.CustomerForm
             var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
             if (customer != null) 
             {
-                txtName.Text = customer.CustomerId.ToString();
+                txtID.Text = customer.CustomerId.ToString();
                 txtName.Text = customer.Name;
                 txtPhone.Text = customer.Phone;
                 txtCCCD.Text = customer.CCCD;

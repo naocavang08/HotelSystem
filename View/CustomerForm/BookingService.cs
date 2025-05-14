@@ -88,9 +88,20 @@ namespace HotelSystem.View.CustomerForm
                     var bookedService = bookedServices.FirstOrDefault(bs => bs.Service_id == service.service_id);
                     if (bookedService != null)
                     {
-                        cb.Checked = true;
-                        nud.Value = bookedService.Quantity;
-                        dtp.Value = bookedService.Service_date;
+                        // Kiểm tra nếu dịch vụ đã hoàn thành (Completed) thì vô hiệu hóa
+                        if (bookedService.Status == "Completed")
+                        {
+                            // Checkbox không chọn (unchecked) cho dịch vụ đã hoàn thành
+                            cb.Checked = false;
+                            nud.Value = 1;
+                            dtp.Value = DateTime.Now;
+                        }
+                        else
+                        {
+                            cb.Checked = true;
+                            nud.Value = bookedService.Quantity;
+                            dtp.Value = bookedService.Service_date;
+                        }
                     }
 
                     pnSubService.Controls.Add(cb);
@@ -134,6 +145,8 @@ namespace HotelSystem.View.CustomerForm
             {
                 if (ctrl is CheckBox cb && cb.Checked)
                 {
+                    if (!cb.Enabled) continue;
+
                     int serviceId = (int)cb.Tag;
                     // Tìm NumericUpDown và DateTimePicker tương ứng
                     NumericUpDown nud = pnSubService.Controls.Find("nud_" + serviceId, true).FirstOrDefault() as NumericUpDown;
@@ -161,6 +174,13 @@ namespace HotelSystem.View.CustomerForm
                             existingBooking.quantity = (int)nud.Value;
                             existingBooking.service_date = dtp.Value;
                             existingBooking.total_price = db.Services.First(s => s.service_id == serviceId).price * (int)nud.Value;
+                            
+                            // Cập nhật status thành "Booked" nếu dịch vụ đã hoàn thành (Completed) trước đó
+                            if (existingBooking.status == "Completed")
+                            {
+                                existingBooking.status = "Booked";
+                            }
+                            
                             db.SaveChanges();
                         }
                         else
@@ -176,7 +196,8 @@ namespace HotelSystem.View.CustomerForm
                                     Service_id = serviceId,
                                     Quantity = (int)nud.Value,
                                     Service_date = dtp.Value,
-                                    TotalPrice = totalPrice
+                                    TotalPrice = totalPrice,
+                                    Status = "Booked"
                                 };
                                 selectedServices.Add(dtoBookingService);
                             }
@@ -206,12 +227,12 @@ namespace HotelSystem.View.CustomerForm
         private void btnDelService_Click(object sender, EventArgs e)
         {
             var selectedServices = pnSubService.Controls.OfType<CheckBox>()
-                .Where(cb => cb.Checked)
+                .Where(cb => cb.Checked && cb.Enabled) // Chỉ lấy các checkbox đã chọn và còn được phép chọn
                 .ToList();
 
             if (selectedServices.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn dịch vụ cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn dịch vụ cần xóa! Lưu ý: Không thể xóa dịch vụ đã hoàn thành.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

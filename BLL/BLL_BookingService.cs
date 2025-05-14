@@ -19,7 +19,8 @@ namespace HotelSystem.BLL
                 service_id = dtoBookingService.Service_id,
                 quantity = dtoBookingService.Quantity,
                 service_date = dtoBookingService.Service_date,
-                total_price = dtoBookingService.TotalPrice
+                total_price = dtoBookingService.TotalPrice,
+                status = dtoBookingService.Status ?? "Booked" // Sử dụng giá trị từ DTO hoặc mặc định
             };
 
             dalBookingService.AddBookingService(bookingService);
@@ -40,7 +41,8 @@ namespace HotelSystem.BLL
                     Service_id = bs.service_id,
                     Quantity = bs.quantity,
                     Service_date = bs.service_date,
-                    TotalPrice = bs.total_price
+                    TotalPrice = bs.total_price,
+                    Status = bs.status
                 });
             }
 
@@ -62,7 +64,8 @@ namespace HotelSystem.BLL
                     Service_id = bs.service_id,
                     Quantity = bs.quantity,
                     Service_date = bs.service_date,
-                    TotalPrice = bs.total_price
+                    TotalPrice = bs.total_price,
+                    Status = bs.status
                 });
             }
 
@@ -83,7 +86,8 @@ namespace HotelSystem.BLL
                     Service_id = bs.service_id,
                     Quantity = bs.quantity,
                     Service_date = bs.service_date,
-                    TotalPrice = bs.total_price
+                    TotalPrice = bs.total_price,
+                    Status = bs.status
                 });
             }
             return dtoBookingServices;
@@ -105,10 +109,17 @@ namespace HotelSystem.BLL
                 service_id = dtoBookingService.Service_id,
                 quantity = dtoBookingService.Quantity,
                 service_date = dtoBookingService.Service_date,
-                total_price = dtoBookingService.TotalPrice
+                total_price = dtoBookingService.TotalPrice,
+                status = dtoBookingService.Status ?? "Booked" // Sử dụng giá trị từ DTO hoặc mặc định
             };
 
             dalBookingService.UpdateBookingService(bookingService);
+        }
+        
+        // Cập nhật trạng thái dịch vụ
+        public void UpdateBookingServiceStatus(int bookingServiceId, string status)
+        {
+            dalBookingService.UpdateBookingServiceStatus(bookingServiceId, status);
         }
     }
 }

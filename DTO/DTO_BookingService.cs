@@ -14,5 +14,6 @@ namespace HotelSystem.DTO
         public int Quantity { get; set; }
         public DateTime Service_date { get; set; }
         public decimal TotalPrice { get; set; }
+        public string Status { get; set; }
     }
 }

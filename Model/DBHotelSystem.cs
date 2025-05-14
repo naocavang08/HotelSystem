@@ -13,32 +13,46 @@ namespace HotelSystem.Model
         public DBHotelSystem()
             : base("name=DBHotelSystem")
         {
-            Database.SetInitializer<DBHotelSystem>(new HotelDB());
+            Database.SetInitializer(new HotelDB());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Booking>()
+            modelBuilder.Entity<BookingRoom>()
                 .Property(e => e.status)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Booking>()
+            modelBuilder.Entity<BookingRoom>()
                 .Property(e => e.total_price)
                 .HasPrecision(10, 2);
 
-            modelBuilder.Entity<Booking>()
+            modelBuilder.Entity<BookingRoom>()
                 .HasMany(e => e.Invoices)
-                .WithRequired(e => e.Booking)
-                .WillCascadeOnDelete(false);
+                .WithMany(e => e.Bookings)
+                .Map(m =>
+                {
+                    m.ToTable("BookingInvoice");
+                    m.MapLeftKey("booking_id");
+                    m.MapRightKey("invoice_id");
+                });
 
             modelBuilder.Entity<BookingService>()
                 .Property(e => e.total_price)
                 .HasPrecision(10, 2);
 
             modelBuilder.Entity<BookingService>()
+                .Property(e => e.status)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<BookingService>()
                 .HasMany(e => e.Invoices)
-                .WithRequired(e => e.BookingService)
-                .WillCascadeOnDelete(false);
+                .WithMany(e => e.BookingServices)
+                .Map(m =>
+                {
+                    m.ToTable("BookingServiceInvoice");
+                    m.MapLeftKey("booking_service_id");
+                    m.MapRightKey("invoice_id");
+                });
 
             modelBuilder.Entity<Customer>()
                 .Property(e => e.name)
@@ -174,7 +188,7 @@ namespace HotelSystem.Model
                 .IsUnicode(false);
         }
 
-        public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<BookingRoom> Bookings { get; set; }
         public virtual DbSet<BookingService> BookingServices { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }

@@ -53,6 +53,18 @@ namespace HotelSystem.DAL
                 existingBookingService.quantity = bookingService.quantity;
                 existingBookingService.service_date = bookingService.service_date;
                 existingBookingService.total_price = bookingService.total_price;
+                existingBookingService.status = bookingService.status;
+                db.SaveChanges();
+            }
+        }
+        
+        // Cập nhật trạng thái dịch vụ
+        public void UpdateBookingServiceStatus(int bookingServiceId, string status)
+        {
+            var bookingService = db.BookingServices.FirstOrDefault(bs => bs.booking_service_id == bookingServiceId);
+            if (bookingService != null)
+            {
+                bookingService.status = status;
                 db.SaveChanges();
             }
         }

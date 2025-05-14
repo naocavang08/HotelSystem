@@ -19,6 +19,7 @@ namespace HotelSystem.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int roomtype_id { get; set; }
         [Required]
+        [Column(TypeName = "nvarchar")]
         public string room_type { get; set; }
         [Required]
         public decimal price { get; set; }
