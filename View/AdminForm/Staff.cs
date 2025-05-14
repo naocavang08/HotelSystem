@@ -26,11 +26,21 @@ namespace HotelSystem.View.AdminForm
             dataGridView1.Columns.Clear();
 
             // Add columns to the DataGridView
+            //name: lấy từ bảng Employee
             dataGridView1.Columns.Add("name", "Họ tên");
+            //phone: lấy từ bảng Employee
             dataGridView1.Columns.Add("phone", "Số điện thoại");
+            //cccd: lấy từ bảng Employee
             dataGridView1.Columns.Add("cccd", "CCCD");
+            //gender: lấy từ bảng Employee
             dataGridView1.Columns.Add("gender", "Giới tính");
+            //position: lấy từ bảng Employee
             dataGridView1.Columns.Add("position", "Chức vụ");
+            //shift_date: lấy từ bảng WorkSchedule
+            dataGridView1.Columns.Add("shift_date", "Lịch làm việc");
+            //shift_time: lấy từ bảng WorkSchedule
+            dataGridView1.Columns.Add("shift_time", "Ca làm việc");
+            //salary: lấy từ bảng Employee
             dataGridView1.Columns.Add("salary", "Lương");
 
             // Set column properties for better display
@@ -67,6 +77,10 @@ namespace HotelSystem.View.AdminForm
 
                 txbChucVu.Text = row.Cells["position"].Value.ToString();
 
+                // Set work schedule information
+                txbLichLamViec.Text = row.Cells["shift_date"].Value.ToString();
+                txbCaLamViec.Text = row.Cells["shift_time"].Value.ToString();
+
                 // Clean salary value - remove formatted separators for editing
                 string salaryText = row.Cells["salary"].Value.ToString();
                 txbLuong.Text = salaryText.Replace(",", "");
@@ -83,7 +97,7 @@ namespace HotelSystem.View.AdminForm
             {
                 using (var dbContext = new DBHotelSystem())
                 {
-                    // Get all employees from the database
+                    // Get all employees from the database with their work schedules
                     var employees = dbContext.Employees.ToList();
 
                     // Add each employee to the DataGridView
@@ -91,12 +105,23 @@ namespace HotelSystem.View.AdminForm
                     {
                         string genderText = employee.gender.HasValue && employee.gender.Value ? "Nam" : "Nữ";
 
+                        // Get the most recent work schedule for this employee (if any)
+                        var workSchedule = dbContext.WorkSchedules
+                            .Where(ws => ws.employee_id == employee.employee_id)
+                            .OrderByDescending(ws => ws.schedule_id)
+                            .FirstOrDefault();
+
+                        string shiftDate = workSchedule != null ? workSchedule.shift_date : "";
+                        string shiftTime = workSchedule != null ? workSchedule.shift_time : "";
+
                         dataGridView1.Rows.Add(
                             employee.name,
                             employee.phone,
                             employee.cccd,
                             genderText,
                             employee.position,
+                            shiftDate,
+                            shiftTime,
                             employee.salary.ToString("N0")
                         );
                     }
@@ -116,6 +141,8 @@ namespace HotelSystem.View.AdminForm
             txtCCCD.Text = "";
             txbChucVu.Text = "";
             txbLuong.Text = "";
+            txbLichLamViec.Text = "";
+            txbCaLamViec.Text = "";
             // Reset gender selection
             radioButtonNam.Checked = true;
             radioButtonNu.Checked = false;
@@ -169,6 +196,19 @@ namespace HotelSystem.View.AdminForm
                 return false;
             }
 
+            // Lịch làm việc and Ca làm việc are optional, but if one is provided, the other should be too
+            if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) && string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+            {
+                MessageBox.Show("Vui lòng nhập ca làm việc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txbLichLamViec.Text) && !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+            {
+                MessageBox.Show("Vui lòng nhập lịch làm việc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             return true;
         }
 
@@ -216,6 +256,21 @@ namespace HotelSystem.View.AdminForm
                     // Add to database
                     dbContext.Employees.Add(newEmployee);
                     dbContext.SaveChanges();
+
+                    // Create work schedule if the data is provided
+                    if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) &&
+                        !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+                    {
+                        var workSchedule = new WorkSchedule
+                        {
+                            employee_id = newEmployee.employee_id,
+                            shift_date = txbLichLamViec.Text,
+                            shift_time = txbCaLamViec.Text
+                        };
+
+                        dbContext.WorkSchedules.Add(workSchedule);
+                        dbContext.SaveChanges();
+                    }
 
                     // Refresh data
                     LoadStaffData();
@@ -282,6 +337,34 @@ namespace HotelSystem.View.AdminForm
                             user.username = txtPhone.Text;
                         }
 
+                        // Update or create work schedule if the data is provided
+                        if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) &&
+                            !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+                        {
+                            var workSchedule = dbContext.WorkSchedules
+                                .Where(ws => ws.employee_id == employee.employee_id)
+                                .OrderByDescending(ws => ws.schedule_id)
+                                .FirstOrDefault();
+
+                            if (workSchedule != null)
+                            {
+                                // Update existing work schedule
+                                workSchedule.shift_date = txbLichLamViec.Text;
+                                workSchedule.shift_time = txbCaLamViec.Text;
+                            }
+                            else
+                            {
+                                // Create new work schedule
+                                var newWorkSchedule = new WorkSchedule
+                                {
+                                    employee_id = employee.employee_id,
+                                    shift_date = txbLichLamViec.Text,
+                                    shift_time = txbCaLamViec.Text
+                                };
+                                dbContext.WorkSchedules.Add(newWorkSchedule);
+                            }
+                        }
+
                         // Save changes to database
                         dbContext.SaveChanges();
 
@@ -337,6 +420,16 @@ namespace HotelSystem.View.AdminForm
 
                         if (employee != null)
                         {
+                            // Delete work schedules first (due to foreign key constraint)
+                            var workSchedules = dbContext.WorkSchedules
+                                .Where(ws => ws.employee_id == employee.employee_id)
+                                .ToList();
+
+                            foreach (var schedule in workSchedules)
+                            {
+                                dbContext.WorkSchedules.Remove(schedule);
+                            }
+
                             // Delete employee from database
                             dbContext.Employees.Remove(employee);
                             dbContext.SaveChanges();
@@ -374,15 +467,20 @@ namespace HotelSystem.View.AdminForm
             string searchPhone = txtPhone.Text;
             string searchCCCD = txtCCCD.Text;
             string searchPosition = txbChucVu.Text.ToLower();
+            string searchShiftDate = txbLichLamViec.Text;
+            string searchShiftTime = txbCaLamViec.Text;
 
             try
             {
                 using (var dbContext = new DBHotelSystem())
                 {
-                    // Start with all employees
-                    var query = dbContext.Employees.AsQueryable();
+                    // Get all employees with their work schedules
+                    var employees = dbContext.Employees.ToList();
+                    var filteredEmployees = new List<Employee>();
 
-                    // Apply filters if provided
+                    // First filter by employee properties
+                    var query = employees.AsQueryable();
+
                     if (!string.IsNullOrWhiteSpace(searchName))
                         query = query.Where(emp => emp.name.ToLower().Contains(searchName));
 
@@ -395,8 +493,31 @@ namespace HotelSystem.View.AdminForm
                     if (!string.IsNullOrWhiteSpace(searchPosition))
                         query = query.Where(emp => emp.position.ToLower().Contains(searchPosition));
 
-                    // Execute query
-                    var filteredEmployees = query.ToList();
+                    // If searching for schedule, we need a different approach
+                    if (string.IsNullOrWhiteSpace(searchShiftDate) && string.IsNullOrWhiteSpace(searchShiftTime))
+                    {
+                        // No schedule search, just use the employee filters
+                        filteredEmployees = query.ToList();
+                    }
+                    else
+                    {
+                        // Filter by schedule as well
+                        foreach (var employee in query)
+                        {
+                            var workSchedules = dbContext.WorkSchedules
+                                .Where(ws => ws.employee_id == employee.employee_id).ToList();
+
+                            bool matchesSchedule = workSchedules.Any(ws =>
+                                (string.IsNullOrWhiteSpace(searchShiftDate) || ws.shift_date.Contains(searchShiftDate)) &&
+                                (string.IsNullOrWhiteSpace(searchShiftTime) || ws.shift_time.Contains(searchShiftTime))
+                            );
+
+                            if (matchesSchedule)
+                            {
+                                filteredEmployees.Add(employee);
+                            }
+                        }
+                    }
 
                     // Display results
                     dataGridView1.Rows.Clear();
@@ -404,13 +525,24 @@ namespace HotelSystem.View.AdminForm
                     {
                         string genderText = employee.gender.HasValue && employee.gender.Value ? "Nam" : "Nữ";
 
+                        // Get the most recent work schedule for this employee (if any)
+                        var workSchedule = dbContext.WorkSchedules
+                            .Where(ws => ws.employee_id == employee.employee_id)
+                            .OrderByDescending(ws => ws.schedule_id)
+                            .FirstOrDefault();
+
+                        string shiftDate = workSchedule != null ? workSchedule.shift_date : "";
+                        string shiftTime = workSchedule != null ? workSchedule.shift_time : "";
+
                         dataGridView1.Rows.Add(
                             employee.name,
                             employee.phone,
                             employee.cccd,
                             genderText,
                             employee.position,
-                            employee.salary.ToString("N0") + " VND"
+                            shiftDate,
+                            shiftTime,
+                            employee.salary.ToString("N0")
                         );
                     }
 
