@@ -217,10 +217,42 @@ namespace HotelSystem.View.AdminForm
             if (!ValidateInput())
                 return;
 
+            if (string.IsNullOrWhiteSpace(txtName.Text) ||
+                string.IsNullOrWhiteSpace(txtPhone.Text) ||
+                string.IsNullOrWhiteSpace(txtCCCD.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin khách hàng", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra số điện thoại phải là chuỗi số và đúng 10 ký tự
+            if (txtPhone.Text.Length != 10 || !txtPhone.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Số điện thoại phải gồm 10 chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra CCCD chỉ được chứa số và đúng 12 ký tự
+            if (!txtCCCD.Text.All(char.IsDigit) || txtCCCD.Text.Length != 12)
+            {
+                MessageBox.Show("CCCD chỉ được chứa các ký tự số và dài 12 ký tự.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
             try
             {
                 using (var dbContext = new DBHotelSystem())
                 {
+                    // Kiểm tra xem nhân viên đã tồn tại chưa
+                    bool isExists = dbContext.Employees.Any(emp => emp.phone == txtPhone.Text || emp.cccd == txtCCCD.Text);
+
+                    if (isExists)
+                    {
+                        MessageBox.Show("Nhân viên với số điện thoại hoặc CCCD này đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     // Get gender value from radio buttons
                     bool gender = radioButtonNam.Checked;
 
@@ -304,6 +336,28 @@ namespace HotelSystem.View.AdminForm
             if (!ValidateInput())
                 return;
 
+            if (string.IsNullOrWhiteSpace(txtName.Text) ||
+                string.IsNullOrWhiteSpace(txtPhone.Text) ||
+                string.IsNullOrWhiteSpace(txtCCCD.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin khách hàng", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra số điện thoại phải là chuỗi số và đúng 10 ký tự
+            if (txtPhone.Text.Length != 10 || !txtPhone.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Số điện thoại phải gồm 10 chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra CCCD chỉ được chứa số và đúng 12 ký tự
+            if (!txtCCCD.Text.All(char.IsDigit) || txtCCCD.Text.Length != 12)
+            {
+                MessageBox.Show("CCCD chỉ được chứa các ký tự số và dài 12 ký tự.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 // Get the selected employee's CCCD from the row
@@ -316,6 +370,17 @@ namespace HotelSystem.View.AdminForm
 
                     if (employee != null)
                     {
+                        // Kiểm tra xem thông tin nhân viên đã tồn tại chưa (trừ chính nhân viên này)
+                        bool isExists = dbContext.Employees.Any(emp =>
+                            (emp.phone == txtPhone.Text || emp.cccd == txtCCCD.Text) &&
+                            emp.employee_id != employee.employee_id);
+
+                        if (isExists)
+                        {
+                            MessageBox.Show("Nhân viên với số điện thoại hoặc CCCD này đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
                         // Get gender value from radio buttons
                         bool gender = radioButtonNam.Checked;
 

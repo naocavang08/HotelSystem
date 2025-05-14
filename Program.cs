@@ -21,9 +21,10 @@ namespace HotelSystem
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Application.Run(new AdminForm());
             //Application.Run(new Customer());
             //Application.Run(new Room());
-            Application.Run(new Staff());
+            //Application.Run(new Staff());
             //Application.Run(new Statistic());
         }
     }

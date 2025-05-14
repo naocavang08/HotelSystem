@@ -183,6 +183,20 @@ namespace HotelSystem.View.AdminForm
                 return;
             }
 
+            // Kiểm tra số điện thoại phải là chuỗi số và đúng 10 ký tự
+            if (txtPhone.Text.Length != 10 || !txtPhone.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Số điện thoại phải gồm 10 chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra CCCD chỉ được chứa số
+            if (!txtCCCD.Text.All(char.IsDigit) || txtCCCD.Text.Length != 12)
+            {
+                MessageBox.Show("CCCD chỉ được chứa các ký tự số và dài 12 ký tự.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 // Sử dụng using để đảm bảo DbContext được dispose đúng cách
@@ -239,6 +253,28 @@ namespace HotelSystem.View.AdminForm
             if (dataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn khách hàng cần sửa", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtName.Text) ||
+                string.IsNullOrWhiteSpace(txtPhone.Text) ||
+                string.IsNullOrWhiteSpace(txtCCCD.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin khách hàng", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra số điện thoại phải là chuỗi số và đúng 10 ký tự
+            if (txtPhone.Text.Length != 10 || !txtPhone.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Số điện thoại phải gồm 10 chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kiểm tra CCCD chỉ được chứa số và đúng 12 ký tự
+            if (!txtCCCD.Text.All(char.IsDigit) || txtCCCD.Text.Length != 12)
+            {
+                MessageBox.Show("CCCD chỉ được chứa các ký tự số và dài 12 ký tự.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

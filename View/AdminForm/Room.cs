@@ -49,6 +49,14 @@ namespace HotelSystem.View.AdminForm
                 // Add room to database using Entity Framework
                 using (var db = new DBHotelSystem())
                 {
+                    // Kiểm tra xem số phòng đã tồn tại chưa
+                    bool isExists = db.Rooms.Any(r => r.room_number == roomNumber.ToString());
+                    if (isExists)
+                    {
+                        MessageBox.Show("Room number already exists in the system.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     var newRoom = new Model.Room
                     {
                         room_number = roomNumber.ToString(),
@@ -73,7 +81,6 @@ namespace HotelSystem.View.AdminForm
                 MessageBox.Show($"Error adding room: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -110,6 +117,14 @@ namespace HotelSystem.View.AdminForm
                 // Update room in database using Entity Framework
                 using (var db = new DBHotelSystem())
                 {
+                    // Kiểm tra số phòng đã tồn tại (trừ chính phòng đang sửa)
+                    bool isExists = db.Rooms.Any(r => r.room_number == roomNumber.ToString() && r.room_id != roomId);
+                    if (isExists)
+                    {
+                        MessageBox.Show("Room number already exists in the system.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     // Find the room to update
                     var room = db.Rooms.FirstOrDefault(r => r.room_id == roomId);
 
@@ -246,6 +261,10 @@ namespace HotelSystem.View.AdminForm
             }
         }
 
+        private void btnTaiLai_Click(object sender, EventArgs e)
+        {
+            LoadRoomData();
+        }
 
         private void LoadCBBRoomType()
         {
@@ -312,10 +331,17 @@ namespace HotelSystem.View.AdminForm
         {
 
         }
-
-        private void btnTaiLai_Click(object sender, EventArgs e)
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            LoadRoomData();
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+                // Lấy giá trị từ các cột và gán vào các control nhập liệu
+                txbRoomNumber.Text = row.Cells["room_number"].Value?.ToString() ?? string.Empty;
+                cbbRoomType.Text = row.Cells["room_type"].Value?.ToString() ?? string.Empty;
+                txbRoomPrice.Text = row.Cells["price"].Value?.ToString() ?? string.Empty;
+            }
         }
     }
 }

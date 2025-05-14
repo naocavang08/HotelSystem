@@ -60,6 +60,7 @@ namespace HotelSystem.View.AdminForm
         {
             statistic = null;
         }
+
         private void btnCustomer_Click(object sender, EventArgs e)
         {
             if (customer == null)
@@ -121,6 +122,25 @@ namespace HotelSystem.View.AdminForm
         private void Room_FormClosed(object sender, FormClosedEventArgs e)
         {
             room = null;
+        }
+
+        private void AdminForm_Load(object sender, EventArgs e)
+        {
+            // Kiểm tra xem form Statistic đã được tạo chưa
+            if (statistic == null)
+            {
+                // Tạo một instance của form Statistic
+                statistic = new Statistic();
+                statistic.FormClosed += Statistic_FormClosed;
+                statistic.MdiParent = this;
+                statistic.Dock = DockStyle.Fill;
+                statistic.Show();
+            }
+            else
+            {
+                // Nếu đã tồn tại, chỉ cần kích hoạt nó (nếu cần)
+                statistic.Activate();
+            }
         }
     }
 }
