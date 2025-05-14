@@ -97,7 +97,7 @@ namespace HotelSystem.View.AdminForm
                             employee.cccd,
                             genderText,
                             employee.position,
-                            employee.salary.ToString("N0") // Remove " VND" suffix
+                            employee.salary.ToString("N0")
                         );
                     }
                 }

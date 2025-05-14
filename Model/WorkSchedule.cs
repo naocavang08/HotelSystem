@@ -17,7 +17,7 @@ namespace HotelSystem.Model
         [Required]
         public int employee_id { get; set; }
         [Required]
-        public System.DateTime shift_date { get; set; }
+        public string shift_date { get; set; }
         [Required]
         public string shift_time { get; set; }
 

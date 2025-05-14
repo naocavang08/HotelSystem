@@ -95,6 +95,10 @@
     <Compile Include="Migrations\202504250941256_UpdateModel.Designer.cs">
       <DependentUpon>202504250941256_UpdateModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505140108153_UpdateStaffModel.cs" />
+    <Compile Include="Migrations\202505140108153_UpdateStaffModel.Designer.cs">
+      <DependentUpon>202505140108153_UpdateStaffModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Booking.cs" />
     <Compile Include="Model\BookingService.cs" />
@@ -171,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504250941256_UpdateModel.resx">
       <DependentUpon>202504250941256_UpdateModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505140108153_UpdateStaffModel.resx">
+      <DependentUpon>202505140108153_UpdateStaffModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

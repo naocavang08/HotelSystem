@@ -19,7 +19,7 @@ namespace HotelSystem.View.AdminForm
         public Customer()
         {
             InitializeComponent();
-            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             dbContext = new DBHotelSystem();
 
@@ -58,7 +58,7 @@ namespace HotelSystem.View.AdminForm
                         // Tìm booking của customer nếu có
                         var bookings = dbContext.Bookings
                             .Where(b => b.customer_id == customer.customer_id)
-                            .OrderByDescending(b => b.check_in)
+                            .OrderByDescending(b => b.booking_id)
                             .ToList();
 
                         if (bookings.Count > 0)
@@ -69,20 +69,16 @@ namespace HotelSystem.View.AdminForm
                                 var room = dbContext.Rooms.FirstOrDefault(r => r.room_id == booking.room_id);
 
                                 string status = "";
-                                if (DateTime.Now >= booking.check_in && DateTime.Now <= booking.check_out)
-                                    status = "Đang ở";
-                                else if (DateTime.Now < booking.check_in)
-                                    status = "Đã đặt";
+                                if (booking.status != null)
+                                    status = booking.status;
                                 else
-                                    status = "Đã trả phòng";
+                                    status = "Không có thông tin";
 
                                 customerList.Add(new
                                 {
                                     customer.name,
                                     customer.phone,
                                     customer.cccd,
-                                    check_in = booking.check_in,
-                                    check_out = booking.check_out,
                                     room_number = room != null ? room.room_number : "",
                                     status = status,
                                     total_price = booking.total_price
@@ -97,8 +93,6 @@ namespace HotelSystem.View.AdminForm
                                 customer.name,
                                 customer.phone,
                                 customer.cccd,
-                                check_in = (DateTime?)null,
-                                check_out = (DateTime?)null,
                                 room_number = "",
                                 status = "",
                                 total_price = (decimal)0
@@ -140,18 +134,6 @@ namespace HotelSystem.View.AdminForm
 
             if (dataGridView1.Columns.Contains("cccd"))
                 dataGridView1.Columns["cccd"].HeaderText = "CCCD";
-
-            if (dataGridView1.Columns.Contains("check_in"))
-            {
-                dataGridView1.Columns["check_in"].HeaderText = "Ngày đến";
-                dataGridView1.Columns["check_in"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
-            }
-
-            if (dataGridView1.Columns.Contains("check_out"))
-            {
-                dataGridView1.Columns["check_out"].HeaderText = "Ngày đi";
-                dataGridView1.Columns["check_out"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
-            }
 
             if (dataGridView1.Columns.Contains("room_number"))
                 dataGridView1.Columns["room_number"].HeaderText = "Số phòng";
@@ -365,12 +347,8 @@ namespace HotelSystem.View.AdminForm
                                 c.name,
                                 c.phone,
                                 c.cccd,
-                                check_in = b != null ? b.check_in : (DateTime?)null,
-                                check_out = b != null ? b.check_out : (DateTime?)null,
                                 room_number = r != null ? r.room_number : null,
-                                status = b == null ? "" :
-                                       (DateTime.Now >= b.check_in && DateTime.Now <= b.check_out ? "Đang ở" :
-                                       DateTime.Now < b.check_in ? "Đã đặt" : "Đã trả phòng"),
+                                status = b == null ? "" : (b.status != null ? b.status : "Không có thông tin"),
                                 total_price = b != null ? b.total_price : 0
                             };
 
