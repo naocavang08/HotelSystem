@@ -60,6 +60,12 @@ namespace HotelSystem.BLL
                 UserId = customer.id
             };
         }
+        
+        // Kiểm tra xem CCCD đã tồn tại trong cơ sở dữ liệu chưa
+        public bool IsCCCDExists(string cccd, int? excludeCustomerId = null)
+        {
+            return dalTTKH.IsCCCDExists(cccd, excludeCustomerId);
+        }
 
         // Cập nhật thông tin khách hàng
         public void UpdateCustomer(DTO_Customer dtoCustomer)

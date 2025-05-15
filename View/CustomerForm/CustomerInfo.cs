@@ -72,6 +72,15 @@ namespace HotelSystem.View.CustomerForm
             var bllTTKH = new BLL_TTKH();
             var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
             
+            // Kiểm tra CCCD có bị trùng không, loại trừ chính khách hàng hiện tại (nếu có)
+            int? excludeCustomerId = customer?.CustomerId;
+            if (bllTTKH.IsCCCDExists(txtCCCD.Text.Trim(), excludeCustomerId))
+            {
+                MessageBox.Show("CCCD này đã được sử dụng bởi khách hàng khác. Vui lòng kiểm tra lại.", 
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
             if (customer == null)
             {
                 var newCustomer = new DTO_Customer

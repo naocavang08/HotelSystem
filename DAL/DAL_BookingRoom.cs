@@ -36,9 +36,9 @@ namespace HotelSystem.DAL
         // Cập nhật booking
         public void UpdateBooking(BookingRoom booking)
         {
-            using (var context = new DBHotelSystem())
+            using (var db = new DBHotelSystem())
             {
-                var existingBooking = context.Bookings.Find(booking.booking_id);
+                var existingBooking = db.Bookings.Find(booking.booking_id);
                 if (existingBooking != null)
                 {
                     // Cập nhật thông tin
@@ -49,7 +49,7 @@ namespace HotelSystem.DAL
                     existingBooking.status = booking.status;
                     existingBooking.total_price = booking.total_price;
                     
-                    context.SaveChanges();
+                    db.SaveChanges();
                 }
             }
         }
@@ -57,9 +57,9 @@ namespace HotelSystem.DAL
         // Cập nhật trạng thái booking (từ Booked sang Payment hoặc các trạng thái khác)
         public bool UpdateStatus(int bookingId, string newStatus)
         {
-            using (var context = new DBHotelSystem())
+            using (var db = new DBHotelSystem())
             {
-                var existingBooking = context.Bookings.Find(bookingId);
+                var existingBooking = db.Bookings.Find(bookingId);
                 if (existingBooking != null)
                 {
                     // Kiểm tra trạng thái hiện tại
@@ -67,20 +67,78 @@ namespace HotelSystem.DAL
                     {
                         // Cập nhật trạng thái
                         existingBooking.status = newStatus;
-                        context.SaveChanges();
+                        db.SaveChanges();
                         return true;
                     }
                     else
                     {
                         // Có thể mở rộng để hỗ trợ các kiểu chuyển đổi trạng thái khác
                         existingBooking.status = newStatus;
-                        context.SaveChanges();
+                        db.SaveChanges();
                         return true;
                     }
                 }
             }
             
             return false; // Không tìm thấy booking hoặc không thể cập nhật trạng thái
+        }
+        
+        // Lấy các booking trùng với khoảng thời gian đã chọn
+        public List<BookingRoom> GetOverlappingBookings(DateTime checkIn, DateTime checkOut)
+        {
+            using (var db = new DBHotelSystem())
+            {
+                // Lưu ý: Một booking chỉ trùng lịch nếu:
+                // - Ngày check-in của booking < ngày check-out của tìm kiếm VÀ
+                // - Ngày check-out của booking > ngày check-in của tìm kiếm
+                return db.Bookings
+                    .Where(b => 
+                        (b.check_in < checkOut && b.check_out > checkIn)
+                    )
+                    .ToList();
+            }
+        }
+        
+        // Lấy các booking đã hết hạn (quá ngày check-out nhưng vẫn ở trạng thái "Booked")
+        public List<BookingRoom> GetExpiredBookings(DateTime searchDate)
+        {
+            using (var db = new DBHotelSystem())
+            {
+                // Tìm các booking mà ngày checkout <= ngày tìm kiếm và trạng thái vẫn là "Booked"
+                return db.Bookings
+                    .Where(b => b.check_out <= searchDate && b.status == "Booked")
+                    .ToList();
+            }
+        }
+        
+        // Cập nhật trạng thái các booking đã hết hạn và trạng thái phòng tương ứng
+        public void UpdateExpiredBookingsAndRooms(List<BookingRoom> expiredBookings)
+        {
+            if (expiredBookings == null || !expiredBookings.Any())
+                return;
+                
+            using (var db = new DBHotelSystem())
+            {
+                foreach (var expiredBooking in expiredBookings)
+                {
+                    // Tìm booking trong db hiện tại
+                    var booking = db.Bookings.Find(expiredBooking.booking_id);
+                    if (booking != null)
+                    {
+                        // Cập nhật trạng thái booking
+                        booking.status = "Checked Out";
+                        
+                        // Cập nhật trạng thái phòng
+                        var room = db.Rooms.FirstOrDefault(r => r.room_id == booking.room_id);
+                        if (room != null)
+                        {
+                            room.status = "Available";
+                        }
+                    }
+                }
+                
+                db.SaveChanges();
+            }
         }
     }
 }

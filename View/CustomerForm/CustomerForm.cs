@@ -101,7 +101,7 @@ namespace HotelSystem.View.CustomerForm
             var allRooms = bllRoom.GetAllRooms();
             
             // Get booked rooms that overlap with the selected dates
-            var bookedRoomIds = GetBookedRoomIds(checkIn, checkOut);
+            var bookedRoomIds = bllBookingRoom.GetBookedRoomIds(checkIn, checkOut);
             
             // Create a container panel with full width for the count text
             Panel countPanel = new Panel
@@ -231,27 +231,6 @@ namespace HotelSystem.View.CustomerForm
             }
         }
         
-        private HashSet<int> GetBookedRoomIds(DateTime checkIn, DateTime checkOut)
-        {
-            HashSet<int> bookedRoomIds = new HashSet<int>();
-            
-            using (var db = new DBHotelSystem())
-            {
-                // Find all bookings that overlap with the selected date range
-                var overlappingBookings = db.Bookings
-                    .Where(b => (b.check_in < checkOut && b.check_out > checkIn) && 
-                               (b.status == "Booked" || b.status == "Checked In"))
-                    .ToList();
-                
-                foreach (var booking in overlappingBookings)
-                {
-                    bookedRoomIds.Add(booking.room_id);
-                }
-            }
-            
-            return bookedRoomIds;
-        }
-
         private void btnClose_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Bạn có muốn thoát không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

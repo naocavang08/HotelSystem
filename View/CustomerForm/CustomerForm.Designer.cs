@@ -32,6 +32,7 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnHide = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.pnVertical = new System.Windows.Forms.Panel();
             this.lblBookingRoomInfo = new System.Windows.Forms.Label();
             this.picBookingRoomInfo = new System.Windows.Forms.PictureBox();
             this.lblInvoice = new System.Windows.Forms.Label();
@@ -50,6 +51,8 @@
             this.dtpCheckin = new System.Windows.Forms.DateTimePicker();
             this.dtpCheckout = new System.Windows.Forms.DateTimePicker();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.pnHorizontal = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBookingRoomInfo)).BeginInit();
@@ -68,7 +71,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1500, 40);
+            this.panel1.Size = new System.Drawing.Size(1400, 40);
             this.panel1.TabIndex = 0;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             // 
@@ -78,7 +81,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(1463, 3);
+            this.btnClose.Location = new System.Drawing.Point(1363, 3);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(30, 30);
             this.btnClose.TabIndex = 5;
@@ -92,7 +95,7 @@
             this.btnHide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHide.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHide.ForeColor = System.Drawing.Color.White;
-            this.btnHide.Location = new System.Drawing.Point(1427, 3);
+            this.btnHide.Location = new System.Drawing.Point(1327, 3);
             this.btnHide.Name = "btnHide";
             this.btnHide.Size = new System.Drawing.Size(30, 30);
             this.btnHide.TabIndex = 6;
@@ -103,6 +106,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(76)))), ((int)(((byte)(172)))));
+            this.panel2.Controls.Add(this.pnVertical);
             this.panel2.Controls.Add(this.lblBookingRoomInfo);
             this.panel2.Controls.Add(this.picBookingRoomInfo);
             this.panel2.Controls.Add(this.lblInvoice);
@@ -116,9 +120,17 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 40);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(250, 860);
+            this.panel2.Size = new System.Drawing.Size(240, 860);
             this.panel2.TabIndex = 1;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // pnVertical
+            // 
+            this.pnVertical.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(81)))), ((int)(((byte)(64)))));
+            this.pnVertical.Location = new System.Drawing.Point(236, 0);
+            this.pnVertical.Name = "pnVertical";
+            this.pnVertical.Size = new System.Drawing.Size(4, 860);
+            this.pnVertical.TabIndex = 8;
             // 
             // lblBookingRoomInfo
             // 
@@ -157,9 +169,9 @@
             // 
             this.pnLogout.Controls.Add(this.btnLogout);
             this.pnLogout.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnLogout.Location = new System.Drawing.Point(3, 770);
+            this.pnLogout.Location = new System.Drawing.Point(3, 768);
             this.pnLogout.Name = "pnLogout";
-            this.pnLogout.Size = new System.Drawing.Size(247, 60);
+            this.pnLogout.Size = new System.Drawing.Size(234, 60);
             this.pnLogout.TabIndex = 5;
             // 
             // btnLogout
@@ -260,7 +272,7 @@
             this.flowLayoutPanel.AutoScroll = true;
             this.flowLayoutPanel.Location = new System.Drawing.Point(268, 187);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(1220, 701);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(1100, 647);
             this.flowLayoutPanel.TabIndex = 2;
             // 
             // label1
@@ -318,12 +330,30 @@
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
+            // pnHorizontal
+            // 
+            this.pnHorizontal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(81)))), ((int)(((byte)(64)))));
+            this.pnHorizontal.Location = new System.Drawing.Point(240, 40);
+            this.pnHorizontal.Name = "pnHorizontal";
+            this.pnHorizontal.Size = new System.Drawing.Size(1160, 4);
+            this.pnHorizontal.TabIndex = 8;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(81)))), ((int)(((byte)(64)))));
+            this.panel3.Location = new System.Drawing.Point(240, 874);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1160, 26);
+            this.panel3.TabIndex = 9;
+            // 
             // CustomerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(208)))), ((int)(((byte)(204)))));
-            this.ClientSize = new System.Drawing.Size(1500, 900);
+            this.ClientSize = new System.Drawing.Size(1400, 900);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.pnHorizontal);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.dtpCheckout);
             this.Controls.Add(this.dtpCheckin);
@@ -376,5 +406,8 @@
         private System.Windows.Forms.DateTimePicker dtpCheckin;
         private System.Windows.Forms.DateTimePicker dtpCheckout;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Panel pnVertical;
+        private System.Windows.Forms.Panel pnHorizontal;
+        private System.Windows.Forms.Panel panel3;
     }
 }

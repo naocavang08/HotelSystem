@@ -30,6 +30,22 @@ namespace HotelSystem.DAL
                 return db.Customers.FirstOrDefault(c => c.name == name);
             }
         }
+        
+        // Kiểm tra xem CCCD đã tồn tại trong cơ sở dữ liệu chưa
+        public bool IsCCCDExists(string cccd, int? excludeCustomerId = null)
+        {
+            using (var db = new DBHotelSystem())
+            {
+                if (excludeCustomerId.HasValue)
+                {
+                    return db.Customers.Any(c => c.cccd == cccd && c.customer_id != excludeCustomerId);
+                }
+                else
+                {
+                    return db.Customers.Any(c => c.cccd == cccd);
+                }
+            }
+        }
 
         // Cập nhật thông tin khách hàng
         public void UpdateCustomer(Customer customer)

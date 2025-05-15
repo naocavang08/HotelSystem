@@ -102,13 +102,9 @@
     <Compile Include="DTO\DTO_Invoice.cs" />
     <Compile Include="DTO\DTO_Room.cs" />
     <Compile Include="DTO\UserDTO.cs" />
-    <Compile Include="Migrations\202505131048109_v4.cs" />
-    <Compile Include="Migrations\202505131048109_v4.Designer.cs">
-      <DependentUpon>202505131048109_v4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202505131619004_v5.cs" />
-    <Compile Include="Migrations\202505131619004_v5.Designer.cs">
-      <DependentUpon>202505131619004_v5.cs</DependentUpon>
+    <Compile Include="Migrations\202505150429529_v1.cs" />
+    <Compile Include="Migrations\202505150429529_v1.Designer.cs">
+      <DependentUpon>202505150429529_v1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\BookingRoom.cs" />
@@ -217,11 +213,8 @@
     <Compile Include="View\StaffForm\InvoiceForm.Designer.cs">
       <DependentUpon>InvoiceForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Migrations\202505131048109_v4.resx">
-      <DependentUpon>202505131048109_v4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202505131619004_v5.resx">
-      <DependentUpon>202505131619004_v5.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202505150429529_v1.resx">
+      <DependentUpon>202505150429529_v1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
