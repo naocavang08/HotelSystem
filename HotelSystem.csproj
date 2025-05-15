@@ -106,6 +106,10 @@
     <Compile Include="Migrations\202505150429529_v1.Designer.cs">
       <DependentUpon>202505150429529_v1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505150621109_v3.cs" />
+    <Compile Include="Migrations\202505150621109_v3.Designer.cs">
+      <DependentUpon>202505150621109_v3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\BookingRoom.cs" />
     <Compile Include="Model\BookingService.cs" />
@@ -213,8 +217,17 @@
     <Compile Include="View\StaffForm\InvoiceForm.Designer.cs">
       <DependentUpon>InvoiceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\StaffForm\StaffForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\StaffForm\StaffForm.Designer.cs">
+      <DependentUpon>StaffForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Migrations\202505150429529_v1.resx">
       <DependentUpon>202505150429529_v1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505150621109_v3.resx">
+      <DependentUpon>202505150621109_v3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -270,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\StaffForm\InvoiceForm.resx">
       <DependentUpon>InvoiceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\StaffForm\StaffForm.resx">
+      <DependentUpon>StaffForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -1,6 +1,7 @@
 using HotelSystem.DAL;
 using HotelSystem.DTO;
 using HotelSystem.Model;
+using System;
 using System.Collections.Generic;
 
 namespace HotelSystem.BLL
@@ -85,6 +86,9 @@ namespace HotelSystem.BLL
         // Thêm khách hàng mới
         public void AddCustomer(DTO_Customer dtoCustomer)
         {
+            if (dtoCustomer.UserId <= 0)
+                throw new ArgumentException("Vui lòng tạo tài khoản trước khi thêm khách hàng");
+
             var customer = new Customer
             {
                 name = dtoCustomer.Name,
