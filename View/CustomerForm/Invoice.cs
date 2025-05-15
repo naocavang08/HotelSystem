@@ -20,11 +20,98 @@ namespace HotelSystem.View.CustomerForm
     {
         private List<DTO_BookingService> _bookingServices;
         private List<DTO_BookingRoom> _bookingRooms;
+        private int? _invoiceId;
+
         public Invoice(List<DTO_BookingRoom> bookingRooms, List<DTO_BookingService> bookingServices = null)
         {
             InitializeComponent();
             _bookingRooms = bookingRooms ?? new List<DTO_BookingRoom>();
             _bookingServices = bookingServices;
+        }
+
+        public Invoice(int invoiceId)
+        {
+            InitializeComponent();
+            _invoiceId = invoiceId;
+            _bookingRooms = new List<DTO_BookingRoom>();
+            _bookingServices = new List<DTO_BookingService>();
+            
+            // Load data from the invoice
+            LoadInvoiceData(invoiceId);
+            
+            // Disable checkout button for viewing only
+            btnCheckout.Visible = false;
+            btnCheckout.Enabled = false;
+            
+            // Change the cancel button text to "Close"
+            btnCancel.Text = "Thoát";
+        }
+
+        private void LoadInvoiceData(int invoiceId)
+        {
+            try
+            {
+                using (var db = new DBHotelSystem())
+                {
+                    // Load invoice data
+                    var invoice = db.Invoices
+                        .Include("Bookings.Customer")
+                        .Include("Bookings.Room.RoomType")
+                        .Include("BookingServices.Service")
+                        .FirstOrDefault(i => i.invoice_id == invoiceId);
+
+                    if (invoice == null)
+                    {
+                        MessageBox.Show("Không tìm thấy hóa đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Get customer from the first booking
+                    var customer = invoice.Bookings.FirstOrDefault()?.Customer;
+                    
+                    // Load customer info if available
+                    if (customer != null)
+                    {
+                        lbCusName.Text = customer.name;
+                        lbCusCCCD.Text = customer.cccd;
+                        lbCusPhone.Text = customer.phone;
+                    }
+
+                    // Load booking rooms
+                    foreach (var booking in invoice.Bookings)
+                    {
+                        _bookingRooms.Add(new DTO_BookingRoom
+                        {
+                            BookingId = booking.booking_id,
+                            RoomId = booking.room_id,
+                            CustomerId = booking.customer_id,
+                            CheckIn = booking.check_in,
+                            CheckOut = booking.check_out,
+                            Status = booking.status,
+                            TotalPrice = booking.total_price
+                        });
+                    }
+
+                    // Load booking services
+                    foreach (var bookingService in invoice.BookingServices)
+                    {
+                        _bookingServices.Add(new DTO_BookingService
+                        {
+                            Booking_service_id = bookingService.booking_service_id,
+                            Service_id = bookingService.service_id,
+                            CustomerId = bookingService.customer_id,
+                            Quantity = bookingService.quantity,
+                            Service_date = bookingService.service_date,
+                            TotalPrice = bookingService.total_price,
+                            Status = bookingService.status
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải dữ liệu hóa đơn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCheckout_Click(object sender, EventArgs e)
@@ -135,8 +222,11 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            CustomerForm customerForm = new CustomerForm();
-            customerForm.Show();
+            if (_invoiceId == null) // Opened from CustomerForm
+            {
+                CustomerForm customerForm = new CustomerForm();
+                customerForm.Show();
+            }
 
             this.Close();
         }

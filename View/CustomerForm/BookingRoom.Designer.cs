@@ -45,6 +45,8 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtRoomNumber = new System.Windows.Forms.TextBox();
+            this.lblDuration = new System.Windows.Forms.Label();
+            this.lblTotalPrice = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -236,6 +238,27 @@
             this.txtRoomNumber.Size = new System.Drawing.Size(333, 34);
             this.txtRoomNumber.TabIndex = 18;
             // 
+            // lblDuration
+            // 
+            this.lblDuration = new System.Windows.Forms.Label();
+            this.lblDuration.AutoSize = true;
+            this.lblDuration.Location = new System.Drawing.Point(350, 40);
+            this.lblDuration.Name = "lblDuration";
+            this.lblDuration.Size = new System.Drawing.Size(121, 13);
+            this.lblDuration.TabIndex = 20;
+            this.lblDuration.Text = "Thời gian ở: 0 ngày";
+            // 
+            // lblTotalPrice
+            // 
+            this.lblTotalPrice = new System.Windows.Forms.Label();
+            this.lblTotalPrice.AutoSize = true;
+            this.lblTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalPrice.Location = new System.Drawing.Point(350, 70);
+            this.lblTotalPrice.Name = "lblTotalPrice";
+            this.lblTotalPrice.Size = new System.Drawing.Size(121, 13);
+            this.lblTotalPrice.TabIndex = 21;
+            this.lblTotalPrice.Text = "Tổng tiền: 0";
+            // 
             // BookingRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -244,6 +267,8 @@
             this.ClientSize = new System.Drawing.Size(950, 710);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.lblDuration);
+            this.Controls.Add(this.lblTotalPrice);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "BookingRoom";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -274,5 +299,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.TextBox txtRoomNumber;
+        private System.Windows.Forms.Label lblDuration;
+        private System.Windows.Forms.Label lblTotalPrice;
     }
 }

@@ -6,6 +6,14 @@ namespace HotelSystem.DAL
 {
     public class DAL_TTKH
     {
+        // Lấy danh sách tất cả khách hàng
+        public List<Customer> GetAllCustomers()
+        {
+            using (var db = new DBHotelSystem())
+            {
+                return db.Customers.ToList();
+            }
+        }
         // Lấy thông tin khách hàng theo UserId
         public Customer GetCustomerByUserId(int userId)
         {

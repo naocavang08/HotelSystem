@@ -21,13 +21,27 @@ namespace HotelSystem.View.CustomerForm
         private int? _bookingId;
         private int? _customerId;
         private bool _isEditMode = false;
+        private DateTime _checkInDate;
+        private DateTime _checkOutDate;
         
-        // Constructor mặc định cho đặt phòng mới
+        // Constructor mặc định cho đặt phòng mới (được gọi từ code cũ)
         public BookingRoom(string roomNumber)
         {
             InitializeComponent();
             _roomNumber = roomNumber;
             _isEditMode = false;
+            _checkInDate = DateTime.Today;
+            _checkOutDate = DateTime.Today.AddDays(1);
+        }
+        
+        // Constructor mới với ngày check-in và check-out
+        public BookingRoom(string roomNumber, DateTime checkIn, DateTime checkOut)
+        {
+            InitializeComponent();
+            _roomNumber = roomNumber;
+            _isEditMode = false;
+            _checkInDate = checkIn;
+            _checkOutDate = checkOut;
         }
         
         // Constructor mới cho chỉnh sửa đặt phòng
@@ -52,12 +66,15 @@ namespace HotelSystem.View.CustomerForm
             else
             {
                 // Chế độ thêm mới - Khởi tạo giá trị mặc định
-                dtpCheck_in.Value = DateTime.Today;
-                dtpCheck_out.Value = DateTime.Today.AddDays(1);
+                dtpCheck_in.Value = _checkInDate;
+                dtpCheck_out.Value = _checkOutDate;
                 txtRoomNumber.Text = _roomNumber;
                 
                 // Tải thông tin khách hàng từ UserId hiện tại
                 LoadCustomerData(UserSession.UserId);
+                
+                // Hiển thị thời gian ở phòng và tổng tiền
+                UpdateTotalPrice();
             }
         }
         
@@ -82,9 +99,14 @@ namespace HotelSystem.View.CustomerForm
                         // Đặt ngày nhận và trả phòng
                         dtpCheck_in.Value = booking.check_in;
                         dtpCheck_out.Value = booking.check_out;
+                        _checkInDate = booking.check_in;
+                        _checkOutDate = booking.check_out;
                         
                         // Tải thông tin khách hàng
                         LoadCustomerData(booking.customer_id);
+                        
+                        // Hiển thị thời gian ở phòng và tổng tiền
+                        UpdateTotalPrice();
                     }
                     else
                     {
@@ -114,12 +136,57 @@ namespace HotelSystem.View.CustomerForm
 
         private void dtpCheck_in_ValueChanged(object sender, EventArgs e)
         {
-            string checkInDate = dtpCheck_in.Value.ToString("yyyy-MM-dd");
+            _checkInDate = dtpCheck_in.Value;
+            
+            // Ensure check-out date is after check-in date
+            if (_checkInDate >= dtpCheck_out.Value)
+            {
+                dtpCheck_out.Value = _checkInDate.AddDays(1);
+            }
+            
+            UpdateTotalPrice();
         }
 
         private void dtpCheck_out_ValueChanged(object sender, EventArgs e)
         {
-            string checkOutDate = dtpCheck_out.Value.ToString("yyyy-MM-dd");
+            _checkOutDate = dtpCheck_out.Value;
+            UpdateTotalPrice();
+        }
+        
+        private void UpdateTotalPrice()
+        {
+            try
+            {
+                // Calculate the number of days
+                TimeSpan duration = _checkOutDate - _checkInDate;
+                int days = (int)duration.TotalDays;
+                
+                if (days <= 0)
+                {
+                    // Handle invalid date range
+                    lblDuration.Text = "Thời gian ở: N/A";
+                    lblTotalPrice.Text = "Tổng tiền: N/A";
+                    return;
+                }
+                
+                // Get room price
+                var bllRoom = new BLL_Room();
+                var rooms = bllRoom.GetAllRooms();
+                var selectedRoom = rooms.FirstOrDefault(r => r.RoomName == _roomNumber);
+                
+                if (selectedRoom != null)
+                {
+                    decimal totalPrice = selectedRoom.Price * days;
+                    
+                    // Display duration and total price
+                    lblDuration.Text = $"Thời gian ở: {days} ngày";
+                    lblTotalPrice.Text = $"Tổng tiền: {totalPrice:C}";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính tổng tiền: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
@@ -184,6 +251,14 @@ namespace HotelSystem.View.CustomerForm
             }
             else
             {
+                // Check if the room is available for the selected dates
+                if (!IsRoomAvailable(selectedRoom.RoomId, checkIn, checkOut))
+                {
+                    MessageBox.Show("Phòng này đã được đặt trong khoảng thời gian bạn chọn!", 
+                        "Phòng không khả dụng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
                 // Tạo đặt phòng mới
                 var dtobooking = new DTO_BookingRoom
                 {
@@ -204,15 +279,31 @@ namespace HotelSystem.View.CustomerForm
                 MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             
-            CustomerForm op = new CustomerForm();
-            op.Show();
+            // Quay về CustomerForm với các ngày đã chọn
+            CustomerForm customerForm = new CustomerForm();
+            customerForm.LoadAvailableRooms(checkIn, checkOut);
+            customerForm.Show();
             this.Close();
+        }
+        
+        private bool IsRoomAvailable(int roomId, DateTime checkIn, DateTime checkOut)
+        {
+            using (var db = new DBHotelSystem())
+            {
+                // Check if there are any bookings for this room that overlap with the selected dates
+                return !db.Bookings.Any(b => 
+                    b.room_id == roomId && 
+                    b.status != "Checked Out" && 
+                    b.check_in < checkOut && 
+                    b.check_out > checkIn);
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
             CustomerForm op = new CustomerForm();
+            op.LoadAvailableRooms(_checkInDate, _checkOutDate);
             op.Show();
         }
     }

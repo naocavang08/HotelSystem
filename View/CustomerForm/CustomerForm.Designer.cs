@@ -33,22 +33,27 @@
             this.btnHide = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblBookingRoomInfo = new System.Windows.Forms.Label();
+            this.picBookingRoomInfo = new System.Windows.Forms.PictureBox();
             this.lblInvoice = new System.Windows.Forms.Label();
             this.pnLogout = new System.Windows.Forms.Panel();
-            this.lblBookService = new System.Windows.Forms.Label();
-            this.lblCusInfo = new System.Windows.Forms.Label();
-            this.lblWelcome = new System.Windows.Forms.Label();
-            this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.picBookingRoomInfo = new System.Windows.Forms.PictureBox();
             this.btnLogout = new System.Windows.Forms.Button();
             this.picInvoice = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblBookService = new System.Windows.Forms.Label();
             this.picCusInfo = new System.Windows.Forms.PictureBox();
+            this.lblCusInfo = new System.Windows.Forms.Label();
             this.picBookService = new System.Windows.Forms.PictureBox();
+            this.lblWelcome = new System.Windows.Forms.Label();
+            this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dtpCheckin = new System.Windows.Forms.DateTimePicker();
+            this.dtpCheckout = new System.Windows.Forms.DateTimePicker();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.pnLogout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBookingRoomInfo)).BeginInit();
+            this.pnLogout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picInvoice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picCusInfo)).BeginInit();
@@ -126,6 +131,17 @@
             this.lblBookingRoomInfo.Text = "Thông tin đặt phòng";
             this.lblBookingRoomInfo.Click += new System.EventHandler(this.lblDelRoom_Click);
             // 
+            // picBookingRoomInfo
+            // 
+            this.picBookingRoomInfo.Image = global::HotelSystem.Properties.Resources.icons8_room_64;
+            this.picBookingRoomInfo.Location = new System.Drawing.Point(95, 611);
+            this.picBookingRoomInfo.Name = "picBookingRoomInfo";
+            this.picBookingRoomInfo.Size = new System.Drawing.Size(60, 60);
+            this.picBookingRoomInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBookingRoomInfo.TabIndex = 10;
+            this.picBookingRoomInfo.TabStop = false;
+            this.picBookingRoomInfo.Click += new System.EventHandler(this.picDelRoom_Click);
+            // 
             // lblInvoice
             // 
             this.lblInvoice.AutoSize = true;
@@ -145,58 +161,6 @@
             this.pnLogout.Name = "pnLogout";
             this.pnLogout.Size = new System.Drawing.Size(247, 60);
             this.pnLogout.TabIndex = 5;
-            // 
-            // lblBookService
-            // 
-            this.lblBookService.AutoSize = true;
-            this.lblBookService.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBookService.Location = new System.Drawing.Point(65, 391);
-            this.lblBookService.Name = "lblBookService";
-            this.lblBookService.Size = new System.Drawing.Size(121, 28);
-            this.lblBookService.TabIndex = 7;
-            this.lblBookService.Text = "Đặt dịch vụ";
-            this.lblBookService.Click += new System.EventHandler(this.lblBookService_Click);
-            // 
-            // lblCusInfo
-            // 
-            this.lblCusInfo.AutoSize = true;
-            this.lblCusInfo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCusInfo.Location = new System.Drawing.Point(12, 256);
-            this.lblCusInfo.Name = "lblCusInfo";
-            this.lblCusInfo.Size = new System.Drawing.Size(219, 28);
-            this.lblCusInfo.TabIndex = 5;
-            this.lblCusInfo.Text = "Thông tin khách hàng";
-            this.lblCusInfo.Click += new System.EventHandler(this.lblCusInfo_Click);
-            // 
-            // lblWelcome
-            // 
-            this.lblWelcome.AutoSize = true;
-            this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcome.Location = new System.Drawing.Point(259, 52);
-            this.lblWelcome.Name = "lblWelcome";
-            this.lblWelcome.Size = new System.Drawing.Size(196, 50);
-            this.lblWelcome.TabIndex = 1;
-            this.lblWelcome.Text = "Welcome!";
-            this.lblWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // flowLayoutPanel
-            // 
-            this.flowLayoutPanel.AutoScroll = true;
-            this.flowLayoutPanel.Location = new System.Drawing.Point(268, 105);
-            this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(1220, 783);
-            this.flowLayoutPanel.TabIndex = 2;
-            // 
-            // picBookingRoomInfo
-            // 
-            this.picBookingRoomInfo.Image = global::HotelSystem.Properties.Resources.icons8_room_64;
-            this.picBookingRoomInfo.Location = new System.Drawing.Point(95, 611);
-            this.picBookingRoomInfo.Name = "picBookingRoomInfo";
-            this.picBookingRoomInfo.Size = new System.Drawing.Size(60, 60);
-            this.picBookingRoomInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBookingRoomInfo.TabIndex = 10;
-            this.picBookingRoomInfo.TabStop = false;
-            this.picBookingRoomInfo.Click += new System.EventHandler(this.picDelRoom_Click);
             // 
             // btnLogout
             // 
@@ -236,6 +200,17 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // lblBookService
+            // 
+            this.lblBookService.AutoSize = true;
+            this.lblBookService.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBookService.Location = new System.Drawing.Point(65, 391);
+            this.lblBookService.Name = "lblBookService";
+            this.lblBookService.Size = new System.Drawing.Size(121, 28);
+            this.lblBookService.TabIndex = 7;
+            this.lblBookService.Text = "Đặt dịch vụ";
+            this.lblBookService.Click += new System.EventHandler(this.lblBookService_Click);
+            // 
             // picCusInfo
             // 
             this.picCusInfo.Image = global::HotelSystem.Properties.Resources.customers_icon_3;
@@ -246,6 +221,17 @@
             this.picCusInfo.TabIndex = 2;
             this.picCusInfo.TabStop = false;
             this.picCusInfo.Click += new System.EventHandler(this.picCusInfo_Click);
+            // 
+            // lblCusInfo
+            // 
+            this.lblCusInfo.AutoSize = true;
+            this.lblCusInfo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCusInfo.Location = new System.Drawing.Point(12, 256);
+            this.lblCusInfo.Name = "lblCusInfo";
+            this.lblCusInfo.Size = new System.Drawing.Size(219, 28);
+            this.lblCusInfo.TabIndex = 5;
+            this.lblCusInfo.Text = "Thông tin khách hàng";
+            this.lblCusInfo.Click += new System.EventHandler(this.lblCusInfo_Click);
             // 
             // picBookService
             // 
@@ -258,12 +244,91 @@
             this.picBookService.TabStop = false;
             this.picBookService.Click += new System.EventHandler(this.picBookService_Click);
             // 
+            // lblWelcome
+            // 
+            this.lblWelcome.AutoSize = true;
+            this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWelcome.Location = new System.Drawing.Point(259, 52);
+            this.lblWelcome.Name = "lblWelcome";
+            this.lblWelcome.Size = new System.Drawing.Size(196, 50);
+            this.lblWelcome.TabIndex = 1;
+            this.lblWelcome.Text = "Welcome!";
+            this.lblWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // flowLayoutPanel
+            // 
+            this.flowLayoutPanel.AutoScroll = true;
+            this.flowLayoutPanel.Location = new System.Drawing.Point(268, 187);
+            this.flowLayoutPanel.Name = "flowLayoutPanel";
+            this.flowLayoutPanel.Size = new System.Drawing.Size(1220, 701);
+            this.flowLayoutPanel.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(486, 126);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(99, 28);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Ngày đặt:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(885, 126);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(94, 28);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Ngày trả:";
+            // 
+            // dtpCheckin
+            // 
+            this.dtpCheckin.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpCheckin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpCheckin.Location = new System.Drawing.Point(591, 126);
+            this.dtpCheckin.Name = "dtpCheckin";
+            this.dtpCheckin.Size = new System.Drawing.Size(200, 34);
+            this.dtpCheckin.TabIndex = 5;
+            this.dtpCheckin.ValueChanged += new System.EventHandler(this.DtpCheckIn_ValueChanged);
+            // 
+            // dtpCheckout
+            // 
+            this.dtpCheckout.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpCheckout.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpCheckout.Location = new System.Drawing.Point(985, 126);
+            this.dtpCheckout.Name = "dtpCheckout";
+            this.dtpCheckout.Size = new System.Drawing.Size(200, 34);
+            this.dtpCheckout.TabIndex = 6;
+            this.dtpCheckout.ValueChanged += new System.EventHandler(this.DtpCheckOut_ValueChanged);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(34)))), ((int)(((byte)(217)))));
+            this.btnSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.ForeColor = System.Drawing.Color.White;
+            this.btnSearch.Location = new System.Drawing.Point(268, 125);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(187, 41);
+            this.btnSearch.TabIndex = 7;
+            this.btnSearch.Text = "Tìm kiếm";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
+            // 
             // CustomerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(208)))), ((int)(((byte)(204)))));
             this.ClientSize = new System.Drawing.Size(1500, 900);
+            this.Controls.Add(this.btnSearch);
+            this.Controls.Add(this.dtpCheckout);
+            this.Controls.Add(this.dtpCheckin);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.flowLayoutPanel);
             this.Controls.Add(this.lblWelcome);
             this.Controls.Add(this.panel2);
@@ -276,8 +341,8 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.pnLogout.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picBookingRoomInfo)).EndInit();
+            this.pnLogout.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picInvoice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picCusInfo)).EndInit();
@@ -306,5 +371,10 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.Label lblBookingRoomInfo;
         private System.Windows.Forms.PictureBox picBookingRoomInfo;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DateTimePicker dtpCheckin;
+        private System.Windows.Forms.DateTimePicker dtpCheckout;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
