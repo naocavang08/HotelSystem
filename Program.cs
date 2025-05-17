@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HotelSystem.DAL;
 using HotelSystem.View;
 using HotelSystem.View.AdminForm;
-using HotelSystem.View.CustomerForm;
-
+using HotelSystem.View.StaffForm;
 namespace HotelSystem
 {
     static class Program
@@ -20,12 +18,7 @@ namespace HotelSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             Application.Run(new AdminForm());
-            //Application.Run(new Customer());
-            //Application.Run(new Room());
-            //Application.Run(new Staff());
-            //Application.Run(new Statistic());
         }
     }
 }

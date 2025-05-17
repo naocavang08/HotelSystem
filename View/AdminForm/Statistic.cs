@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using HotelSystem.BLL;
 using HotelSystem.Model;
 
 namespace HotelSystem.View.AdminForm
@@ -20,57 +16,46 @@ namespace HotelSystem.View.AdminForm
         {
             InitializeComponent();
             LoadComboBoxes();
-            cbbLoaiThongKe.SelectedIndex = 0; // Default to monthly statistics
+            cbbLoaiThongKe.SelectedIndex = 0; // Mặc định chọn thống kê theo tháng
         }
 
+        // Tải dữ liệu vào các ComboBox
         private void LoadComboBoxes()
         {
-            // Load months (1-12)
-            for (int i = 1; i <= 12; i++)
-            {
-                cbbThang.Items.Add(i);
-            }
-            cbbThang.SelectedIndex = DateTime.Now.Month - 1; // Current month
+            for (int i = 1; i <= 12; i++) cbbThang.Items.Add(i);
+            cbbThang.SelectedIndex = DateTime.Now.Month - 1;
 
-            // Load quarters (1-4)
-            for (int i = 1; i <= 4; i++)
-            {
-                cbbQuy.Items.Add($"Quý {i}");
-            }
+            for (int i = 1; i <= 4; i++) cbbQuy.Items.Add($"Quý {i}");
             int currentQuarter = (DateTime.Now.Month - 1) / 3 + 1;
             cbbQuy.SelectedIndex = currentQuarter - 1;
 
-            // Load years (current year and 4 previous years)
             int currentYear = DateTime.Now.Year;
-            for (int i = 0; i < 5; i++)
-            {
-                cbbNam.Items.Add(currentYear - i);
-            }
-            cbbNam.SelectedIndex = 0; // Current year
+            for (int i = 0; i < 5; i++) cbbNam.Items.Add(currentYear - i);
+            cbbNam.SelectedIndex = 0;
 
-            // Load statistic types
             cbbLoaiThongKe.Items.Add("Theo tháng");
             cbbLoaiThongKe.Items.Add("Theo quý");
             cbbLoaiThongKe.Items.Add("Theo năm");
         }
 
+        // Xử lý khi thay đổi loại thống kê
         private void cbbLoaiThongKe_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (cbbLoaiThongKe.SelectedIndex)
             {
-                case 0: // Theo tháng
+                case 0:
                     SetPanelState(panelThang, true);
                     SetPanelState(panelQuy, false);
                     SetPanelState(panelNam, false);
                     UpdateThongKeThang();
                     break;
-                case 1: // Theo quý
+                case 1:
                     SetPanelState(panelThang, false);
                     SetPanelState(panelQuy, true);
                     SetPanelState(panelNam, false);
                     UpdateThongKeQuy();
                     break;
-                case 2: // Theo năm
+                case 2:
                     SetPanelState(panelThang, false);
                     SetPanelState(panelQuy, false);
                     SetPanelState(panelNam, true);
@@ -79,16 +64,13 @@ namespace HotelSystem.View.AdminForm
             }
         }
 
+        // Bật hoặc tắt trạng thái của các panel
         private void SetPanelState(Panel panel, bool enabled)
         {
             panel.Enabled = enabled;
             panel.BackColor = enabled ? SystemColors.Control : Color.FromArgb(173, 194, 236);
-            foreach (Control ctrl in panel.Controls)
-            {
-                ctrl.Enabled = enabled;
-            }
+            foreach (Control ctrl in panel.Controls) ctrl.Enabled = enabled;
         }
-
 
         private void cbbThang_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -108,6 +90,7 @@ namespace HotelSystem.View.AdminForm
                 UpdateThongKeNam();
         }
 
+        // Cập nhật thống kê theo tháng
         private void UpdateThongKeThang()
         {
             try
@@ -115,32 +98,29 @@ namespace HotelSystem.View.AdminForm
                 int selectedMonth = cbbThang.SelectedIndex + 1;
                 int currentYear = DateTime.Now.Year;
 
-                // Get all bookings for selected month in current year
                 var monthlyBookings = db.Bookings
                     .Where(b => b.check_in.Month == selectedMonth && b.check_in.Year == currentYear)
                     .ToList();
 
-                // Get all invoices for selected month in current year
                 var monthlyInvoices = db.Invoices
                     .Where(i => i.payment_date.HasValue &&
                            i.payment_date.Value.Month == selectedMonth &&
                            i.payment_date.Value.Year == currentYear)
                     .ToList();
 
-                // Calculate statistics
                 int totalBookings = monthlyBookings.Count;
                 decimal totalRevenue = monthlyInvoices.Sum(i => i.total_amount);
 
-                // Update UI
                 lblTongHoaDonThang.Text = totalBookings.ToString();
-                lblTongDoanhThuThang.Text = string.Format("{0:#,##0}", totalRevenue) + " VNĐ";
+                lblTongDoanhThuThang.Text = string.Format("{0:#,##0}", totalRevenue) + " VNĐ"; // Hiển thị định dạng tiền Việt
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cập nhật thống kê tháng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi cập nhật thống kê theo tháng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // Cập nhật thống kê theo quý
         private void UpdateThongKeQuy()
         {
             try
@@ -148,18 +128,15 @@ namespace HotelSystem.View.AdminForm
                 int selectedQuarter = cbbQuy.SelectedIndex + 1;
                 int currentYear = DateTime.Now.Year;
 
-                // Calculate start and end months for the selected quarter
                 int startMonth = (selectedQuarter - 1) * 3 + 1;
                 int endMonth = startMonth + 2;
 
-                // Get all bookings for selected quarter in current year
                 var quarterlyBookings = db.Bookings
                     .Where(b => b.check_in.Month >= startMonth &&
                                b.check_in.Month <= endMonth &&
                                b.check_in.Year == currentYear)
                     .ToList();
 
-                // Get all invoices for selected quarter in current year
                 var quarterlyInvoices = db.Invoices
                     .Where(i => i.payment_date.HasValue &&
                                i.payment_date.Value.Month >= startMonth &&
@@ -167,48 +144,43 @@ namespace HotelSystem.View.AdminForm
                                i.payment_date.Value.Year == currentYear)
                     .ToList();
 
-                // Calculate statistics
                 int totalBookings = quarterlyBookings.Count;
                 decimal totalRevenue = quarterlyInvoices.Sum(i => i.total_amount);
 
-                // Update UI
                 lblTongHoaDonQuy.Text = totalBookings.ToString();
                 lblTongDoanhThuQuy.Text = string.Format("{0:#,##0}", totalRevenue) + " VNĐ";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cập nhật thống kê quý: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi cập nhật thống kê theo quý: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // Cập nhật thống kê theo năm
         private void UpdateThongKeNam()
         {
             try
             {
                 int selectedYear = Convert.ToInt32(cbbNam.SelectedItem);
 
-                // Get all bookings for selected year
                 var yearlyBookings = db.Bookings
                     .Where(b => b.check_in.Year == selectedYear)
                     .ToList();
 
-                // Get all invoices for selected year
                 var yearlyInvoices = db.Invoices
                     .Where(i => i.payment_date.HasValue &&
                                i.payment_date.Value.Year == selectedYear)
                     .ToList();
 
-                // Calculate statistics
                 int totalBookings = yearlyBookings.Count;
                 decimal totalRevenue = yearlyInvoices.Sum(i => i.total_amount);
 
-                // Update UI
                 lblTongHoaDonNam.Text = totalBookings.ToString();
                 lblTongDoanhThuNam.Text = string.Format("{0:#,##0}", totalRevenue) + " VNĐ";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cập nhật thống kê năm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi cập nhật thống kê theo năm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

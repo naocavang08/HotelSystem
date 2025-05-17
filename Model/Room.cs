@@ -14,7 +14,7 @@ namespace HotelSystem.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Room()
         {
-            this.Bookings = new HashSet<Booking>();
+            this.Bookings = new HashSet<BookingRoom>();
             this.RoomHistories = new HashSet<RoomHistory>();
         }
         [Key]
@@ -23,13 +23,13 @@ namespace HotelSystem.Model
         [Required]
         public string room_number { get; set; }
         [Required]
-        public string status { get; set; }
+        public string status { get; set; } // available, booked
         [Required]
         [ForeignKey("RoomType")]
         public int roomtype_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<BookingRoom> Bookings { get; set; }
         public virtual RoomType RoomType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RoomHistory> RoomHistories { get; set; }

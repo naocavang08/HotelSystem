@@ -11,7 +11,6 @@ using System.Data.SqlClient;
 using System.Configuration;
 using HotelSystem.Model;
 
-
 namespace HotelSystem.View.AdminForm
 {
     public partial class Room : Form
@@ -28,32 +27,29 @@ namespace HotelSystem.View.AdminForm
         {
             try
             {
-                // Validate input fields
+                // kiem tra du lieu dau vao
                 if (string.IsNullOrEmpty(txbRoomNumber.Text) ||
                     cbbRoomType.SelectedValue == null)
                 {
-                    MessageBox.Show("Please fill in all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Vui lòng điền đầy đủ thông tin", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Parse room number
                 if (!int.TryParse(txbRoomNumber.Text, out int roomNumber))
                 {
-                    MessageBox.Show("Room number must be a valid integer", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Số phòng phải là số nguyên hợp lệ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Get room type ID from the selected value of the combo box
                 int roomTypeId = Convert.ToInt32(cbbRoomType.SelectedValue);
 
-                // Add room to database using Entity Framework
                 using (var db = new DBHotelSystem())
                 {
-                    // Kiểm tra xem số phòng đã tồn tại chưa
+                    // kiem tra so phong da ton tai chua
                     bool isExists = db.Rooms.Any(r => r.room_number == roomNumber.ToString());
                     if (isExists)
                     {
-                        MessageBox.Show("Room number already exists in the system.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Số phòng đã tồn tại trong hệ thống.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
@@ -68,17 +64,14 @@ namespace HotelSystem.View.AdminForm
                     db.SaveChanges();
                 }
 
-                MessageBox.Show("Room added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Thêm phòng thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Clear input fields
                 ClearFields();
-
-                // Refresh the data grid
                 LoadRoomData();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding room: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi thêm phòng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -86,74 +79,65 @@ namespace HotelSystem.View.AdminForm
         {
             try
             {
-                // Check if a row is selected in the data grid
+                // kiem tra da chon dong tren bang chua
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
-                    MessageBox.Show("Please select a room to update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Vui lòng chọn phòng để cập nhật", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Validate input fields
+                // kiem tra du lieu dau vao
                 if (string.IsNullOrEmpty(txbRoomNumber.Text) ||
                     cbbRoomType.SelectedValue == null)
                 {
-                    MessageBox.Show("Please fill in all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Vui lòng điền đầy đủ thông tin", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Parse room number
                 if (!int.TryParse(txbRoomNumber.Text, out int roomNumber))
                 {
-                    MessageBox.Show("Room number must be a valid integer", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Số phòng phải là số nguyên hợp lệ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Get room ID from the selected row
                 int roomId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["room_id"].Value);
-
-                // Get room type ID from the selected value of the combo box
                 int roomTypeId = Convert.ToInt32(cbbRoomType.SelectedValue);
 
-                // Update room in database using Entity Framework
                 using (var db = new DBHotelSystem())
                 {
-                    // Kiểm tra số phòng đã tồn tại (trừ chính phòng đang sửa)
+                    // kiem tra so phong da ton tai (tru phong dang sua)
                     bool isExists = db.Rooms.Any(r => r.room_number == roomNumber.ToString() && r.room_id != roomId);
                     if (isExists)
                     {
-                        MessageBox.Show("Room number already exists in the system.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Số phòng đã tồn tại trong hệ thống.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // Find the room to update
                     var room = db.Rooms.FirstOrDefault(r => r.room_id == roomId);
 
                     if (room != null)
                     {
-                        // Update room properties
+                        // cap nhat thong tin phong
                         room.room_number = roomNumber.ToString();
                         room.roomtype_id = roomTypeId;
+                        room.status = txbStatus.Text.Trim();
 
-                        // Save changes to database
                         db.SaveChanges();
 
-                        MessageBox.Show("Room updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Cập nhật phòng thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Clear input fields
                         ClearFields();
-
-                        // Refresh the data grid
                         LoadRoomData();
                     }
                     else
                     {
-                        MessageBox.Show("Room not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Không tìm thấy phòng", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating room: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi cập nhật phòng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -161,54 +145,44 @@ namespace HotelSystem.View.AdminForm
         {
             try
             {
-                // Check if a row is selected in the data grid
+                // kiem tra da chon dong tren bang chua
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
-                    MessageBox.Show("Please select a room to delete", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Vui lòng chọn phòng để xóa", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Confirm deletion
-                DialogResult result = MessageBox.Show("Are you sure you want to delete this room?",
-                    "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa phòng này không?",
+                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
-                    // Get room ID from the selected row
                     int roomId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["room_id"].Value);
 
-                    // Delete room from database using Entity Framework
                     using (var db = new DBHotelSystem())
                     {
-                        // Find the room to delete
                         var room = db.Rooms.FirstOrDefault(r => r.room_id == roomId);
 
                         if (room != null)
                         {
-                            // Remove room from database
                             db.Rooms.Remove(room);
-
-                            // Save changes to database
                             db.SaveChanges();
 
-                            MessageBox.Show("Room deleted successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Xóa phòng thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            // Clear input fields
                             ClearFields();
-
-                            // Refresh the data grid
                             LoadRoomData();
                         }
                         else
                         {
-                            MessageBox.Show("Room not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Không tìm thấy phòng", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error deleting room: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi xóa phòng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -228,7 +202,7 @@ namespace HotelSystem.View.AdminForm
                         baseQuery = baseQuery.Where(r => r.room_number.Contains(roomNumber));
                     }
 
-                    // Chỉ lọc theo loại phòng nếu không phải "Tất cả" (tức roomtype_id != 0)
+                    // chi loc theo loai phong neu khac "Tat ca"
                     if (roomTypeId.HasValue && roomTypeId.Value != 0)
                     {
                         baseQuery = baseQuery.Where(r => r.roomtype_id == roomTypeId.Value);
@@ -250,14 +224,14 @@ namespace HotelSystem.View.AdminForm
 
                     if (results.Count == 0)
                     {
-                        MessageBox.Show("No rooms found matching the search criteria", "Search Results",
+                        MessageBox.Show("Không tìm thấy phòng nào khớp với tiêu chí tìm kiếm", "Kết quả tìm kiếm",
                                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error searching rooms: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi tìm kiếm phòng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -274,7 +248,7 @@ namespace HotelSystem.View.AdminForm
                 {
                     var roomTypes = db.RoomTypes.ToList();
 
-                    // Thêm mục "Tất cả" vào đầu danh sách
+                    // them muc "Tat ca" vao dau danh sach
                     roomTypes.Insert(0, new RoomType
                     {
                         roomtype_id = 0,
@@ -288,7 +262,7 @@ namespace HotelSystem.View.AdminForm
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading room types: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi tải loại phòng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -297,6 +271,7 @@ namespace HotelSystem.View.AdminForm
             txbRoomNumber.Text = string.Empty;
             cbbRoomType.Text = string.Empty;
             txbRoomPrice.Text = string.Empty;
+            txbStatus.Text = string.Empty;
             txbRoomNumber.Focus();
         }
 
@@ -323,7 +298,7 @@ namespace HotelSystem.View.AdminForm
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading room data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi tải dữ liệu phòng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -333,14 +308,15 @@ namespace HotelSystem.View.AdminForm
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            // lay du lieu tu dong duoc chon tren bang va hien thi len cac o nhap lieu
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
-                // Lấy giá trị từ các cột và gán vào các control nhập liệu
                 txbRoomNumber.Text = row.Cells["room_number"].Value?.ToString() ?? string.Empty;
                 cbbRoomType.Text = row.Cells["room_type"].Value?.ToString() ?? string.Empty;
                 txbRoomPrice.Text = row.Cells["price"].Value?.ToString() ?? string.Empty;
+                txbStatus.Text = row.Cells["status"].Value?.ToString() ?? string.Empty;
             }
         }
     }

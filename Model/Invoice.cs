@@ -10,15 +10,16 @@ namespace HotelSystem.Model
 {
     public class Invoice
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Invoice()
+        {
+            this.Bookings = new HashSet<BookingRoom>();
+            this.BookingServices = new HashSet<BookingService>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int invoice_id { get; set; }
-        [Required]
-        [ForeignKey("Booking")]
-        public int booking_id { get; set; }
-        [Required]
-        [ForeignKey("BookingService")]
-        public int booking_service_id { get; set; }
         [Required]
         public decimal total_amount { get; set; }
         [Required]
@@ -26,7 +27,9 @@ namespace HotelSystem.Model
         public string payment_status { get; set; }
         public Nullable<System.DateTime> payment_date { get; set; }
 
-        public virtual Booking Booking { get; set; }
-        public virtual BookingService BookingService { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BookingRoom> Bookings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BookingService> BookingServices { get; set; }
     }
 }

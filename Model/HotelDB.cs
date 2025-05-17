@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace HotelSystem.Model
 {
-    public class HotelDB : CreateDatabaseIfNotExists<DBHotelSystem> 
+    public class HotelDB : CreateDatabaseIfNotExists<DBHotelSystem>
     {
-        protected override void Seed (DBHotelSystem db)
+        protected override void Seed(DBHotelSystem db)
         {
+            // Thêm dữ liệu cơ bản nếu chưa có
             if (!db.Users.Any(u => u.username == "admin"))
             {
-                db.Users.Add(new User {
-                    username = "admin", 
-                    password = "admin", 
+                db.Users.Add(new User
+                {
+                    username = "admin",
+                    password = "admin",
                     role = "Admin",
                     status = "Active",
                     date_register = DateTime.Now

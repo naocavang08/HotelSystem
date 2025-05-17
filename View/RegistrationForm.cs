@@ -13,9 +13,13 @@ namespace HotelSystem.View
 {
     public partial class RegistrationForm: Form
     {
+        public bool RegistrationSuccessful { get; private set; }
+        public int NewUserId { get; private set; }
         public RegistrationForm()
         {
             InitializeComponent();
+            RegistrationSuccessful = false;
+            NewUserId = 0;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -42,37 +46,40 @@ namespace HotelSystem.View
                 var existingUser = db.Users.FirstOrDefault(u => u.username == username);
                 if (existingUser != null)
                 {
-                    MessageBox.Show("Username already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Tên đăng nhập đã tồn tại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                else if (txtUsername.Text == "" || txtPassword.Text == "")
+                else if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 {
-                    MessageBox.Show("Please fill all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Vui lòng điền đầy đủ thông tin", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (txtPassword.Text != txtConfirm.Text)
+                else if (password != confirmPassword)
                 {
-                    MessageBox.Show("Passwords do not match", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Mật khẩu xác nhận không khớp", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (txtPassword.Text.Length < 6)
+                else if (password.Length < 6)
                 {
-                    MessageBox.Show("Password must be at least 6 characters long", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Mật khẩu phải có ít nhất 6 ký tự", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    db.Users.Add(new User
+                    var newUser = new User
                     {
                         username = username,
                         password = password,
                         role = "customer",
                         status = "active",
                         date_register = DateTime.Now
-                    });
+                    };
+
+                    db.Users.Add(newUser);
                     db.SaveChanges();
-                    MessageBox.Show("Registration successful", "information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
-                    LoginForm op = new LoginForm();
-                    op.Show();
-                    this.Hide();
+
+                    NewUserId = newUser.id;
+                    RegistrationSuccessful = true;
+
+                    MessageBox.Show("Đăng ký tài khoản thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
                 }
             }
         }

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +14,16 @@ namespace HotelSystem.View.AdminForm
 {
     public partial class AdminForm: Form
     {
+        // Dùng để gọi hàm API từ Windows
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+        // Các hằng số
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HTCAPTION = 0x2;
         public AdminForm()
         {
             InitializeComponent();
@@ -21,7 +32,12 @@ namespace HotelSystem.View.AdminForm
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            DialogResult result = MessageBox.Show("Bạn có muốn thoát không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                UserSession.Clear();
+                Application.Exit();
+            }
         }
         private void btnHide_Click(object sender, EventArgs e)
         {
@@ -30,14 +46,18 @@ namespace HotelSystem.View.AdminForm
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            UserSession.Clear();
-            LoginForm op = new LoginForm();
-            op.Show();
-            this.Hide();
+            DialogResult result = MessageBox.Show("Bạn có muốn đăng xuất không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                UserSession.Clear();
+                this.Close();
+                LoginForm op = new LoginForm();
+                op.Show();
+            }
         }
 
         Statistic statistic;
-        Customer customer;
+        Service service;
         Room room;
         Staff staff;
         private void btnStatistic_Click(object sender, EventArgs e)
@@ -61,25 +81,9 @@ namespace HotelSystem.View.AdminForm
             statistic = null;
         }
 
-        private void btnCustomer_Click(object sender, EventArgs e)
+        private void Service_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (customer == null)
-            {
-                customer = new Customer();
-                customer.FormClosed += Customer_FormClosed;
-                customer.MdiParent = this;
-                customer.Dock = DockStyle.Fill;
-                customer.Show();
-            }
-            else
-            {
-                customer.Activate();
-            }
-        }
-
-        private void Customer_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            customer = null;
+            service = null;
         }
 
         private void btnStaff_Click(object sender, EventArgs e)
@@ -124,23 +128,28 @@ namespace HotelSystem.View.AdminForm
             room = null;
         }
 
-        private void AdminForm_Load(object sender, EventArgs e)
+        private void btnService_Click(object sender, EventArgs e)
         {
-            // Kiểm tra xem form Statistic đã được tạo chưa
-            if (statistic == null)
+            if (service == null)
             {
-                // Tạo một instance của form Statistic
-                statistic = new Statistic();
-                statistic.FormClosed += Statistic_FormClosed;
-                statistic.MdiParent = this;
-                statistic.Dock = DockStyle.Fill;
-                statistic.Show();
+                service = new Service();
+                service.FormClosed += Service_FormClosed;
+                service.MdiParent = this;
+                service.Dock = DockStyle.Fill;
+                service.Show();
             }
             else
             {
-                // Nếu đã tồn tại, chỉ cần kích hoạt nó (nếu cần)
-                statistic.Activate();
+                service.Activate();
             }
+        }
+
+        private void flowLayoutPanel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            
+            // Gửi thông điệp để giả lập việc kéo thanh tiêu đề
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
         }
     }
 }

@@ -7,12 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HotelSystem.View.AdminForm;
 using System.Drawing.Text;
 using HotelSystem.BLL;
 using HotelSystem.DTO;
 using HotelSystem.Session;
-using HotelSystem.Model;
 
 namespace HotelSystem.View
 {
@@ -32,7 +30,7 @@ namespace HotelSystem.View
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -49,27 +47,23 @@ namespace HotelSystem.View
                 UserSession.Role = user.Role;
 
                 if (user.Role == "admin")
-                    {
-                        AdminForm.AdminForm op = new AdminForm.AdminForm();
-                        op.Show();
-                    }
-                else if (user.Role == "customer")
-                    {
-                        CustomerForm.BookingRoom op = new CustomerForm.BookingRoom();
-                        op.Show();
-                    }
-                else if (user.Role == "staff")
-                    {
-                        //UserForm op = new UserForm();
-                        //op.Show();
-                    }
-                    this.Hide();
-                    }
-                else
                 {
-                    MessageBox.Show("Invalid username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    AdminForm.AdminForm op = new AdminForm.AdminForm();
+                    op.Show();
                 }
+                else if (user.Role == "staff")
+                {
+                    StaffForm.CustomerForm op = new StaffForm.CustomerForm();
+                    op.Show();
+                }
+                
+                this.Hide();
             }
+            else
+            {
+                MessageBox.Show("Invalid username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void lblSignup_Click(object sender, EventArgs e)
         {
@@ -77,46 +71,6 @@ namespace HotelSystem.View
             op.Show();
 
             this.Hide();
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void txtUsername_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

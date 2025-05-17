@@ -19,6 +19,7 @@ namespace HotelSystem.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int employee_id { get; set; }
         [Required]
+        [Column(TypeName = "nvarchar")]
         [StringLength(100)]
         public string name { get; set; }
         [Required]
@@ -29,7 +30,9 @@ namespace HotelSystem.Model
         public string cccd { get; set; }
         [Column(TypeName = "bit")]
         public Nullable<bool> gender { get; set; }
+
         [Required]
+        [Column(TypeName = "nvarchar")]
         [StringLength(50)]
         public string position { get; set; }
         [Required]
