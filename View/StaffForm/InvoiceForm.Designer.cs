@@ -37,6 +37,7 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnReload = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,6 +55,7 @@
             this.dgvInvoices.RowTemplate.Height = 28;
             this.dgvInvoices.Size = new System.Drawing.Size(840, 304);
             this.dgvInvoices.TabIndex = 0;
+            this.dgvInvoices.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvInvoices_CellDoubleClick);
             this.dgvInvoices.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInvoices_CellContentClick);
             // 
             // txtSearch
@@ -116,13 +118,25 @@
             // 
             this.btnReload.BackColor = System.Drawing.Color.NavajoWhite;
             this.btnReload.Location = new System.Drawing.Point(643, 128);
-            this.btnReload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnReload.Margin = new System.Windows.Forms.Padding(4);
             this.btnReload.Name = "btnReload";
             this.btnReload.Size = new System.Drawing.Size(153, 55);
             this.btnReload.TabIndex = 7;
             this.btnReload.Text = "Tải lại";
             this.btnReload.UseVisualStyleBackColor = false;
             this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.NavajoWhite;
+            this.btnBack.Location = new System.Drawing.Point(12, 4);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(76, 39);
+            this.btnBack.TabIndex = 8;
+            this.btnBack.Text = "Quay lại";
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // InvoiceForm
             // 
@@ -131,6 +145,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(825, 523);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnReload);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnDelete);
@@ -159,5 +174,6 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnReload;
+        private System.Windows.Forms.Button btnBack;
     }
 }

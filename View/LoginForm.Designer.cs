@@ -65,7 +65,6 @@ namespace HotelSystem.View
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(480, 400);
             this.panel1.TabIndex = 1;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // panel2
             // 
@@ -74,7 +73,6 @@ namespace HotelSystem.View
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(360, 1);
             this.panel2.TabIndex = 0;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // txtUsername
             // 
@@ -84,7 +82,6 @@ namespace HotelSystem.View
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(291, 27);
             this.txtUsername.TabIndex = 1;
-            this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
             // txtPassword
             // 
@@ -95,7 +92,6 @@ namespace HotelSystem.View
             this.txtPassword.PasswordChar = '●';
             this.txtPassword.Size = new System.Drawing.Size(291, 27);
             this.txtPassword.TabIndex = 4;
-            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // panel3
             // 
@@ -104,7 +100,6 @@ namespace HotelSystem.View
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(360, 1);
             this.panel3.TabIndex = 2;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // btnLogin
             // 
@@ -129,7 +124,6 @@ namespace HotelSystem.View
             this.label1.Size = new System.Drawing.Size(173, 25);
             this.label1.TabIndex = 6;
             this.label1.Text = "Don\'t have account?";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // lblSignup
             // 
@@ -165,7 +159,6 @@ namespace HotelSystem.View
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 3;
             this.pictureBox3.TabStop = false;
-            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // pictureBox2
             // 
@@ -188,7 +181,6 @@ namespace HotelSystem.View
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label2
             // 

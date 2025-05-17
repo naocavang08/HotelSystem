@@ -1,4 +1,4 @@
-﻿namespace HotelSystem.View.CustomerForm
+﻿namespace HotelSystem.View.StaffForm
 {
     partial class BookingRoom
     {
@@ -41,14 +41,14 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtPhone = new System.Windows.Forms.TextBox();
             this.btnSubmit = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtRoomNumber = new System.Windows.Forms.TextBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.txtRoomNumber = new System.Windows.Forms.TextBox();
             this.lblDuration = new System.Windows.Forms.Label();
             this.lblTotalPrice = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -181,28 +181,14 @@
             this.btnSubmit.UseVisualStyleBackColor = false;
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
-            // panel1
+            // txtRoomNumber
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.txtRoomNumber);
-            this.panel1.Controls.Add(this.btnClose);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.btnSubmit);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.dtpCheck_in);
-            this.panel1.Controls.Add(this.txtPhone);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.dtpCheck_out);
-            this.panel1.Controls.Add(this.txtCCCD);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.txtName);
-            this.panel1.Location = new System.Drawing.Point(165, 43);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(614, 612);
-            this.panel1.TabIndex = 17;
+            this.txtRoomNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtRoomNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRoomNumber.Location = new System.Drawing.Point(197, 272);
+            this.txtRoomNumber.Name = "txtRoomNumber";
+            this.txtRoomNumber.Size = new System.Drawing.Size(333, 34);
+            this.txtRoomNumber.TabIndex = 18;
             // 
             // btnClose
             // 
@@ -229,35 +215,47 @@
             this.pictureBox1.TabIndex = 18;
             this.pictureBox1.TabStop = false;
             // 
-            // txtRoomNumber
-            // 
-            this.txtRoomNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtRoomNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRoomNumber.Location = new System.Drawing.Point(197, 272);
-            this.txtRoomNumber.Name = "txtRoomNumber";
-            this.txtRoomNumber.Size = new System.Drawing.Size(333, 34);
-            this.txtRoomNumber.TabIndex = 18;
-            // 
             // lblDuration
             // 
-            this.lblDuration = new System.Windows.Forms.Label();
             this.lblDuration.AutoSize = true;
             this.lblDuration.Location = new System.Drawing.Point(350, 40);
             this.lblDuration.Name = "lblDuration";
-            this.lblDuration.Size = new System.Drawing.Size(121, 13);
+            this.lblDuration.Size = new System.Drawing.Size(120, 16);
             this.lblDuration.TabIndex = 20;
             this.lblDuration.Text = "Thời gian ở: 0 ngày";
             // 
             // lblTotalPrice
             // 
-            this.lblTotalPrice = new System.Windows.Forms.Label();
             this.lblTotalPrice.AutoSize = true;
             this.lblTotalPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalPrice.Location = new System.Drawing.Point(350, 70);
             this.lblTotalPrice.Name = "lblTotalPrice";
-            this.lblTotalPrice.Size = new System.Drawing.Size(121, 13);
+            this.lblTotalPrice.Size = new System.Drawing.Size(96, 17);
             this.lblTotalPrice.TabIndex = 21;
             this.lblTotalPrice.Text = "Tổng tiền: 0";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.txtRoomNumber);
+            this.panel1.Controls.Add(this.btnClose);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.btnSubmit);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.dtpCheck_in);
+            this.panel1.Controls.Add(this.txtPhone);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.dtpCheck_out);
+            this.panel1.Controls.Add(this.txtCCCD);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.txtName);
+            this.panel1.Location = new System.Drawing.Point(165, 43);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(614, 612);
+            this.panel1.TabIndex = 17;
             // 
             // BookingRoom
             // 
@@ -274,10 +272,11 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Booking";
             this.Load += new System.EventHandler(this.Booking_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -295,11 +294,11 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtPhone;
         private System.Windows.Forms.Button btnSubmit;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.TextBox txtRoomNumber;
         private System.Windows.Forms.Label lblDuration;
         private System.Windows.Forms.Label lblTotalPrice;
+        private System.Windows.Forms.Panel panel1;
     }
 }

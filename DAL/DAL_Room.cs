@@ -22,6 +22,7 @@ namespace HotelSystem.DAL
                 room.status = status;
                 db.SaveChanges();
             }
+            
         }
     }
 }

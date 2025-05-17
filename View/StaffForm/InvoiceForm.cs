@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using HotelSystem.BLL;
 using HotelSystem.DTO;
 using HotelSystem.Model;
-using HotelSystem.View.CustomerForm;
+using HotelSystem.View.StaffForm;
 
 namespace HotelSystem.View.StaffForm
 {
@@ -98,15 +98,15 @@ namespace HotelSystem.View.StaffForm
             {
                 int invoiceId = invoices[e.RowIndex].InvoiceId;
                 
-                // Open the invoice details form
-                CustomerForm.Invoice invoiceForm = new CustomerForm.Invoice(invoiceId);
+                // Open the invoice details form with this form as caller
+                Invoice invoiceForm = new Invoice(invoiceId, this);
                 invoiceForm.ShowDialog();
             }
         }
 
         private void dgvInvoices_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            MessageBox.Show("Error in data entry. Please check your input.", "Data Error", 
+            MessageBox.Show("Lỗi dữ liệu. Hãy kiểm tra lại đầu vào.", "Lỗi dữ liệu", 
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             e.ThrowException = false;
         }
@@ -145,65 +145,106 @@ namespace HotelSystem.View.StaffForm
                 
                 if (result == DialogResult.Yes)
                 {
-                    using (var db = new DBHotelSystem())
+                    try
                     {
-                        try
+                        // Kiểm tra sự tồn tại của invoice trước
+                        var bllInvoice = new BLL_Invoice();
+                        var dtoInvoice = bllInvoice.GetInvoiceById(invoiceId);
+                        
+                        if (dtoInvoice == null)
                         {
-                            // Get the invoice with related bookings and services
-                            var invoice = db.Invoices
-                                .Include("Bookings.Customer")
-                                .Include("BookingServices")
-                                .FirstOrDefault(i => i.invoice_id == invoiceId);
-                                
-                            if (invoice != null && invoice.Bookings.Any())
+                            MessageBox.Show($"Không tìm thấy hóa đơn có ID: {invoiceId}. Hóa đơn có thể đã bị xóa.", 
+                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            LoadInvoiceData(); // Làm mới danh sách để đồng bộ
+                            return;
+                        }
+                        
+                        using (var db = new DBHotelSystem())
+                        {
+                            // Thêm transaction để đảm bảo tính nhất quán
+                            using (var transaction = db.Database.BeginTransaction())
                             {
-                                // Get the customer ID from the first booking
-                                int customerId = invoice.Bookings.First().customer_id;
-                                
-                                // Get all completed bookings for this customer
-                                var completedBookings = db.Bookings
-                                    .Where(b => b.customer_id == customerId && b.status == "Checked Out")
-                                    .ToList();
+                                try
+                                {
+                                    // Get the invoice with related bookings and services
+                                    var invoice = db.Invoices
+                                        .Include("Bookings.Customer")
+                                        .Include("BookingServices")
+                                        .FirstOrDefault(i => i.invoice_id == invoiceId);
+                                        
+                                    if (invoice == null)
+                                    {
+                                        transaction.Rollback();
+                                        MessageBox.Show($"Không tìm thấy hóa đơn có ID: {invoiceId} trong database.", 
+                                            "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        LoadInvoiceData();
+                                        return;
+                                    }
                                     
-                                // Get all completed booking services for this customer
-                                var completedBookingServices = db.BookingServices
-                                    .Where(bs => bs.customer_id == customerId && bs.status == "Completed")
-                                    .ToList();
-                                
-                                // First remove the invoice
-                                db.Invoices.Remove(invoice);
-                                db.SaveChanges();
-                                
-                                // Delete all completed bookings for this customer
-                                foreach (var booking in completedBookings)
-                                {
-                                    db.Bookings.Remove(booking);
+                                    if (!invoice.Bookings.Any())
+                                    {
+                                        // Nếu không có bookings liên kết, chỉ xóa invoice
+                                        db.Invoices.Remove(invoice);
+                                        db.SaveChanges();
+                                        transaction.Commit();
+                                        
+                                        MessageBox.Show("Hóa đơn đã được xóa thành công!", 
+                                            "Xóa thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        LoadInvoiceData();
+                                        return;
+                                    }
+                                        
+                                    // Get the customer ID from the first booking
+                                    int customerId = invoice.Bookings.First().customer_id;
+                                    
+                                    // Get all completed bookings for this customer
+                                    var completedBookings = db.Bookings
+                                        .Where(b => b.customer_id == customerId && b.status == "Checked Out")
+                                        .ToList();
+                                        
+                                    // Get all completed booking services for this customer
+                                    var completedBookingServices = db.BookingServices
+                                        .Where(bs => bs.customer_id == customerId && bs.status == "Completed")
+                                        .ToList();
+                                    
+                                    // First remove the invoice
+                                    db.Invoices.Remove(invoice);
+                                    db.SaveChanges();
+                                    
+                                    // Delete all completed bookings for this customer
+                                    foreach (var booking in completedBookings)
+                                    {
+                                        db.Bookings.Remove(booking);
+                                    }
+                                    
+                                    // Delete all completed booking services for this customer
+                                    foreach (var bookingService in completedBookingServices)
+                                    {
+                                        db.BookingServices.Remove(bookingService);
+                                    }
+                                    
+                                    db.SaveChanges();
+                                    transaction.Commit();
+                                    
+                                    MessageBox.Show("Hóa đơn đã được xóa thành công!", 
+                                        "Xóa thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    
+                                    // Reload data
+                                    LoadInvoiceData();
                                 }
-                                
-                                // Delete all completed booking services for this customer
-                                foreach (var bookingService in completedBookingServices)
+                                catch (Exception ex)
                                 {
-                                    db.BookingServices.Remove(bookingService);
+                                    transaction.Rollback();
+                                    MessageBox.Show($"Lỗi trong transaction khi xóa hóa đơn: {ex.Message}\n\nChi tiết: {ex.InnerException?.Message}", 
+                                        "Lỗi transaction", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
-                                
-                                db.SaveChanges();
-                                
-                                MessageBox.Show("Hóa đơn đã được xóa thành công!", 
-                                    "Xóa thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                
-                                // Reload data
-                                LoadInvoiceData();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Không tìm thấy hóa đơn hoặc không có thông tin đặt phòng!", 
-                                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Lỗi khi xóa hóa đơn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Lỗi khi xóa hóa đơn: {ex.Message}\n\nChi tiết: {ex.InnerException?.Message}", 
+                            "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -231,8 +272,11 @@ namespace HotelSystem.View.StaffForm
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            BLL_Invoice bLL_Invoice = new BLL_Invoice();
+            var newInvoiceId = bLL_Invoice.GetNextInvoiceId();
             DTO_Invoice newInvoice = new DTO_Invoice
             {
+                InvoiceId = newInvoiceId, 
                 TotalAmount = 0,
                 PaymentStatus = "Pending",
                 PaymentDate = null,
@@ -268,8 +312,8 @@ namespace HotelSystem.View.StaffForm
             {
                 int invoiceId = invoices[e.RowIndex].InvoiceId;
                 
-                // Open the invoice details form
-                CustomerForm.Invoice invoiceForm = new CustomerForm.Invoice(invoiceId);
+                // Open the invoice details form with this form as caller
+                Invoice invoiceForm = new Invoice(invoiceId, this);
                 invoiceForm.ShowDialog();
             }
         }
@@ -281,8 +325,8 @@ namespace HotelSystem.View.StaffForm
             {
                 int invoiceId = invoices[dgvInvoices.CurrentRow.Index].InvoiceId;
                 
-                // Open the invoice details form
-                CustomerForm.Invoice invoiceForm = new CustomerForm.Invoice(invoiceId);
+                // Open the invoice details form with this form as caller
+                Invoice invoiceForm = new Invoice(invoiceId, this);
                 invoiceForm.ShowDialog();
             }
         }
@@ -290,6 +334,13 @@ namespace HotelSystem.View.StaffForm
         private void InvoiceForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+        
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            CustomerForm op = new CustomerForm();
+            op.Show();
+            this.Hide();
         }
     }
 }

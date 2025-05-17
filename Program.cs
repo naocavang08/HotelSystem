@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HotelSystem.View;
 using HotelSystem.View.AdminForm;
-using HotelSystem.View.CustomerForm;
-
+using HotelSystem.View.StaffForm;
 namespace HotelSystem
 {
     static class Program
@@ -19,7 +18,7 @@ namespace HotelSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            Application.Run(new AdminForm());
         }
     }
 }

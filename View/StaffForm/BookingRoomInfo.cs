@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using HotelSystem.BLL;
 using HotelSystem.Model;
 
-namespace HotelSystem.View.CustomerForm
+namespace HotelSystem.View.StaffForm
 {
     public partial class BookingRoomInfo: Form
     {
@@ -22,11 +22,6 @@ namespace HotelSystem.View.CustomerForm
             InitializeComponent();
         }
         
-        public BookingRoomInfo(int customerID) : this()
-        {
-            this.customerId = customerID;
-        }
-        
         private void btnDelRoom_Click(object sender, EventArgs e)
         {
             if (dgvDelRoom.SelectedRows.Count > 0)
@@ -35,47 +30,35 @@ namespace HotelSystem.View.CustomerForm
                 
                 try
                 {
-                    // Find the booking to delete
                     var bookingToDelete = db.Bookings.Find(bookingId);
                     
                     if (bookingToDelete != null)
                     {
-                        // Debug: In ra trạng thái hiện tại của booking
-                        Console.WriteLine($"Trạng thái booking hiện tại: '{bookingToDelete.status}'");
+                    Console.WriteLine($"Trạng thái booking hiện tại: '{bookingToDelete.status}'");
                         
-                        // Check if booking can be deleted (e.g., not already checked-in)
-                        // Kiểm tra không phân biệt chữ hoa/thường
-                        if (bookingToDelete.status.ToLower() == "booked")
-                        {
-                            // Confirm deletion
-                            DialogResult result = MessageBox.Show(
-                                "Bạn có chắc chắn muốn hủy đặt phòng này không?",
-                                "Xác nhận hủy đặt phòng",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question);
+                        DialogResult result = MessageBox.Show(
+                            "Bạn có chắc chắn muốn hủy đặt phòng này không?",
+                            "Xác nhận hủy đặt phòng",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
                                 
-                            if (result == DialogResult.Yes)
-                            {
-                                // Remove the booking
-                                db.Bookings.Remove(bookingToDelete);
-                                db.SaveChanges();
-
-                                // Update the room status to available
-                                var bllRoom = new BLL_Room();
-                                bllRoom.UpdateRoomStatus(bookingToDelete.room_id, "Available");
-
-                                MessageBox.Show("Hủy đặt phòng thành công!", "Thông báo", 
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                
-                                // Refresh the grid
-                                LoadBookingRooms();
-                            }
-                        }
-                        else
+                        if (result == DialogResult.Yes)
                         {
-                            MessageBox.Show($"Không thể hủy phòng có trạng thái '{bookingToDelete.status}'!\nChỉ có thể hủy phòng có trạng thái 'booked'.", 
-                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            // Remove the booking
+                            db.Bookings.Remove(bookingToDelete);
+                            db.SaveChanges();
+
+                            // Update the room status to available
+                            var bllRoom = new BLL_Room();
+                            bllRoom.UpdateRoomStatus(bookingToDelete.room_id, "Available");
+
+                            MessageBox.Show("Hủy đặt phòng thành công!", "Thông báo", 
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                
+                                
+                            LoadBookingRooms();
                         }
+                        
                     }
                 }
                 catch (Exception ex)

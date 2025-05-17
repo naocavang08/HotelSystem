@@ -103,6 +103,16 @@ namespace HotelSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon8_service_48_white {
+            get {
+                object obj = ResourceManager.GetObject("icon8-service-48-white", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iconAdmin {
             get {
                 object obj = ResourceManager.GetObject("iconAdmin", resourceCulture);
@@ -136,6 +146,16 @@ namespace HotelSystem.Properties {
         internal static System.Drawing.Bitmap icons8_booking_100 {
             get {
                 object obj = ResourceManager.GetObject("icons8-booking-100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_close_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-close-50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -266,6 +286,16 @@ namespace HotelSystem.Properties {
         internal static System.Drawing.Bitmap icons8_room_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-room-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_service_100 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-service-100", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

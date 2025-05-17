@@ -1,6 +1,6 @@
 ﻿namespace HotelSystem.View.AdminForm
 {
-    partial class Customer
+    partial class Service
     {
         /// <summary>
         /// Required designer variable.
@@ -35,10 +35,8 @@
             this.btnSua = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtCCCD = new System.Windows.Forms.TextBox();
-            this.txtPhone = new System.Windows.Forms.TextBox();
+            this.txtPrice = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -55,10 +53,8 @@
             this.panel1.Controls.Add(this.btnSua);
             this.panel1.Controls.Add(this.btnThem);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.txtCCCD);
-            this.panel1.Controls.Add(this.txtPhone);
+            this.panel1.Controls.Add(this.txtPrice);
             this.panel1.Controls.Add(this.txtName);
             this.panel1.Location = new System.Drawing.Point(16, 61);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
@@ -130,54 +126,35 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(15, 146);
+            this.label4.Location = new System.Drawing.Point(15, 114);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 28);
+            this.label4.Size = new System.Drawing.Size(109, 28);
             this.label4.TabIndex = 18;
-            this.label4.Text = "CCCD";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(15, 85);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(128, 28);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Số điện thoại";
+            this.label4.Text = "Giá dịch vụ";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(15, 23);
+            this.label2.Location = new System.Drawing.Point(15, 49);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 28);
+            this.label2.Size = new System.Drawing.Size(109, 28);
             this.label2.TabIndex = 16;
-            this.label2.Text = "Họ tên";
+            this.label2.Text = "Tên dịch vụ";
             // 
-            // txtCCCD
+            // txtPrice
             // 
-            this.txtCCCD.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCCCD.Location = new System.Drawing.Point(165, 146);
-            this.txtCCCD.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtCCCD.Name = "txtCCCD";
-            this.txtCCCD.Size = new System.Drawing.Size(307, 34);
-            this.txtCCCD.TabIndex = 15;
-            // 
-            // txtPhone
-            // 
-            this.txtPhone.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPhone.Location = new System.Drawing.Point(165, 85);
-            this.txtPhone.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(307, 34);
-            this.txtPhone.TabIndex = 14;
+            this.txtPrice.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPrice.Location = new System.Drawing.Point(165, 114);
+            this.txtPrice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtPrice.Name = "txtPrice";
+            this.txtPrice.Size = new System.Drawing.Size(307, 34);
+            this.txtPrice.TabIndex = 15;
             // 
             // txtName
             // 
             this.txtName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtName.Location = new System.Drawing.Point(165, 23);
+            this.txtName.Location = new System.Drawing.Point(165, 46);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(307, 34);
@@ -201,11 +178,11 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(315, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(327, 45);
+            this.label1.Size = new System.Drawing.Size(260, 45);
             this.label1.TabIndex = 14;
-            this.label1.Text = "Quản lý khách hàng";
+            this.label1.Text = "Quản lý dịch vụ";
             // 
-            // Customer
+            // Service
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -215,10 +192,10 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Customer";
-            this.Text = "Customer";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Customer_FormClosing);
-            this.Load += new System.EventHandler(this.Customer_Load);
+            this.Name = "Service";
+            this.Text = "Service";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Service_FormClosing);
+            this.Load += new System.EventHandler(this.Service_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -236,10 +213,8 @@
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnThem;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtCCCD;
-        private System.Windows.Forms.TextBox txtPhone;
+        private System.Windows.Forms.TextBox txtPrice;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label1;

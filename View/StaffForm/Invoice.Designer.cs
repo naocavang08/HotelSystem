@@ -1,4 +1,4 @@
-﻿namespace HotelSystem.View.CustomerForm
+﻿namespace HotelSystem.View.StaffForm
 {
     partial class Invoice
     {
@@ -39,12 +39,13 @@
             this.dgvListRoom = new System.Windows.Forms.DataGridView();
             this.dgvListService = new System.Windows.Forms.DataGridView();
             this.lbInvoiceID = new System.Windows.Forms.Label();
-            this.lbCusName = new System.Windows.Forms.Label();
-            this.lbCusCCCD = new System.Windows.Forms.Label();
-            this.lbCusPhone = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.lbTotalAmount = new System.Windows.Forms.Label();
+            this.btnLoadBooking = new System.Windows.Forms.Button();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtCCCD = new System.Windows.Forms.TextBox();
+            this.txtPhone = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListRoom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListService)).BeginInit();
             this.SuspendLayout();
@@ -164,36 +165,6 @@
             this.lbInvoiceID.TabIndex = 10;
             this.lbInvoiceID.Text = "Mã hóa đơn";
             // 
-            // lbCusName
-            // 
-            this.lbCusName.AutoSize = true;
-            this.lbCusName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbCusName.Location = new System.Drawing.Point(178, 103);
-            this.lbCusName.Name = "lbCusName";
-            this.lbCusName.Size = new System.Drawing.Size(118, 28);
-            this.lbCusName.TabIndex = 11;
-            this.lbCusName.Text = "Mã hóa đơn";
-            // 
-            // lbCusCCCD
-            // 
-            this.lbCusCCCD.AutoSize = true;
-            this.lbCusCCCD.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbCusCCCD.Location = new System.Drawing.Point(178, 150);
-            this.lbCusCCCD.Name = "lbCusCCCD";
-            this.lbCusCCCD.Size = new System.Drawing.Size(118, 28);
-            this.lbCusCCCD.TabIndex = 12;
-            this.lbCusCCCD.Text = "Mã hóa đơn";
-            // 
-            // lbCusPhone
-            // 
-            this.lbCusPhone.AutoSize = true;
-            this.lbCusPhone.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbCusPhone.Location = new System.Drawing.Point(178, 199);
-            this.lbCusPhone.Name = "lbCusPhone";
-            this.lbCusPhone.Size = new System.Drawing.Size(118, 28);
-            this.lbCusPhone.TabIndex = 13;
-            this.lbCusPhone.Text = "Mã hóa đơn";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Black;
@@ -222,18 +193,58 @@
             this.lbTotalAmount.TabIndex = 16;
             this.lbTotalAmount.Text = "Thành tiền";
             // 
+            // btnLoadBooking
+            // 
+            this.btnLoadBooking.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnLoadBooking.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadBooking.Location = new System.Drawing.Point(397, 230);
+            this.btnLoadBooking.Name = "btnLoadBooking";
+            this.btnLoadBooking.Size = new System.Drawing.Size(129, 40);
+            this.btnLoadBooking.TabIndex = 17;
+            this.btnLoadBooking.Text = "Chi tiết";
+            this.btnLoadBooking.UseVisualStyleBackColor = true;
+            this.btnLoadBooking.Click += new System.EventHandler(this.btnLoadBooking_Click);
+            // 
+            // txtName
+            // 
+            this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtName.Location = new System.Drawing.Point(183, 104);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(207, 27);
+            this.txtName.TabIndex = 18;
+            // 
+            // txtCCCD
+            // 
+            this.txtCCCD.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCCCD.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCCCD.Location = new System.Drawing.Point(183, 151);
+            this.txtCCCD.Name = "txtCCCD";
+            this.txtCCCD.Size = new System.Drawing.Size(207, 27);
+            this.txtCCCD.TabIndex = 19;
+            // 
+            // txtPhone
+            // 
+            this.txtPhone.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPhone.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPhone.Location = new System.Drawing.Point(183, 200);
+            this.txtPhone.Name = "txtPhone";
+            this.txtPhone.Size = new System.Drawing.Size(207, 27);
+            this.txtPhone.TabIndex = 20;
+            // 
             // Invoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(194)))), ((int)(((byte)(236)))));
             this.ClientSize = new System.Drawing.Size(555, 797);
+            this.Controls.Add(this.txtPhone);
+            this.Controls.Add(this.txtCCCD);
+            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.btnLoadBooking);
             this.Controls.Add(this.lbTotalAmount);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.lbCusPhone);
-            this.Controls.Add(this.lbCusCCCD);
-            this.Controls.Add(this.lbCusName);
             this.Controls.Add(this.lbInvoiceID);
             this.Controls.Add(this.dgvListService);
             this.Controls.Add(this.dgvListRoom);
@@ -270,11 +281,12 @@
         private System.Windows.Forms.DataGridView dgvListRoom;
         private System.Windows.Forms.DataGridView dgvListService;
         private System.Windows.Forms.Label lbInvoiceID;
-        private System.Windows.Forms.Label lbCusName;
-        private System.Windows.Forms.Label lbCusCCCD;
-        private System.Windows.Forms.Label lbCusPhone;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lbTotalAmount;
+        private System.Windows.Forms.Button btnLoadBooking;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.TextBox txtCCCD;
+        private System.Windows.Forms.TextBox txtPhone;
     }
 }

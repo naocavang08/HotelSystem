@@ -17,6 +17,7 @@ namespace HotelSystem.BLL
         {
             return dalBookingRoom.GetAvailableRooms(roomTypeId, checkIn, checkOut);
         }
+        
         // Lấy danh sách booking của khách hàng theo ID
         public List<DTO_BookingRoom> GetBookingRoomsByCustomerId(int customerId)
         {
@@ -90,8 +91,7 @@ namespace HotelSystem.BLL
         {
             HashSet<int> bookedRoomIds = new HashSet<int>();
             
-            // Không tự động cập nhật trạng thái booking nữa
-            // Thay vào đó, chỉ lấy các booking mà thời gian trùng với thời gian tìm kiếm
+            // Lấy các booking mà thời gian trùng với thời gian tìm kiếm
             var overlappingBookings = dalBookingRoom.GetOverlappingBookings(checkIn, checkOut);
             
             // Thêm ID của các phòng đã được đặt vào HashSet
@@ -100,12 +100,8 @@ namespace HotelSystem.BLL
                 // Chỉ xem xét các booking với trạng thái "Booked" hoặc "Checked In"
                 if ((booking.status == "Booked" || booking.status == "Checked In"))
                 {
-                    // Nếu ngày check-out của booking <= ngày check-in của tìm kiếm
-                    // thì booking đó đã hết hạn (theo ngầm định) và phòng có thể đặt được
-                    if (booking.check_out > checkIn)
-                    {
-                        bookedRoomIds.Add(booking.room_id);
-                    }
+                    // Logic kiểm tra đã được đưa vào GetOverlappingBookings
+                    bookedRoomIds.Add(booking.room_id);
                 }
             }
             

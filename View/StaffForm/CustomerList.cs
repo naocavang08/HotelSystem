@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using HotelSystem.BLL;
 using HotelSystem.DTO;
 using HotelSystem.Model;
-using HotelSystem.View.CustomerForm;
+using HotelSystem.View.StaffForm;
 
 namespace HotelSystem.View.StaffForm
 {
@@ -72,13 +72,13 @@ namespace HotelSystem.View.StaffForm
             genderColumn.DefaultCellStyle.FormatProvider = null;
             dgvCustomers.Columns.Add(genderColumn);
 
-            // Add a button column for View Bookings
-            DataGridViewButtonColumn viewBookingsColumn = new DataGridViewButtonColumn();
-            viewBookingsColumn.HeaderText = "Xem đặt phòng";
-            viewBookingsColumn.Text = "Xem";
-            viewBookingsColumn.UseColumnTextForButtonValue = true;
-            viewBookingsColumn.Width = 100;
-            dgvCustomers.Columns.Add(viewBookingsColumn);
+            // Add a button column for CustomerDetail
+            DataGridViewButtonColumn viewDetail = new DataGridViewButtonColumn();
+            viewDetail.HeaderText = "Xem chi tiết";
+            viewDetail.Text = "Xem";
+            viewDetail.UseColumnTextForButtonValue = true;
+            viewDetail.Width = 100;
+            dgvCustomers.Columns.Add(viewDetail);
 
             // Add event handlers
             dgvCustomers.CellFormatting += DgvCustomers_CellFormatting;
@@ -119,19 +119,15 @@ namespace HotelSystem.View.StaffForm
             {
                 int customerId = customers[e.RowIndex].CustomerId;
                 
-                // Open the CustomerForm to show bookings for this customer
-                HotelSystem.View.CustomerForm.CustomerForm customerForm = new HotelSystem.View.CustomerForm.CustomerForm();
-                customerForm.LoadCustomerProfile(customerId);
-                customerForm.ShowDialog();
-            }
-        }
-
-        private void SaveCustomer(int rowIndex)
-        {
-            if (rowIndex >= 0 && rowIndex < customers.Count)
-            {
-                DTO_Customer customer = customers[rowIndex];
-                bllCustomer.UpdateCustomer(customer);
+                // Open the CustomerDetail form to show customer details
+                CustomerDetail customerDetail = new CustomerDetail(customerId);
+                DialogResult result = customerDetail.ShowDialog();
+                
+                // Sau khi form đóng, nếu DialogResult là OK thì load lại dữ liệu
+                if (result == DialogResult.OK)
+                {
+                    LoadCustomerData();
+                }
             }
         }
 
@@ -143,12 +139,17 @@ namespace HotelSystem.View.StaffForm
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            // Open the CustomerInfo form to add a new customer
-            CustomerInfo customerInfoForm = new CustomerInfo(this);
-            customerInfoForm.ShowDialog();
+            // Open the CustomerDetail form to add a new customer
+            BLL_TTKH bllTTKH = new BLL_TTKH();
+            int nextCustomerId = bllTTKH.GetNextCustomerId();
+            CustomerDetail op = new CustomerDetail(nextCustomerId);
+            DialogResult result = op.ShowDialog();
             
-            // Reload the data after adding
-            LoadCustomerData();
+            // Reload the data after adding if the operation was successful
+            if (result == DialogResult.OK)
+            {
+                LoadCustomerData();
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -241,6 +242,13 @@ namespace HotelSystem.View.StaffForm
         private void CustomerList_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            CustomerForm op = new CustomerForm();
+            op.Show();
+            this.Hide();
         }
     }
 }

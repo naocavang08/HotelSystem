@@ -14,14 +14,6 @@ namespace HotelSystem.DAL
                 return db.Customers.ToList();
             }
         }
-        // Lấy thông tin khách hàng theo UserId
-        public Customer GetCustomerByUserId(int userId)
-        {
-            using (var db = new DBHotelSystem())
-            {
-                return db.Customers.FirstOrDefault(c => c.id == userId);
-            }
-        }
         // Lấy thông tin khách hàng theo tên
         public Customer GetCustomerByName(string name)
         {
@@ -30,7 +22,23 @@ namespace HotelSystem.DAL
                 return db.Customers.FirstOrDefault(c => c.name == name);
             }
         }
-        
+        // Lấy thông tin khách hàng theo tên và cccd
+        public Customer GetCustomerByNameAndCCCD(string name, string cccd)
+        {
+            using (var db = new DBHotelSystem())
+            {
+                return db.Customers.FirstOrDefault(c => c.name == name && c.cccd == cccd);
+            }
+        }
+        // Lấy thông tin khách hàng theo ID
+        public Customer GetCustomerByCustomerId(int customerId)
+        {
+            using (var db = new DBHotelSystem())
+            {
+                return db.Customers.FirstOrDefault(c => c.customer_id == customerId);
+            }
+        }
+
         // Kiểm tra xem CCCD đã tồn tại trong cơ sở dữ liệu chưa
         public bool IsCCCDExists(string cccd, int? excludeCustomerId = null)
         {
@@ -71,6 +79,22 @@ namespace HotelSystem.DAL
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();
+            }
+        }
+        
+        // Lấy ID tiếp theo cho khách hàng mới
+        public int GetNextCustomerId()
+        {
+            using (var db = new DBHotelSystem())
+            {
+                if (db.Customers.Any())
+                {
+                    return db.Customers.Max(c => c.customer_id) + 1;
+                }
+                else
+                {
+                    return 1; // Nếu không có khách hàng nào, bắt đầu từ 1
+                }
             }
         }
     }

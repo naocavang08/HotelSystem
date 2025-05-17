@@ -2,6 +2,7 @@ using HotelSystem.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace HotelSystem.DAL
 {
@@ -18,7 +19,6 @@ namespace HotelSystem.DAL
                                                   ((b.check_in < checkOut && b.check_out > checkIn))))
                 .ToList();
         }
-
         public List<BookingRoom> GetBookingRoomsByCustomerId(int customerId)
         {
            return db.Bookings
@@ -57,30 +57,24 @@ namespace HotelSystem.DAL
         // Cập nhật trạng thái booking (từ Booked sang Payment hoặc các trạng thái khác)
         public bool UpdateStatus(int bookingId, string newStatus)
         {
-            using (var db = new DBHotelSystem())
+            
+            try
             {
                 var existingBooking = db.Bookings.Find(bookingId);
                 if (existingBooking != null)
                 {
-                    // Kiểm tra trạng thái hiện tại
-                    if (existingBooking.status == "Booked" && newStatus == "Payment")
-                    {
-                        // Cập nhật trạng thái
-                        existingBooking.status = newStatus;
-                        db.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        // Có thể mở rộng để hỗ trợ các kiểu chuyển đổi trạng thái khác
-                        existingBooking.status = newStatus;
-                        db.SaveChanges();
-                        return true;
-                    }
+                    existingBooking.status = newStatus;
+                    db.SaveChanges();
+                    return true;
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating booking status: {ex.Message}");
+            }
             
-            return false; // Không tìm thấy booking hoặc không thể cập nhật trạng thái
+            
+            return false; 
         }
         
         // Lấy các booking trùng với khoảng thời gian đã chọn
@@ -88,12 +82,21 @@ namespace HotelSystem.DAL
         {
             using (var db = new DBHotelSystem())
             {
-                // Lưu ý: Một booking chỉ trùng lịch nếu:
-                // - Ngày check-in của booking < ngày check-out của tìm kiếm VÀ
-                // - Ngày check-out của booking > ngày check-in của tìm kiếm
+                // Một booking chỉ trùng lịch nếu:
+                // - Check-in của booking < Check-out của tìm kiếm VÀ 
+                // - Check-out của booking > Check-in của tìm kiếm
+                // CHÚ Ý: Đây là điều kiện đã đúng về mặt logic, nhưng chúng ta cần lọc thêm để 
+                // 2 booking có thể nối lưng nhau (khi check-out = check-in)
+                
+                DateTime checkInDate = checkIn.Date;
+                
                 return db.Bookings
                     .Where(b => 
-                        (b.check_in < checkOut && b.check_out > checkIn)
+                        (b.check_in < checkOut && b.check_out > checkIn) && 
+                        
+                        !(DbFunctions.TruncateTime(b.check_out) == DbFunctions.TruncateTime(checkIn)) &&
+                        
+                        b.status != "Checked Out"
                     )
                     .ToList();
             }
@@ -121,14 +124,11 @@ namespace HotelSystem.DAL
             {
                 foreach (var expiredBooking in expiredBookings)
                 {
-                    // Tìm booking trong db hiện tại
                     var booking = db.Bookings.Find(expiredBooking.booking_id);
                     if (booking != null)
                     {
-                        // Cập nhật trạng thái booking
                         booking.status = "Checked Out";
                         
-                        // Cập nhật trạng thái phòng
                         var room = db.Rooms.FirstOrDefault(r => r.room_id == booking.room_id);
                         if (room != null)
                         {

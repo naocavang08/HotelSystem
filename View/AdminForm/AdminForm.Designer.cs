@@ -33,24 +33,24 @@
             this.btnHide = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.btnRoom = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.btnLogout = new System.Windows.Forms.Button();
             this.picHome = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.btnStatistic = new System.Windows.Forms.Button();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.btnStaff = new System.Windows.Forms.Button();
-            this.btnCustomer = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btnService = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picHome)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picHome)).BeginInit();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -64,6 +64,7 @@
             this.flowLayoutPanel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1200, 40);
             this.flowLayoutPanel1.TabIndex = 0;
+            this.flowLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.flowLayoutPanel1_MouseDown);
             // 
             // btnClose
             // 
@@ -117,42 +118,6 @@
             this.panel6.Size = new System.Drawing.Size(250, 60);
             this.panel6.TabIndex = 6;
             // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.btnLogout);
-            this.panel5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel5.Location = new System.Drawing.Point(0, 638);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(247, 60);
-            this.panel5.TabIndex = 4;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btnStatistic);
-            this.panel2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel2.Location = new System.Drawing.Point(0, 233);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(250, 60);
-            this.panel2.TabIndex = 3;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.btnStaff);
-            this.panel4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel4.Location = new System.Drawing.Point(0, 365);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(250, 60);
-            this.panel4.TabIndex = 5;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.btnCustomer);
-            this.panel3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel3.Location = new System.Drawing.Point(0, 299);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(250, 60);
-            this.panel3.TabIndex = 4;
-            // 
             // btnRoom
             // 
             this.btnRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -169,6 +134,15 @@
             this.btnRoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRoom.UseVisualStyleBackColor = true;
             this.btnRoom.Click += new System.EventHandler(this.btnRoom_Click);
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.btnLogout);
+            this.panel5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel5.Location = new System.Drawing.Point(0, 638);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(247, 60);
+            this.panel5.TabIndex = 4;
             // 
             // btnLogout
             // 
@@ -197,6 +171,15 @@
             this.picHome.TabIndex = 0;
             this.picHome.TabStop = false;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnStatistic);
+            this.panel2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel2.Location = new System.Drawing.Point(0, 233);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(250, 60);
+            this.panel2.TabIndex = 3;
+            // 
             // btnStatistic
             // 
             this.btnStatistic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -213,6 +196,15 @@
             this.btnStatistic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStatistic.UseVisualStyleBackColor = true;
             this.btnStatistic.Click += new System.EventHandler(this.btnStatistic_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.btnStaff);
+            this.panel4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel4.Location = new System.Drawing.Point(0, 365);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(250, 60);
+            this.panel4.TabIndex = 5;
             // 
             // btnStaff
             // 
@@ -231,22 +223,31 @@
             this.btnStaff.UseVisualStyleBackColor = true;
             this.btnStaff.Click += new System.EventHandler(this.btnStaff_Click);
             // 
-            // btnCustomer
+            // panel3
             // 
-            this.btnCustomer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCustomer.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCustomer.ForeColor = System.Drawing.Color.Black;
-            this.btnCustomer.Image = global::HotelSystem.Properties.Resources.icons8_customer_48;
-            this.btnCustomer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCustomer.Location = new System.Drawing.Point(-8, -11);
-            this.btnCustomer.Name = "btnCustomer";
-            this.btnCustomer.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.btnCustomer.Size = new System.Drawing.Size(269, 77);
-            this.btnCustomer.TabIndex = 2;
-            this.btnCustomer.Text = "              Khách hàng";
-            this.btnCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCustomer.UseVisualStyleBackColor = true;
-            this.btnCustomer.Click += new System.EventHandler(this.btnCustomer_Click);
+            this.panel3.Controls.Add(this.btnService);
+            this.panel3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel3.Location = new System.Drawing.Point(0, 299);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(250, 60);
+            this.panel3.TabIndex = 4;
+            // 
+            // btnService
+            // 
+            this.btnService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnService.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnService.ForeColor = System.Drawing.Color.Black;
+            this.btnService.Image = global::HotelSystem.Properties.Resources.icons8_customer_48;
+            this.btnService.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnService.Location = new System.Drawing.Point(-8, -11);
+            this.btnService.Name = "btnService";
+            this.btnService.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.btnService.Size = new System.Drawing.Size(269, 77);
+            this.btnService.TabIndex = 2;
+            this.btnService.Text = "              Dịch vụ";
+            this.btnService.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnService.UseVisualStyleBackColor = true;
+            this.btnService.Click += new System.EventHandler(this.btnService_Click);
             // 
             // AdminForm
             // 
@@ -264,10 +265,10 @@
             this.panel1.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picHome)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picHome)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -284,7 +285,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnStaff;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button btnCustomer;
+        private System.Windows.Forms.Button btnService;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Panel panel6;

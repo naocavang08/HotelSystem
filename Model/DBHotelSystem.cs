@@ -1,7 +1,6 @@
 namespace HotelSystem.Model
 {
     using HotelSystem.View.AdminForm;
-    using HotelSystem.View.CustomerForm;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.ModelConfiguration;
@@ -172,11 +171,6 @@ namespace HotelSystem.Model
             modelBuilder.Entity<User>()
                 .Property(e => e.status)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<User>()
-                .HasMany(e => e.Customers)
-                .WithRequired(e => e.User)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Employees)

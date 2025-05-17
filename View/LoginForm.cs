@@ -51,18 +51,9 @@ namespace HotelSystem.View
                     AdminForm.AdminForm op = new AdminForm.AdminForm();
                     op.Show();
                 }
-                else if (user.Role == "customer")
-                {
-                    CustomerForm.CustomerForm op = new CustomerForm.CustomerForm();
-                    op.Show();
-                }
                 else if (user.Role == "staff")
                 {
-                    //UserForm op = new UserForm();
-                    //op.Show();
-                    //StaffForm.InvoiceForm op = new StaffForm.InvoiceForm();
-                    //op.Show();
-                    StaffForm.CustomerList op = new StaffForm.CustomerList();
+                    StaffForm.CustomerForm op = new StaffForm.CustomerForm();
                     op.Show();
                 }
                 
@@ -80,46 +71,6 @@ namespace HotelSystem.View
             op.Show();
 
             this.Hide();
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void txtUsername_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -102,13 +102,9 @@
     <Compile Include="DTO\DTO_Invoice.cs" />
     <Compile Include="DTO\DTO_Room.cs" />
     <Compile Include="DTO\UserDTO.cs" />
-    <Compile Include="Migrations\202505150429529_v1.cs" />
-    <Compile Include="Migrations\202505150429529_v1.Designer.cs">
-      <DependentUpon>202505150429529_v1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202505150621109_v3.cs" />
-    <Compile Include="Migrations\202505150621109_v3.Designer.cs">
-      <DependentUpon>202505150621109_v3.cs</DependentUpon>
+    <Compile Include="Migrations\202505151457376_v2.cs" />
+    <Compile Include="Migrations\202505151457376_v2.Designer.cs">
+      <DependentUpon>202505151457376_v2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\BookingRoom.cs" />
@@ -133,11 +129,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\AdminForm\Customer.cs">
+    <Compile Include="View\AdminForm\Service.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\AdminForm\Customer.Designer.cs">
-      <DependentUpon>Customer.cs</DependentUpon>
+    <Compile Include="View\AdminForm\Service.Designer.cs">
+      <DependentUpon>Service.cs</DependentUpon>
     </Compile>
     <Compile Include="View\AdminForm\Room.cs">
       <SubType>Form</SubType>
@@ -157,40 +153,46 @@
     <Compile Include="View\AdminForm\Statistic.Designer.cs">
       <DependentUpon>Statistic.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\CustomerForm\BookingRoom.cs">
+    <Compile Include="View\StaffForm\BookingRoom.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CustomerForm\BookingRoom.Designer.cs">
+    <Compile Include="View\StaffForm\BookingRoom.Designer.cs">
       <DependentUpon>BookingRoom.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\CustomerForm\BookingService.cs">
+    <Compile Include="View\StaffForm\BookingService.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CustomerForm\BookingService.Designer.cs">
+    <Compile Include="View\StaffForm\BookingService.Designer.cs">
       <DependentUpon>BookingService.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\CustomerForm\CustomerForm.cs">
+    <Compile Include="View\StaffForm\BookingServiceInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CustomerForm\CustomerForm.Designer.cs">
+    <Compile Include="View\StaffForm\BookingServiceInfo.Designer.cs">
+      <DependentUpon>BookingServiceInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\StaffForm\CustomerDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\StaffForm\CustomerDetail.Designer.cs">
+      <DependentUpon>CustomerDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\StaffForm\CustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\StaffForm\CustomerForm.Designer.cs">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\CustomerForm\CustomerInfo.cs">
+    <Compile Include="View\StaffForm\BookingRoomInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CustomerForm\CustomerInfo.Designer.cs">
-      <DependentUpon>CustomerInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\CustomerForm\BookingRoomInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\CustomerForm\BookingRoomInfo.Designer.cs">
+    <Compile Include="View\StaffForm\BookingRoomInfo.Designer.cs">
       <DependentUpon>BookingRoomInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\CustomerForm\Invoice.cs">
+    <Compile Include="View\StaffForm\Invoice.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CustomerForm\Invoice.Designer.cs">
+    <Compile Include="View\StaffForm\Invoice.Designer.cs">
       <DependentUpon>Invoice.cs</DependentUpon>
     </Compile>
     <Compile Include="View\LoginForm.cs">
@@ -217,17 +219,8 @@
     <Compile Include="View\StaffForm\InvoiceForm.Designer.cs">
       <DependentUpon>InvoiceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\StaffForm\StaffForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\StaffForm\StaffForm.Designer.cs">
-      <DependentUpon>StaffForm.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Migrations\202505150429529_v1.resx">
-      <DependentUpon>202505150429529_v1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202505150621109_v3.resx">
-      <DependentUpon>202505150621109_v3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202505151457376_v2.resx">
+      <DependentUpon>202505151457376_v2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -242,8 +235,8 @@
     <EmbeddedResource Include="View\AdminForm\AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\AdminForm\Customer.resx">
-      <DependentUpon>Customer.cs</DependentUpon>
+    <EmbeddedResource Include="View\AdminForm\Service.resx">
+      <DependentUpon>Service.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\AdminForm\Room.resx">
       <DependentUpon>Room.cs</DependentUpon>
@@ -254,22 +247,25 @@
     <EmbeddedResource Include="View\AdminForm\Statistic.resx">
       <DependentUpon>Statistic.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CustomerForm\BookingRoom.resx">
+    <EmbeddedResource Include="View\StaffForm\BookingRoom.resx">
       <DependentUpon>BookingRoom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CustomerForm\BookingService.resx">
+    <EmbeddedResource Include="View\StaffForm\BookingService.resx">
       <DependentUpon>BookingService.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CustomerForm\CustomerForm.resx">
+    <EmbeddedResource Include="View\StaffForm\BookingServiceInfo.resx">
+      <DependentUpon>BookingServiceInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\StaffForm\CustomerDetail.resx">
+      <DependentUpon>CustomerDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\StaffForm\CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CustomerForm\CustomerInfo.resx">
-      <DependentUpon>CustomerInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\CustomerForm\BookingRoomInfo.resx">
+    <EmbeddedResource Include="View\StaffForm\BookingRoomInfo.resx">
       <DependentUpon>BookingRoomInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CustomerForm\Invoice.resx">
+    <EmbeddedResource Include="View\StaffForm\Invoice.resx">
       <DependentUpon>Invoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\LoginForm.resx">
@@ -283,9 +279,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\StaffForm\InvoiceForm.resx">
       <DependentUpon>InvoiceForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\StaffForm\StaffForm.resx">
-      <DependentUpon>StaffForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -301,7 +294,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\icons8-close-50.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-room-48.png" />
     <None Include="Resources\icons8-staff-48.png" />
@@ -365,6 +360,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-room-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon8-service-48-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-service-100.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

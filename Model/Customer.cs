@@ -30,14 +30,11 @@ namespace HotelSystem.Model
         public string cccd { get; set; }
         [Column(TypeName = "bit")]
         public Nullable<bool> gender { get; set; }
-        [ForeignKey("User")]
-        public int id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookingRoom> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookingService> BookingServices { get; set; }
-        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RoomHistory> RoomHistories { get; set; }
     }

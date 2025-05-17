@@ -23,28 +23,11 @@ namespace HotelSystem.BLL
                     Phone = customer.phone,
                     CCCD = customer.cccd,
                     Gender = customer.gender,
-                    UserId = customer.id
                 });
             }
             return dtoCustomers;
         }
 
-        // Lấy thông tin khách hàng theo UserId
-        public DTO_Customer GetCustomerByUserId(int userId)
-        {
-            var customer = dalTTKH.GetCustomerByUserId(userId);
-            if (customer == null) return null;
-
-            return new DTO_Customer
-            {
-                CustomerId = customer.customer_id,
-                Name = customer.name,
-                Phone = customer.phone,
-                CCCD = customer.cccd,
-                Gender = customer.gender,
-                UserId = customer.id
-            };
-        }
         // Lấy thông tin khách hàng theo tên
         public DTO_Customer GetCustomerByName(string name)
         {
@@ -58,10 +41,39 @@ namespace HotelSystem.BLL
                 Phone = customer.phone,
                 CCCD = customer.cccd,
                 Gender = customer.gender,
-                UserId = customer.id
             };
         }
-        
+        // Lấy thông tin khách hàng theo tên và CCCD
+        public DTO_Customer GetCustomerByNameAndCCCD(string name, string CCCD)
+        {
+            var customer = dalTTKH.GetCustomerByNameAndCCCD(name, CCCD);
+            if (customer == null) return null;
+
+            return new DTO_Customer
+            {
+                CustomerId = customer.customer_id,
+                Name = customer.name,
+                Phone = customer.phone,
+                CCCD = customer.cccd,
+                Gender = customer.gender,
+            };
+        }
+        // Lấy thông tin khách hàng theo ID
+        public DTO_Customer GetCustomerByCustomerId(int CustomerId)
+        {
+            var customer = dalTTKH.GetCustomerByCustomerId(CustomerId);
+            if (customer == null) return null;
+
+            return new DTO_Customer
+            {
+                CustomerId = customer.customer_id,
+                Name = customer.name,
+                Phone = customer.phone,
+                CCCD = customer.cccd,
+                Gender = customer.gender,
+            };
+        }
+
         // Kiểm tra xem CCCD đã tồn tại trong cơ sở dữ liệu chưa
         public bool IsCCCDExists(string cccd, int? excludeCustomerId = null)
         {
@@ -78,7 +90,6 @@ namespace HotelSystem.BLL
                 phone = dtoCustomer.Phone,
                 cccd = dtoCustomer.CCCD,
                 gender = dtoCustomer.Gender,
-                id = dtoCustomer.UserId
             };
             dalTTKH.UpdateCustomer(customer);
         }
@@ -86,18 +97,20 @@ namespace HotelSystem.BLL
         // Thêm khách hàng mới
         public void AddCustomer(DTO_Customer dtoCustomer)
         {
-            if (dtoCustomer.UserId <= 0)
-                throw new ArgumentException("Vui lòng tạo tài khoản trước khi thêm khách hàng");
-
             var customer = new Customer
             {
                 name = dtoCustomer.Name,
                 phone = dtoCustomer.Phone,
                 cccd = dtoCustomer.CCCD,
                 gender = dtoCustomer.Gender,
-                id = dtoCustomer.UserId
             };
             dalTTKH.AddCustomer(customer);
+        }
+        
+        // Lấy ID tiếp theo cho khách hàng mới
+        public int GetNextCustomerId()
+        {
+            return dalTTKH.GetNextCustomerId();
         }
     }
 }

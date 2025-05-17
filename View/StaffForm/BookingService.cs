@@ -12,7 +12,7 @@ using HotelSystem.BLL;
 using HotelSystem.DTO;
 using HotelSystem.Session;
 
-namespace HotelSystem.View.CustomerForm
+namespace HotelSystem.View.StaffForm
 {
     public partial class BookingService: Form
     {
@@ -29,14 +29,7 @@ namespace HotelSystem.View.CustomerForm
 
         private void LoadCustomerInfo()
         {
-            var bllTTKH = new BLL_TTKH();
-            var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
-            if (customer != null)
-            {
-                txtName.Text = customer.Name;
-                txtCCCD.Text = customer.CCCD;
-                txtPhone.Text = customer.Phone;
-            }
+            
         }
 
         private void LoadServices()
@@ -45,9 +38,6 @@ namespace HotelSystem.View.CustomerForm
             {
                 var services = db.Services.ToList();
                 var bllBookingService = new BLL_BookingService();
-                var bllTTKH = new BLL_TTKH();
-                var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
-                var bookedServices = bllBookingService.GetBookingServicesByCustomerId(customer.CustomerId);
 
                 // Xóa control dịch vụ
                 var ctrlRemove = pnSubService.Controls.OfType<Control>()
@@ -84,26 +74,6 @@ namespace HotelSystem.View.CustomerForm
                     dtp.Location = new Point(230, y - 2);
                     dtp.Width = 120;
 
-                    // Đánh dấu nếu dịch vụ đã được đặt
-                    var bookedService = bookedServices.FirstOrDefault(bs => bs.Service_id == service.service_id);
-                    if (bookedService != null)
-                    {
-                        // Kiểm tra nếu dịch vụ đã hoàn thành (Completed) thì vô hiệu hóa
-                        if (bookedService.Status == "Completed")
-                        {
-                            // Checkbox không chọn (unchecked) cho dịch vụ đã hoàn thành
-                            cb.Checked = false;
-                            nud.Value = 1;
-                            dtp.Value = DateTime.Now;
-                        }
-                        else
-                        {
-                            cb.Checked = true;
-                            nud.Value = bookedService.Quantity;
-                            dtp.Value = bookedService.Service_date;
-                        }
-                    }
-
                     pnSubService.Controls.Add(cb);
                     pnSubService.Controls.Add(nud);
                     pnSubService.Controls.Add(dtp);
@@ -125,8 +95,19 @@ namespace HotelSystem.View.CustomerForm
                 DialogResult result = MessageBox.Show("Họ tên không tồn tại, vui lòng thêm thông tin cá nhân!", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
-                    CustomerInfo opform = new CustomerInfo(this);
+                    var newCustomerId = bllTTKH.GetNextCustomerId();
+                    CustomerDetail opform = new CustomerDetail(newCustomerId);
                     opform.ShowDialog();
+                    if (opform.DialogResult == DialogResult.OK)
+                    {
+                        var newCustomer = bllTTKH.GetCustomerByCustomerId(newCustomerId);
+                        if (newCustomer != null)
+                        {
+                            txtName.Text = newCustomer.Name;
+                            txtCCCD.Text = newCustomer.CCCD;
+                            txtPhone.Text = newCustomer.Phone;
+                        }
+                    }
                 }
                 return;
             }
@@ -222,63 +203,6 @@ namespace HotelSystem.View.CustomerForm
             this.Close();
             CustomerForm op = new CustomerForm();
             op.Show();
-        }
-
-        private void btnDelService_Click(object sender, EventArgs e)
-        {
-            var selectedServices = pnSubService.Controls.OfType<CheckBox>()
-                .Where(cb => cb.Checked && cb.Enabled) // Chỉ lấy các checkbox đã chọn và còn được phép chọn
-                .ToList();
-
-            if (selectedServices.Count == 0)
-            {
-                MessageBox.Show("Vui lòng chọn dịch vụ cần xóa! Lưu ý: Không thể xóa dịch vụ đã hoàn thành.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa dịch vụ đã chọn?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.No) return;
-
-            var bllBookingService = new BLL_BookingService();
-            var bllTTKH = new BLL_TTKH();
-            var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
-
-            if (customer == null)
-            {
-                MessageBox.Show("Không tìm thấy thông tin khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            foreach (var cb in selectedServices)
-            {
-                int serviceId = (int)cb.Tag;
-
-                // Lấy danh sách dịch vụ đã đặt theo ServiceId và CustomerId
-                var bookingServices = bllBookingService.GetBookingServicesByCustomerId(customer.CustomerId)
-                    .Where(bs => bs.Service_id == serviceId)
-                    .ToList();
-
-                if (bookingServices.Count == 0)
-                {
-                    MessageBox.Show($"Không tìm thấy dịch vụ với ID: {serviceId} để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    continue;
-                }
-
-                // Xóa dịch vụ đã đặt
-                foreach (var bs in bookingServices)
-                {
-                    try
-                    {
-                        bllBookingService.DeleteBookingService(bs.Booking_service_id);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Lỗi khi xóa dịch vụ ID: {bs.Booking_service_id}\nChi tiết: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            LoadServices();
-            MessageBox.Show("Xóa dịch vụ thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

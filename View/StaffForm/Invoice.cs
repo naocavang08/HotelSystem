@@ -14,37 +14,45 @@ using HotelSystem.DTO;
 using HotelSystem.Model;
 using HotelSystem.Session;
 
-namespace HotelSystem.View.CustomerForm
+namespace HotelSystem.View.StaffForm
 {
     public partial class Invoice: Form
     {
         private List<DTO_BookingService> _bookingServices;
         private List<DTO_BookingRoom> _bookingRooms;
         private int? _invoiceId;
+        private Form _callerForm; // Form đã gọi Invoice
 
-        public Invoice(List<DTO_BookingRoom> bookingRooms, List<DTO_BookingService> bookingServices = null)
+        public Invoice(List<DTO_BookingRoom> bookingRooms, List<DTO_BookingService> bookingServices = null, Form callerForm = null)
         {
             InitializeComponent();
             _bookingRooms = bookingRooms ?? new List<DTO_BookingRoom>();
             _bookingServices = bookingServices;
+            _callerForm = callerForm; // Lưu form gọi
         }
 
-        public Invoice(int invoiceId)
+        public Invoice(int invoiceId, Form callerForm = null)
         {
             InitializeComponent();
             _invoiceId = invoiceId;
             _bookingRooms = new List<DTO_BookingRoom>();
             _bookingServices = new List<DTO_BookingService>();
+            _callerForm = callerForm; // Lưu form gọi
             
-            // Load data from the invoice
-            LoadInvoiceData(invoiceId);
+            // Hiển thị invoice ID
+            lbInvoiceID.Text = invoiceId.ToString();
             
-            // Disable checkout button for viewing only
-            btnCheckout.Visible = false;
-            btnCheckout.Enabled = false;
-            
-            // Change the cancel button text to "Close"
-            btnCancel.Text = "Thoát";
+            // If this is a new invoice (created from CustomerForm), don't try to load data
+            // Only load data if the invoice already exists in the database
+            using (var db = new DBHotelSystem())
+            {
+                var existingInvoice = db.Invoices.Find(invoiceId);
+                if (existingInvoice != null)
+                {
+                    // Only load data if invoice already exists
+                    LoadInvoiceData(invoiceId);
+                }
+            }
         }
 
         private void LoadInvoiceData(int invoiceId)
@@ -62,7 +70,7 @@ namespace HotelSystem.View.CustomerForm
 
                     if (invoice == null)
                     {
-                        MessageBox.Show("Không tìm thấy hóa đơn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        // Don't show error for new invoices
                         return;
                     }
 
@@ -72,9 +80,9 @@ namespace HotelSystem.View.CustomerForm
                     // Load customer info if available
                     if (customer != null)
                     {
-                        lbCusName.Text = customer.name;
-                        lbCusCCCD.Text = customer.cccd;
-                        lbCusPhone.Text = customer.phone;
+                        txtName.Text = customer.name;
+                        txtCCCD.Text = customer.cccd;
+                        txtPhone.Text = customer.phone;
                     }
 
                     // Load booking rooms
@@ -116,6 +124,7 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnCheckout_Click(object sender, EventArgs e)
         {
+            // Sau đó xử lý thanh toán và cập nhật các thông tin khác
             using (var db = new DBHotelSystem())
             {
                 try
@@ -140,14 +149,6 @@ namespace HotelSystem.View.CustomerForm
                     {
                         MessageBox.Show("Bạn đã thanh toán xong rồi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
-                    }
-                    
-                    // Tiếp tục xử lý thanh toán nếu chưa thanh toán
-                    // Cập nhật trạng thái phòng
-                    var bllRoom = new BLL_Room();
-                    foreach (var room in _bookingRooms)
-                    {
-                        bllRoom.UpdateRoomStatus(room.RoomId, "Available");
                     }
                     
                     // Cập nhật trạng thái booking sang Checked Out
@@ -208,9 +209,18 @@ namespace HotelSystem.View.CustomerForm
                     // Lưu hóa đơn vào file
                     SaveInvoiceToFile(invoice.invoice_id);
 
-                    // Quay lại màn hình khách hàng
-                    CustomerForm customerForm = new CustomerForm();
-                    customerForm.Show();
+                    DialogResult = DialogResult.OK;
+
+                    // Quay lại màn hình khách hàng hoặc form gọi
+                    if (_callerForm != null && !_callerForm.IsDisposed)
+                    {
+                        _callerForm.Show();
+                    }
+                    else
+                    {
+                        CustomerForm customerForm = new CustomerForm();
+                        customerForm.Show();
+                    }
                     this.Close();
                 }
                 catch (Exception ex)
@@ -222,7 +232,12 @@ namespace HotelSystem.View.CustomerForm
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (_invoiceId == null) // Opened from CustomerForm
+            // Nếu có form gọi (caller) thì hiển thị, nếu không thì mở CustomerForm mặc định
+            if (_callerForm != null && !_callerForm.IsDisposed)
+            {
+                _callerForm.Show();
+            }
+            else if (_invoiceId == null) // Mở từ CustomerForm
             {
                 CustomerForm customerForm = new CustomerForm();
                 customerForm.Show();
@@ -238,35 +253,87 @@ namespace HotelSystem.View.CustomerForm
 
         private void Invoice_Load(object sender, EventArgs e)
         {
-            LoadCustomerInfo();
-            LoadBookingRooms();
-            LoadBookingServices();
-            CalculateTotal();
-        }
-
-        private void LoadCustomerInfo()
-        {
-            var bllTTKH = new BLL_TTKH();
-            var customer = bllTTKH.GetCustomerByUserId(UserSession.UserId);
-            if (customer != null)
+            try
             {
-                lbCusName.Text = customer.Name;
-                lbCusCCCD.Text = customer.CCCD;
-                lbCusPhone.Text = customer.Phone;
+                CalculateTotal();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in Invoice_Load: {ex.Message}");
+                // Don't show error message to user, but set defaults
+                lbTotalAmount.Text = "0";
             }
         }
 
         private void CalculateTotal()
         {
-            decimal totalRoomPrice = _bookingRooms?.Sum(r => r.TotalPrice) ?? 0;
-            decimal totalServicePrice = _bookingServices?.Sum(s => s.TotalPrice) ?? 0;
-            decimal grandTotal = totalRoomPrice + totalServicePrice;
+            try
+            {
+                // Ensure both lists are initialized
+                if (_bookingRooms == null) _bookingRooms = new List<DTO_BookingRoom>();
+                if (_bookingServices == null) _bookingServices = new List<DTO_BookingService>();
+                
+                decimal totalRoomPrice = _bookingRooms.Sum(r => r.TotalPrice);
+                decimal totalServicePrice = _bookingServices.Sum(s => s.TotalPrice); 
+                decimal grandTotal = totalRoomPrice + totalServicePrice;
 
-            lbTotalAmount.Text = $"{grandTotal:C}";
+                lbTotalAmount.Text = $"{grandTotal:C}";
+            }
+            catch (Exception ex)
+            {
+                // Set default total if calculation fails
+                lbTotalAmount.Text = "0";
+                // Don't show error message to user
+                Console.WriteLine($"Error calculating total: {ex.Message}");
+            }
         }
 
-        private void LoadBookingServices()
+        private void LoadBookingRooms(int customerId)
         {
+            // Lấy danh sách đặt phòng của khách hàng
+            var bllBookingRoom = new BLL_BookingRoom();
+            _bookingRooms = bllBookingRoom.GetBookingRoomsByCustomerId(customerId);
+            
+            if (dgvListRoom.Columns.Count == 0)
+            {
+                dgvListRoom.Columns.Add("RoomId", "Room ID");
+                dgvListRoom.Columns.Add("CheckIn", "Check-In Date");
+                dgvListRoom.Columns.Add("CheckOut", "Check-Out Date");
+                dgvListRoom.Columns.Add("Status", "Status");
+                dgvListRoom.Columns.Add("TotalPrice", "Total Price");
+            }
+            dgvListRoom.Rows.Clear();
+
+            foreach (var room in _bookingRooms)
+            {
+                // Hiển thị thông tin đặt phòng
+                dgvListRoom.Rows.Add(
+                    room.RoomId,
+                    room.CheckIn.ToShortDateString(),
+                    room.CheckOut.ToShortDateString(),
+                    room.Status,
+                    room.TotalPrice.ToString("C")
+                );
+            }
+            
+            // Nếu không có đặt phòng nào
+            if (_bookingRooms.Count == 0)
+            {
+                dgvListRoom.Visible = false;
+                MessageBox.Show("Khách hàng này chưa có đặt phòng nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                dgvListRoom.Visible = true;
+            }
+        }
+
+        private void LoadBookingServices(int customerId)
+        {
+            // Lấy danh sách dịch vụ đã đặt của khách hàng
+            var bllBookingService = new BLL_BookingService();
+            _bookingServices = bllBookingService.GetBookingServicesByCustomerId(customerId);
+            
             if (_bookingServices == null || _bookingServices.Count == 0)
             {
                 dgvListService.Visible = false;
@@ -280,6 +347,7 @@ namespace HotelSystem.View.CustomerForm
                 dgvListService.Columns.Add("ServiceId", "Service ID");
                 dgvListService.Columns.Add("Quantity", "Quantity");
                 dgvListService.Columns.Add("ServiceDate", "Service Date");
+                dgvListService.Columns.Add("Status", "Status");
                 dgvListService.Columns.Add("TotalPrice", "Total Price");
             }
 
@@ -291,32 +359,13 @@ namespace HotelSystem.View.CustomerForm
                     service.Service_id,
                     service.Quantity,
                     service.Service_date.ToShortDateString(),
+                    service.Status,
                     service.TotalPrice.ToString("C")
                 );
             }
-        }
-
-        private void LoadBookingRooms()
-        {
-            if (dgvListRoom.Columns.Count == 0)
-            {
-                dgvListRoom.Columns.Add("RoomId", "Room ID");
-                dgvListRoom.Columns.Add("CheckIn", "Check-In Date");
-                dgvListRoom.Columns.Add("CheckOut", "Check-Out Date");
-                dgvListRoom.Columns.Add("TotalPrice", "Total Price");
-            }
-            dgvListRoom.Rows.Clear();
-
-            foreach (var room in _bookingRooms)
-            {
-                // Hiển thị thông tin đặt phòng (ví dụ: ListView hoặc DataGridView)
-                dgvListRoom.Rows.Add(
-                    room.RoomId,
-                    room.CheckIn.ToShortDateString(),
-                    room.CheckOut.ToShortDateString(),
-                    room.TotalPrice.ToString("C")
-                );
-            }
+            
+            dgvListService.Visible = true;
+            label6.Visible = true;
         }
 
         private void SaveInvoiceToFile(int invoiceId)
@@ -345,9 +394,9 @@ namespace HotelSystem.View.CustomerForm
                         sb.AppendLine($"Mã hóa đơn: {invoiceId}");
                         sb.AppendLine($"Ngày thanh toán: {DateTime.Now}");
                         sb.AppendLine();
-                        sb.AppendLine($"Khách hàng: {lbCusName.Text}");
-                        sb.AppendLine($"CCCD: {lbCusCCCD.Text}");
-                        sb.AppendLine($"Điện thoại: {lbCusPhone.Text}");
+                        sb.AppendLine($"Khách hàng: {txtName.Text}");
+                        sb.AppendLine($"CCCD: {txtCCCD.Text}");
+                        sb.AppendLine($"Điện thoại: {txtPhone.Text}");
                         sb.AppendLine();
                         
                         // Thông tin phòng
@@ -411,6 +460,41 @@ namespace HotelSystem.View.CustomerForm
             {
                 MessageBox.Show($"Lỗi khi lưu hóa đơn: {ex.Message}", 
                     "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnLoadBooking_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Kiểm tra tên khách hàng
+                if (txtName == null || string.IsNullOrWhiteSpace(txtName.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập tên khách hàng để tìm kiếm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
+                // Tìm khách hàng theo tên
+                BLL_TTKH bLL_TTKH = new BLL_TTKH();
+                var customer = bLL_TTKH.GetCustomerByName(txtName.Text.Trim());
+                
+                if (customer == null)
+                {
+                    MessageBox.Show("Không tìm thấy khách hàng với tên này!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
+                // Tải danh sách đặt phòng và dịch vụ của khách hàng
+                int customerId = customer.CustomerId;
+                LoadBookingRooms(customerId);
+                LoadBookingServices(customerId);
+                
+                // Tính toán lại tổng tiền
+                CalculateTotal();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải thông tin khách hàng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

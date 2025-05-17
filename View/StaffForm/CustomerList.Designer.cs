@@ -39,9 +39,8 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnReload = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomers)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvCustomers
@@ -146,17 +145,17 @@
             this.btnReload.UseVisualStyleBackColor = false;
             this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
             // 
-            // pictureBox1
+            // btnBack
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Image = global::HotelSystem.Properties.Resources.icons8_user_100;
-            this.pictureBox1.Location = new System.Drawing.Point(16, 15);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(144, 137);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 8;
-            this.pictureBox1.TabStop = false;
+            this.btnBack.BackColor = System.Drawing.Color.NavajoWhite;
+            this.btnBack.Location = new System.Drawing.Point(12, 2);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(76, 39);
+            this.btnBack.TabIndex = 9;
+            this.btnBack.Text = "Quay lại";
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // CustomerList
             // 
@@ -166,7 +165,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1003, 523);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnReload);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label1);
@@ -180,7 +179,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CustomerList_FormClosed);
             this.Load += new System.EventHandler(this.CustomerList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomers)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,6 +194,6 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnReload;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnBack;
     }
 }

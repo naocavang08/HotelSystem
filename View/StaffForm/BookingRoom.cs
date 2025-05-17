@@ -1,4 +1,4 @@
-﻿using HotelSystem.BLL;
+﻿    using HotelSystem.BLL;
 using HotelSystem.DTO;
 using HotelSystem.Model;
 using System;
@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using HotelSystem.View.AdminForm;
 using HotelSystem.Session;
 
-namespace HotelSystem.View.CustomerForm
+namespace HotelSystem.View.StaffForm
 {
     public partial class BookingRoom: Form
     {
@@ -27,7 +27,7 @@ namespace HotelSystem.View.CustomerForm
         // Constructor mặc định cho đặt phòng mới (được gọi từ code cũ)
         public BookingRoom(string roomNumber)
         {
-            InitializeComponent();
+            InitializeComponent();  
             _roomNumber = roomNumber;
             _isEditMode = false;
             _checkInDate = DateTime.Today;
@@ -59,7 +59,6 @@ namespace HotelSystem.View.CustomerForm
             {
                 // Chế độ chỉnh sửa - Tải thông tin đặt phòng hiện có
                 LoadBookingData();
-                LoadCustomerData(UserSession.UserId);
                 this.Text = "Chỉnh sửa đặt phòng";
                 btnSubmit.Text = "Cập nhật";
             }
@@ -69,9 +68,6 @@ namespace HotelSystem.View.CustomerForm
                 dtpCheck_in.Value = _checkInDate;
                 dtpCheck_out.Value = _checkOutDate;
                 txtRoomNumber.Text = _roomNumber;
-                
-                // Tải thông tin khách hàng từ UserId hiện tại
-                LoadCustomerData(UserSession.UserId);
                 
                 // Hiển thị thời gian ở phòng và tổng tiền
                 UpdateTotalPrice();
@@ -102,9 +98,6 @@ namespace HotelSystem.View.CustomerForm
                         _checkInDate = booking.check_in;
                         _checkOutDate = booking.check_out;
                         
-                        // Tải thông tin khách hàng
-                        LoadCustomerData(booking.customer_id);
-                        
                         // Hiển thị thời gian ở phòng và tổng tiền
                         UpdateTotalPrice();
                     }
@@ -119,18 +112,6 @@ namespace HotelSystem.View.CustomerForm
             {
                 MessageBox.Show("Lỗi khi tải thông tin đặt phòng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
-            }
-        }
-        
-        private void LoadCustomerData(int userId)
-        {
-            var bllTTKH = new BLL_TTKH();
-            var customer = bllTTKH.GetCustomerByUserId(userId);
-            if (customer != null)
-            {
-                txtName.Text = customer.Name;
-                txtCCCD.Text = customer.CCCD;
-                txtPhone.Text = customer.Phone;
             }
         }
 
@@ -198,8 +179,19 @@ namespace HotelSystem.View.CustomerForm
                 DialogResult result = MessageBox.Show("Họ tên không tồn tại, vui lòng thêm thông tin cá nhân!", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
-                    CustomerInfo opform = new CustomerInfo(this);
-                    opform.ShowDialog();    
+                    var newCustomerId = bllTTKH.GetNextCustomerId();
+                    CustomerDetail opform = new CustomerDetail(newCustomerId);
+                    opform.ShowDialog();
+                    if (opform.DialogResult == DialogResult.OK)
+                    {
+                        var newCustomer = bllTTKH.GetCustomerByCustomerId(newCustomerId);
+                        if (newCustomer != null)
+                        {
+                            txtName.Text = newCustomer.Name;
+                            txtCCCD.Text = newCustomer.CCCD;
+                            txtPhone.Text = newCustomer.Phone;
+                        }
+                    }
                 }
                 return;
             }
@@ -290,12 +282,30 @@ namespace HotelSystem.View.CustomerForm
         {
             using (var db = new DBHotelSystem())
             {
-                // Check if there are any bookings for this room that overlap with the selected dates
-                return !db.Bookings.Any(b => 
+                // Lấy các booking trùng thời gian
+                var overlappingBookings = db.Bookings.Where(b => 
                     b.room_id == roomId && 
                     b.status != "Checked Out" && 
                     b.check_in < checkOut && 
-                    b.check_out > checkIn);
+                    b.check_out > checkIn).ToList();
+                
+                // Kiểm tra nếu có booking nào trùng thời gian
+                foreach (var booking in overlappingBookings)
+                {
+                    // Loại trừ trường hợp checkout của booking cũ = checkin của booking mới
+                    // Sử dụng phương pháp so sánh dựa trên ngày tháng cơ bản
+                    DateTime bookingCheckoutDate = new DateTime(booking.check_out.Year, booking.check_out.Month, booking.check_out.Day, 0, 0, 0);
+                    DateTime checkInDate = new DateTime(checkIn.Year, checkIn.Month, checkIn.Day, 0, 0, 0);
+                    
+                    if (bookingCheckoutDate != checkInDate)
+                    {
+                        // Có trùng lịch đặt phòng thực sự
+                        return false;
+                    }
+                }
+                
+                // Không có trùng lịch hoặc chỉ có trùng kiểu "nối đuôi"
+                return true;
             }
         }
 

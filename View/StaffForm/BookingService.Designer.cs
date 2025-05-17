@@ -1,4 +1,4 @@
-﻿namespace HotelSystem.View.CustomerForm
+﻿namespace HotelSystem.View.StaffForm
 {
     partial class BookingService
     {
@@ -39,7 +39,6 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSubmit = new System.Windows.Forms.Button();
-            this.btnDelService = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -48,7 +47,6 @@
             // pnService
             // 
             this.pnService.BackColor = System.Drawing.Color.Transparent;
-            this.pnService.Controls.Add(this.btnDelService);
             this.pnService.Controls.Add(this.label7);
             this.pnService.Controls.Add(this.txtPhone);
             this.pnService.Controls.Add(this.label6);
@@ -135,7 +133,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(404, 522);
+            this.btnClose.Location = new System.Drawing.Point(319, 522);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(146, 50);
             this.btnClose.TabIndex = 19;
@@ -159,27 +157,13 @@
             this.btnSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSubmit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSubmit.ForeColor = System.Drawing.Color.White;
-            this.btnSubmit.Location = new System.Drawing.Point(20, 522);
+            this.btnSubmit.Location = new System.Drawing.Point(99, 522);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(150, 50);
             this.btnSubmit.TabIndex = 16;
             this.btnSubmit.Text = "Đặt dịch vụ";
             this.btnSubmit.UseVisualStyleBackColor = false;
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
-            // 
-            // btnDelService
-            // 
-            this.btnDelService.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(34)))), ((int)(((byte)(217)))));
-            this.btnDelService.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDelService.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelService.ForeColor = System.Drawing.Color.White;
-            this.btnDelService.Location = new System.Drawing.Point(214, 522);
-            this.btnDelService.Name = "btnDelService";
-            this.btnDelService.Size = new System.Drawing.Size(150, 50);
-            this.btnDelService.TabIndex = 27;
-            this.btnDelService.Text = "Hủy dịch vụ";
-            this.btnDelService.UseVisualStyleBackColor = false;
-            this.btnDelService.Click += new System.EventHandler(this.btnDelService_Click);
             // 
             // pictureBox1
             // 
@@ -226,6 +210,5 @@
         private System.Windows.Forms.TextBox txtCCCD;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.Button btnDelService;
     }
 }
