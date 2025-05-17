@@ -20,6 +20,8 @@ namespace HotelSystem.View.AdminForm
         {
             InitializeComponent();
             dbContext = new DBHotelSystem();
+            this.Load += Customer_Load;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
@@ -69,7 +71,7 @@ namespace HotelSystem.View.AdminForm
 
                                 customerList.Add(new
                                 {
-                                    customer.customer_id, // Thêm dòng này
+                                    //customer.customer_id, // Thêm dòng này
                                     customer.name,
                                     customer.phone,
                                     customer.cccd,
@@ -84,7 +86,7 @@ namespace HotelSystem.View.AdminForm
                             // Hiển thị thông tin customer không có booking
                             customerList.Add(new
                             {
-                                customer.customer_id, // Thêm dòng này
+                                //customer.customer_id, // Thêm dòng này
                                 customer.name,
                                 customer.phone,
                                 customer.cccd,
@@ -121,8 +123,8 @@ namespace HotelSystem.View.AdminForm
         private void FormatDataGridViewColumns()
         {
             // Đặt tiêu đề cho các cột
-            if (dataGridView1.Columns.Contains("customer_id"))
-                dataGridView1.Columns["customer_id"].HeaderText = "customer_id";
+            //if (dataGridView1.Columns.Contains("customer_id"))
+                //dataGridView1.Columns["customer_id"].HeaderText = "customer_id";
 
             if (dataGridView1.Columns.Contains("name"))
                 dataGridView1.Columns["name"].HeaderText = "Họ tên";

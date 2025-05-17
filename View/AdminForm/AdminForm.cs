@@ -21,7 +21,7 @@ namespace HotelSystem.View.AdminForm
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
         private void btnHide_Click(object sender, EventArgs e)
         {
