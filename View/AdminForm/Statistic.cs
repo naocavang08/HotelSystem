@@ -98,6 +98,7 @@ namespace HotelSystem.View.AdminForm
                 int selectedMonth = cbbThang.SelectedIndex + 1;
                 int currentYear = DateTime.Now.Year;
 
+                //truy vấn bằng cách sử dụng các hàm như Where, ToList, Sum
                 var monthlyBookings = db.Bookings
                     .Where(b => b.check_in.Month == selectedMonth && b.check_in.Year == currentYear)
                     .ToList();

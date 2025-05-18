@@ -195,6 +195,7 @@ namespace HotelSystem.View.AdminForm
 
                 using (var db = new DBHotelSystem())
                 {
+                    //mục đích của db.Rooms.AsQueryable(); là để dùng các phương thức trên Rooms như Where, OrderBy, ...
                     IQueryable<Model.Room> baseQuery = db.Rooms.AsQueryable();
 
                     if (!string.IsNullOrEmpty(roomNumber))
