@@ -12,8 +12,18 @@ namespace HotelSystem.View.AdminForm
         public Staff()
         {
             InitializeComponent();
+            InitializeRoleComboBox();
             SetupDataGridView();
             LoadStaffData(); // Tải dữ liệu nhân viên ban đầu
+        }
+
+        private void InitializeRoleComboBox()
+        {
+            // Khởi tạo ComboBox Role
+            cbbRole.Items.Clear();
+            cbbRole.Items.Add("Admin");
+            cbbRole.Items.Add("Staff");
+            cbbRole.SelectedIndex = 1; // Mặc định là Staff
         }
 
         private void SetupDataGridView()
@@ -21,21 +31,26 @@ namespace HotelSystem.View.AdminForm
             // Cấu hình DataGridView
             dataGridView1.Columns.Clear();
 
+
             // Thêm các cột vào DataGridView
             dataGridView1.Columns.Add("name", "Họ tên");
-            dataGridView1.Columns.Add("phone", "Số điện thoại");
+            dataGridView1.Columns.Add("phone", "SĐT");
             dataGridView1.Columns.Add("cccd", "CCCD");
             dataGridView1.Columns.Add("gender", "Giới tính");
             dataGridView1.Columns.Add("position", "Chức vụ");
             dataGridView1.Columns.Add("shift_date", "Lịch làm việc");
             dataGridView1.Columns.Add("shift_time", "Ca làm việc");
             dataGridView1.Columns.Add("salary", "Lương");
+            dataGridView1.Columns.Add("username", "Username");
+            dataGridView1.Columns.Add("password", "Password");
+            dataGridView1.Columns.Add("role", "Vai trò");
 
             // Cấu hình hiển thị
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ReadOnly = true;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
 
             // Gắn sự kiện khi click vào ô
             dataGridView1.CellClick += DataGridView1_CellClick;
@@ -67,6 +82,15 @@ namespace HotelSystem.View.AdminForm
                 txbLichLamViec.Text = row.Cells["shift_date"].Value.ToString();
                 txbCaLamViec.Text = row.Cells["shift_time"].Value.ToString();
                 txbLuong.Text = row.Cells["salary"].Value.ToString().Replace(",", "");
+                txbTenDangNhap.Text = row.Cells["username"].Value.ToString();
+                txbMatKhau.Text = row.Cells["password"].Value.ToString();
+
+                // Cập nhật ComboBox Role
+                string role = row.Cells["role"].Value.ToString();
+                if (role.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                    cbbRole.SelectedIndex = 0;
+                else
+                    cbbRole.SelectedIndex = 1;
             }
         }
 
@@ -83,15 +107,22 @@ namespace HotelSystem.View.AdminForm
 
                     foreach (var employee in employees)
                     {
-                        string genderText = employee.gender.HasValue && employee.gender.Value ? "Nam" : "Nữ";
+                        string genderText =
+                            employee.gender.HasValue && employee.gender.Value ? "Nam" : "Nữ";
 
-                        var workSchedule = dbContext.WorkSchedules
-                            .Where(ws => ws.employee_id == employee.employee_id)
+                        var workSchedule = dbContext
+                            .WorkSchedules.Where(ws => ws.employee_id == employee.employee_id)
                             .OrderByDescending(ws => ws.schedule_id)
                             .FirstOrDefault();
 
                         string shiftDate = workSchedule != null ? workSchedule.shift_date : "";
                         string shiftTime = workSchedule != null ? workSchedule.shift_time : "";
+
+                        // Lấy thông tin tài khoản
+                        var user = dbContext.Users.FirstOrDefault(u => u.id == employee.id);
+                        string username = user != null ? user.username : "";
+                        string password = user != null ? user.password : "";
+                        string role = user != null ? user.role : "Staff";
 
                         dataGridView1.Rows.Add(
                             employee.name,
@@ -101,14 +132,22 @@ namespace HotelSystem.View.AdminForm
                             employee.position,
                             shiftDate,
                             shiftTime,
-                            employee.salary.ToString("N0")
+                            employee.salary.ToString("N0"),
+                            username,
+                            password,
+                            role
                         );
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải dữ liệu nhân viên: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi tải dữ liệu nhân viên: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -122,6 +161,9 @@ namespace HotelSystem.View.AdminForm
             txbLuong.Text = "";
             txbLichLamViec.Text = "";
             txbCaLamViec.Text = "";
+            txbTenDangNhap.Text = "";
+            txbMatKhau.Text = "";
+            cbbRole.SelectedIndex = 1;
             radioButtonNam.Checked = true;
             radioButtonNu.Checked = false;
         }
@@ -131,55 +173,128 @@ namespace HotelSystem.View.AdminForm
             // Kiểm tra tính hợp lệ của dữ liệu nhập
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show("Vui lòng nhập họ tên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập họ tên!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtPhone.Text))
             {
-                MessageBox.Show("Vui lòng nhập số điện thoại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập số điện thoại!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtCCCD.Text))
             {
-                MessageBox.Show("Vui lòng nhập CCCD!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập CCCD!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txbChucVu.Text))
             {
-                MessageBox.Show("Vui lòng nhập chức vụ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập chức vụ!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txbLuong.Text))
             {
-                MessageBox.Show("Vui lòng nhập lương!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập lương!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (!decimal.TryParse(txbLuong.Text.Replace(",", ""), out _))
             {
-                MessageBox.Show("Lương phải là một số hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Lương phải là một số hợp lệ!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (!radioButtonNam.Checked && !radioButtonNu.Checked)
             {
-                MessageBox.Show("Vui lòng chọn giới tính!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng chọn giới tính!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
-            if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) && string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+            if (
+                !string.IsNullOrWhiteSpace(txbLichLamViec.Text)
+                && string.IsNullOrWhiteSpace(txbCaLamViec.Text)
+            )
             {
-                MessageBox.Show("Vui lòng nhập ca làm việc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập ca làm việc!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txbLichLamViec.Text) && !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+            if (
+                string.IsNullOrWhiteSpace(txbLichLamViec.Text)
+                && !string.IsNullOrWhiteSpace(txbCaLamViec.Text)
+            )
             {
-                MessageBox.Show("Vui lòng nhập lịch làm việc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập lịch làm việc!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txbTenDangNhap.Text))
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập tên đăng nhập!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txbMatKhau.Text))
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập mật khẩu!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
@@ -195,11 +310,32 @@ namespace HotelSystem.View.AdminForm
             {
                 using (var dbContext = new DBHotelSystem())
                 {
-                    bool isExists = dbContext.Employees.Any(emp => emp.phone == txtPhone.Text || emp.cccd == txtCCCD.Text);
+                    bool isExists = dbContext.Employees.Any(emp =>
+                        emp.phone == txtPhone.Text || emp.cccd == txtCCCD.Text
+                    );
+                    bool isUsernameExists = dbContext.Users.Any(u =>
+                        u.username == txbTenDangNhap.Text
+                    );
 
                     if (isExists)
                     {
-                        MessageBox.Show("Nhân viên với số điện thoại hoặc CCCD này đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(
+                            "Nhân viên với số điện thoại hoặc CCCD này đã tồn tại!",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return;
+                    }
+
+                    if (isUsernameExists)
+                    {
+                        MessageBox.Show(
+                            "Tên đăng nhập này đã tồn tại!",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
                         return;
                     }
 
@@ -208,11 +344,11 @@ namespace HotelSystem.View.AdminForm
 
                     var newUser = new User
                     {
-                        username = txtPhone.Text,
-                        password = "defaultpassword",
-                        role = "staff",
+                        username = txbTenDangNhap.Text,
+                        password = txbMatKhau.Text,
+                        role = cbbRole.SelectedItem.ToString(),
                         status = "active",
-                        date_register = DateTime.Now
+                        date_register = DateTime.Now,
                     };
 
                     dbContext.Users.Add(newUser);
@@ -226,19 +362,22 @@ namespace HotelSystem.View.AdminForm
                         gender = gender,
                         position = txbChucVu.Text,
                         salary = salary,
-                        id = newUser.id
+                        id = newUser.id,
                     };
 
                     dbContext.Employees.Add(newEmployee);
                     dbContext.SaveChanges();
 
-                    if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) && !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+                    if (
+                        !string.IsNullOrWhiteSpace(txbLichLamViec.Text)
+                        && !string.IsNullOrWhiteSpace(txbCaLamViec.Text)
+                    )
                     {
                         var workSchedule = new WorkSchedule
                         {
                             employee_id = newEmployee.employee_id,
                             shift_date = txbLichLamViec.Text,
-                            shift_time = txbCaLamViec.Text
+                            shift_time = txbCaLamViec.Text,
                         };
 
                         dbContext.WorkSchedules.Add(workSchedule);
@@ -246,13 +385,23 @@ namespace HotelSystem.View.AdminForm
                     }
 
                     LoadStaffData();
-                    MessageBox.Show("Thêm nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        "Thêm nhân viên thành công!",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                     ClearFields();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi thêm nhân viên: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi thêm nhân viên: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -260,7 +409,12 @@ namespace HotelSystem.View.AdminForm
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên cần cập nhật!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng chọn nhân viên cần cập nhật!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return;
             }
 
@@ -273,20 +427,45 @@ namespace HotelSystem.View.AdminForm
 
                 using (var dbContext = new DBHotelSystem())
                 {
-                    var employee = dbContext.Employees.FirstOrDefault(emp => emp.cccd == selectedCccd);
+                    var employee = dbContext.Employees.FirstOrDefault(emp =>
+                        emp.cccd == selectedCccd
+                    );
 
                     if (employee != null)
                     {
                         bool isExists = dbContext.Employees.Any(emp =>
-                            (emp.phone == txtPhone.Text || emp.cccd == txtCCCD.Text) &&
-                            emp.employee_id != employee.employee_id);
+                            (emp.phone == txtPhone.Text || emp.cccd == txtCCCD.Text)
+                            && emp.employee_id != employee.employee_id
+                        );
+
+                        var user = dbContext.Users.Find(employee.id);
+                        bool isUsernameExists = dbContext.Users.Any(u =>
+                            u.username == txbTenDangNhap.Text && u.id != employee.id
+                        );
 
                         if (isExists)
                         {
-                            MessageBox.Show("Nhân viên với số điện thoại hoặc CCCD này đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show(
+                                "Nhân viên với số điện thoại hoặc CCCD này đã tồn tại!",
+                                "Thông báo",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning
+                            );
                             return;
                         }
 
+                        if (isUsernameExists)
+                        {
+                            MessageBox.Show(
+                                "Tên đăng nhập này đã tồn tại!",
+                                "Thông báo",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning
+                            );
+                            return;
+                        }
+
+                        // Update employee info
                         bool gender = radioButtonNam.Checked;
                         decimal salary = decimal.Parse(txbLuong.Text.Replace(",", ""));
 
@@ -297,16 +476,21 @@ namespace HotelSystem.View.AdminForm
                         employee.position = txbChucVu.Text;
                         employee.salary = salary;
 
-                        var user = dbContext.Users.Find(employee.id);
+                        // Update user info
                         if (user != null)
                         {
-                            user.username = txtPhone.Text;
+                            user.username = txbTenDangNhap.Text;
+                            user.password = txbMatKhau.Text;
+                            user.role = cbbRole.SelectedItem.ToString();
                         }
 
-                        if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) && !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+                        if (
+                            !string.IsNullOrWhiteSpace(txbLichLamViec.Text)
+                            && !string.IsNullOrWhiteSpace(txbCaLamViec.Text)
+                        )
                         {
-                            var workSchedule = dbContext.WorkSchedules
-                                .Where(ws => ws.employee_id == employee.employee_id)
+                            var workSchedule = dbContext
+                                .WorkSchedules.Where(ws => ws.employee_id == employee.employee_id)
                                 .OrderByDescending(ws => ws.schedule_id)
                                 .FirstOrDefault();
 
@@ -321,7 +505,7 @@ namespace HotelSystem.View.AdminForm
                                 {
                                     employee_id = employee.employee_id,
                                     shift_date = txbLichLamViec.Text,
-                                    shift_time = txbCaLamViec.Text
+                                    shift_time = txbCaLamViec.Text,
                                 };
                                 dbContext.WorkSchedules.Add(newWorkSchedule);
                             }
@@ -329,18 +513,33 @@ namespace HotelSystem.View.AdminForm
 
                         dbContext.SaveChanges();
                         LoadStaffData();
-                        MessageBox.Show("Cập nhật nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(
+                            "Cập nhật nhân viên thành công!",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
                         ClearFields();
                     }
                     else
                     {
-                        MessageBox.Show("Không tìm thấy nhân viên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            "Không tìm thấy nhân viên!",
+                            "Lỗi",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi cập nhật nhân viên: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi cập nhật nhân viên: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -348,27 +547,41 @@ namespace HotelSystem.View.AdminForm
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên cần xóa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng chọn nhân viên cần xóa!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return;
             }
 
-            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa nhân viên này?", "Xác nhận",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(
+                "Bạn có chắc chắn muốn xóa nhân viên này?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
             if (result == DialogResult.Yes)
             {
                 try
                 {
-                    string selectedCccd = dataGridView1.SelectedRows[0].Cells["cccd"].Value.ToString();
+                    string selectedCccd = dataGridView1
+                        .SelectedRows[0]
+                        .Cells["cccd"]
+                        .Value.ToString();
 
                     using (var dbContext = new DBHotelSystem())
                     {
-                        var employee = dbContext.Employees.FirstOrDefault(emp => emp.cccd == selectedCccd);
+                        var employee = dbContext.Employees.FirstOrDefault(emp =>
+                            emp.cccd == selectedCccd
+                        );
 
                         if (employee != null)
                         {
-                            var workSchedules = dbContext.WorkSchedules
-                                .Where(ws => ws.employee_id == employee.employee_id)
+                            var workSchedules = dbContext
+                                .WorkSchedules.Where(ws => ws.employee_id == employee.employee_id)
                                 .ToList();
 
                             foreach (var schedule in workSchedules)
@@ -379,18 +592,33 @@ namespace HotelSystem.View.AdminForm
                             dbContext.Employees.Remove(employee);
                             dbContext.SaveChanges();
                             LoadStaffData();
-                            MessageBox.Show("Xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(
+                                "Xóa nhân viên thành công!",
+                                "Thông báo",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information
+                            );
                             ClearFields();
                         }
                         else
                         {
-                            MessageBox.Show("Không tìm thấy nhân viên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(
+                                "Không tìm thấy nhân viên!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error
+                            );
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Lỗi khi xóa nhân viên: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        $"Lỗi khi xóa nhân viên: {ex.Message}",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                 }
             }
         }
@@ -403,6 +631,8 @@ namespace HotelSystem.View.AdminForm
             string searchPosition = txbChucVu.Text.ToLower();
             string searchShiftDate = txbLichLamViec.Text;
             string searchShiftTime = txbCaLamViec.Text;
+            string searchUsername = txbTenDangNhap.Text;
+            string searchRole = cbbRole.SelectedItem?.ToString();
 
             try
             {
@@ -411,6 +641,7 @@ namespace HotelSystem.View.AdminForm
                     var employees = dbContext.Employees.ToList();
                     var filteredEmployees = new List<Employee>();
 
+                    // Filter by basic info
                     var query = employees.AsQueryable();
 
                     if (!string.IsNullOrWhiteSpace(searchName))
@@ -425,7 +656,27 @@ namespace HotelSystem.View.AdminForm
                     if (!string.IsNullOrWhiteSpace(searchPosition))
                         query = query.Where(emp => emp.position.ToLower().Contains(searchPosition));
 
-                    if (string.IsNullOrWhiteSpace(searchShiftDate) && string.IsNullOrWhiteSpace(searchShiftTime))
+                    // Filter by username if provided
+                    if (!string.IsNullOrWhiteSpace(searchUsername))
+                    {
+                        query = query.Where(emp =>
+                            dbContext.Users.Any(u =>
+                                u.id == emp.id && u.username.Contains(searchUsername)
+                            )
+                        );
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(searchRole))
+                    {
+                        query = query.Where(emp =>
+                            dbContext.Users.Any(u => u.id == emp.id && u.role == searchRole)
+                        );
+                    }
+
+                    if (
+                        string.IsNullOrWhiteSpace(searchShiftDate)
+                        && string.IsNullOrWhiteSpace(searchShiftTime)
+                    )
                     {
                         filteredEmployees = query.ToList();
                     }
@@ -433,12 +684,19 @@ namespace HotelSystem.View.AdminForm
                     {
                         foreach (var employee in query)
                         {
-                            var workSchedules = dbContext.WorkSchedules
-                                .Where(ws => ws.employee_id == employee.employee_id).ToList();
+                            var workSchedules = dbContext
+                                .WorkSchedules.Where(ws => ws.employee_id == employee.employee_id)
+                                .ToList();
 
                             bool matchesSchedule = workSchedules.Any(ws =>
-                                (string.IsNullOrWhiteSpace(searchShiftDate) || ws.shift_date.Contains(searchShiftDate)) &&
-                                (string.IsNullOrWhiteSpace(searchShiftTime) || ws.shift_time.Contains(searchShiftTime))
+                                (
+                                    string.IsNullOrWhiteSpace(searchShiftDate)
+                                    || ws.shift_date.Contains(searchShiftDate)
+                                )
+                                && (
+                                    string.IsNullOrWhiteSpace(searchShiftTime)
+                                    || ws.shift_time.Contains(searchShiftTime)
+                                )
                             );
 
                             if (matchesSchedule)
@@ -451,15 +709,21 @@ namespace HotelSystem.View.AdminForm
                     dataGridView1.Rows.Clear();
                     foreach (var employee in filteredEmployees)
                     {
-                        string genderText = employee.gender.HasValue && employee.gender.Value ? "Nam" : "Nữ";
+                        string genderText =
+                            employee.gender.HasValue && employee.gender.Value ? "Nam" : "Nữ";
 
-                        var workSchedule = dbContext.WorkSchedules
-                            .Where(ws => ws.employee_id == employee.employee_id)
+                        var workSchedule = dbContext
+                            .WorkSchedules.Where(ws => ws.employee_id == employee.employee_id)
                             .OrderByDescending(ws => ws.schedule_id)
                             .FirstOrDefault();
 
                         string shiftDate = workSchedule != null ? workSchedule.shift_date : "";
                         string shiftTime = workSchedule != null ? workSchedule.shift_time : "";
+
+                        // Get user info
+                        var user = dbContext.Users.FirstOrDefault(u => u.id == employee.id);
+                        string username = user != null ? user.username : "";
+                        string password = user != null ? user.password : "";
 
                         dataGridView1.Rows.Add(
                             employee.name,
@@ -469,20 +733,33 @@ namespace HotelSystem.View.AdminForm
                             employee.position,
                             shiftDate,
                             shiftTime,
-                            employee.salary.ToString("N0")
+                            employee.salary.ToString("N0"),
+                            username,
+                            password,
+                            user != null ? user.role : "Staff"
                         );
                     }
 
                     if (filteredEmployees.Count == 0)
                     {
-                        MessageBox.Show("Không tìm thấy nhân viên nào phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(
+                            "Không tìm thấy nhân viên nào phù hợp!",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
                         LoadStaffData();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tìm kiếm: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi tìm kiếm: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
