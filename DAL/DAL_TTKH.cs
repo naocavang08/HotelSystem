@@ -19,7 +19,7 @@ namespace HotelSystem.DAL
         {
             using (var db = new DBHotelSystem())
             {
-                return db.Customers.FirstOrDefault(c => c.name == name);
+                return db.Customers.FirstOrDefault(c => c.name.ToLower() == name.ToLower());
             }
         }
         // Lấy thông tin khách hàng theo tên và cccd
@@ -27,7 +27,7 @@ namespace HotelSystem.DAL
         {
             using (var db = new DBHotelSystem())
             {
-                return db.Customers.FirstOrDefault(c => c.name == name && c.cccd == cccd);
+                return db.Customers.FirstOrDefault(c => c.name.ToLower() == name.ToLower() && c.cccd == cccd);
             }
         }
         // Lấy thông tin khách hàng theo ID

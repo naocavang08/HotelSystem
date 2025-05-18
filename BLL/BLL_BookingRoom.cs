@@ -17,7 +17,26 @@ namespace HotelSystem.BLL
         {
             return dalBookingRoom.GetAvailableRooms(roomTypeId, checkIn, checkOut);
         }
-        
+        // Lấy booking theo ID
+        public DTO_BookingRoom GetBookingById(int bookingId)
+        {
+            var booking = dalBookingRoom.GetBookingById(bookingId);
+            if (booking == null)
+            {
+                return null;
+            }
+            return new DTO_BookingRoom
+            {
+                BookingId = booking.booking_id,
+                CustomerId = booking.customer_id,
+                RoomId = booking.room_id,
+                CheckIn = booking.check_in,
+                CheckOut = booking.check_out,
+                Status = booking.status,
+                TotalPrice = booking.total_price
+            };
+        }
+
         // Lấy danh sách booking của khách hàng theo ID
         public List<DTO_BookingRoom> GetBookingRoomsByCustomerId(int customerId)
         {
@@ -84,49 +103,6 @@ namespace HotelSystem.BLL
         public bool SetBookingToPayment(int bookingId)
         {
             return dalBookingRoom.UpdateStatus(bookingId, "Payment");
-        }
-        
-        // Lấy danh sách ID các phòng đã được đặt trong một khoảng thời gian
-        public HashSet<int> GetBookedRoomIds(DateTime checkIn, DateTime checkOut)
-        {
-            HashSet<int> bookedRoomIds = new HashSet<int>();
-            
-            // Lấy các booking mà thời gian trùng với thời gian tìm kiếm
-            var overlappingBookings = dalBookingRoom.GetOverlappingBookings(checkIn, checkOut);
-            
-            // Thêm ID của các phòng đã được đặt vào HashSet
-            foreach (var booking in overlappingBookings)
-            {
-                // Chỉ xem xét các booking với trạng thái "Booked" hoặc "Checked In"
-                if ((booking.status == "Booked" || booking.status == "Checked In"))
-                {
-                    // Logic kiểm tra đã được đưa vào GetOverlappingBookings
-                    bookedRoomIds.Add(booking.room_id);
-                }
-            }
-            
-            return bookedRoomIds;
-        }
-        
-        // Giữ phương thức này để sử dụng khi cần (ví dụ: khi admin muốn cập nhật hệ thống)
-        private void UpdateExpiredBookings(DateTime searchDate)
-        {
-            try
-            {
-                // Lấy danh sách các booking mà ngày checkout <= ngày tìm kiếm và trạng thái vẫn là "Booked"
-                var expiredBookings = dalBookingRoom.GetExpiredBookings(searchDate);
-                
-                // Cập nhật trạng thái các booking đã hết hạn và phòng tương ứng
-                if (expiredBookings.Any())
-                {
-                    dalBookingRoom.UpdateExpiredBookingsAndRooms(expiredBookings);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log lỗi nếu cần
-                Console.WriteLine($"Error updating expired bookings: {ex.Message}");
-            }
         }
     }
 }

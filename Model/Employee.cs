@@ -31,6 +31,7 @@ namespace HotelSystem.Model
         [Column(TypeName = "bit")]
         public Nullable<bool> gender { get; set; }
         [Required]
+        [Column(TypeName = "nvarchar")]
         [StringLength(50)]
         public string position { get; set; }
         [Required]

@@ -18,7 +18,7 @@ namespace HotelSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AdminForm());
+            Application.Run(new CustomerForm());
         }
     }
 }

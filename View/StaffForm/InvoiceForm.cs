@@ -56,16 +56,16 @@ namespace HotelSystem.View.StaffForm
             dateColumn.HeaderText = "Payment Date";
             dgvInvoices.Columns.Add(dateColumn);
 
-            DataGridViewButtonColumn editColumn = new DataGridViewButtonColumn();
-            editColumn.HeaderText = "Edit";
-            editColumn.Text = "Edit";
-            editColumn.UseColumnTextForButtonValue = true;
-            dgvInvoices.Columns.Add(editColumn);
+            DataGridViewButtonColumn detailColumn = new DataGridViewButtonColumn();
+            detailColumn.HeaderText = "Detail";
+            detailColumn.Text = "Detail";
+            detailColumn.UseColumnTextForButtonValue = true;
+            dgvInvoices.Columns.Add(detailColumn);
             
-            // Add double-click event handler
+            // Thêm sự kiện xử lý khi double-click vào ô
             dgvInvoices.CellDoubleClick += DgvInvoices_CellDoubleClick;
             
-            // Create context menu
+            // Tạo menu ngữ cảnh
             ContextMenuStrip contextMenu = new ContextMenuStrip();
             ToolStripMenuItem viewMenuItem = new ToolStripMenuItem("Xem chi tiết hóa đơn");
             viewMenuItem.Click += ViewMenuItem_Click;
@@ -84,21 +84,21 @@ namespace HotelSystem.View.StaffForm
 
         private void dgvInvoices_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Check if the click is on the Edit button column
+            // Kiểm tra xem người dùng đã nhấp vào cột nút Chỉnh sửa chưa
             if (e.ColumnIndex == dgvInvoices.Columns.Count - 1 && e.RowIndex >= 0)
             {
                 if (e.RowIndex < invoices.Count)
                 {
-                    // Open edit dialog or enable editing for this row
+                    // Mở hộp thoại chỉnh sửa hoặc cho phép chỉnh sửa cho hàng này
                     dgvInvoices.BeginEdit(true);
                 }
             }
-            // If the click is on any other column, open the invoice details
+            // Nếu nhấp vào bất kỳ cột nào khác, mở chi tiết hóa đơn
             else if (e.RowIndex >= 0 && e.RowIndex < invoices.Count)
             {
                 int invoiceId = invoices[e.RowIndex].InvoiceId;
                 
-                // Open the invoice details form with this form as caller
+                // Mở form chi tiết hóa đơn với form này là người gọi
                 Invoice invoiceForm = new Invoice(invoiceId, this);
                 invoiceForm.ShowDialog();
             }
@@ -117,17 +117,17 @@ namespace HotelSystem.View.StaffForm
             {
                 DTO_Invoice invoice = invoices[rowIndex];
                 
-                // Determine if it's a new or existing invoice
+                // Xác định xem đây là hóa đơn mới hay hiện có
                 if (invoice.InvoiceId > 0)
                 {
-                    // Update existing invoice
+                    // Cập nhật hóa đơn hiện có
                     bllInvoice.UpdateInvoice(invoice);
                 }
                 else
                 {
-                    // Create new invoice
+                    // Tạo hóa đơn mới
                     bllInvoice.CreateInvoice(invoice);
-                    LoadInvoiceData(); // Reload to get the new ID
+                    LoadInvoiceData(); // Làm mới danh sách để lấy ID mới
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace HotelSystem.View.StaffForm
             {
                 int invoiceId = invoices[dgvInvoices.CurrentRow.Index].InvoiceId;
                 
-                // Confirm deletion
+                // Xác nhận xóa
                 DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa hóa đơn không?", 
                     "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 
@@ -166,7 +166,7 @@ namespace HotelSystem.View.StaffForm
                             {
                                 try
                                 {
-                                    // Get the invoice with related bookings and services
+                                    // Lấy hóa đơn với các đặt phòng và dịch vụ liên quan
                                     var invoice = db.Invoices
                                         .Include("Bookings.Customer")
                                         .Include("BookingServices")
@@ -194,30 +194,30 @@ namespace HotelSystem.View.StaffForm
                                         return;
                                     }
                                         
-                                    // Get the customer ID from the first booking
+                                    // Lấy ID khách hàng từ đặt phòng đầu tiên
                                     int customerId = invoice.Bookings.First().customer_id;
                                     
-                                    // Get all completed bookings for this customer
+                                    // Lấy tất cả đặt phòng đã hoàn thành của khách hàng này
                                     var completedBookings = db.Bookings
                                         .Where(b => b.customer_id == customerId && b.status == "Checked Out")
                                         .ToList();
                                         
-                                    // Get all completed booking services for this customer
+                                    // Lấy tất cả dịch vụ đặt phòng đã hoàn thành của khách hàng này
                                     var completedBookingServices = db.BookingServices
                                         .Where(bs => bs.customer_id == customerId && bs.status == "Completed")
                                         .ToList();
                                     
-                                    // First remove the invoice
+                                    // Đầu tiên xóa hóa đơn
                                     db.Invoices.Remove(invoice);
                                     db.SaveChanges();
                                     
-                                    // Delete all completed bookings for this customer
+                                    // Xóa tất cả đặt phòng đã hoàn thành của khách hàng này
                                     foreach (var booking in completedBookings)
                                     {
                                         db.Bookings.Remove(booking);
                                     }
                                     
-                                    // Delete all completed booking services for this customer
+                                    // Xóa tất cả dịch vụ đặt phòng đã hoàn thành của khách hàng này
                                     foreach (var bookingService in completedBookingServices)
                                     {
                                         db.BookingServices.Remove(bookingService);
@@ -229,7 +229,7 @@ namespace HotelSystem.View.StaffForm
                                     MessageBox.Show("Hóa đơn đã được xóa thành công!", 
                                         "Xóa thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     
-                                    // Reload data
+                                    // Làm mới dữ liệu
                                     LoadInvoiceData();
                                 }
                                 catch (Exception ex)
@@ -248,20 +248,15 @@ namespace HotelSystem.View.StaffForm
                     }
                 }
             }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn một hóa đơn để xóa.", "Chưa chọn", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string searchTerm = txtSearch.Text.Trim();
-            if (!string.IsNullOrEmpty(searchTerm))
+            string searchText = txtSearch.Text.Trim();
+            if (!string.IsNullOrEmpty(searchText))
             {
-                invoices = bllInvoice.SearchInvoices(searchTerm);
-                dgvInvoices.DataSource = invoices;
+                List<DTO_Invoice> searchResults = bllInvoice.SearchInvoices(searchText);
+                dgvInvoices.DataSource = searchResults;
                 dgvInvoices.Refresh();
             }
             else
@@ -272,24 +267,21 @@ namespace HotelSystem.View.StaffForm
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            BLL_Invoice bLL_Invoice = new BLL_Invoice();
-            var newInvoiceId = bLL_Invoice.GetNextInvoiceId();
+            BLL_Invoice bllInvoice = new BLL_Invoice();
+            var nextInvoiceId = bllInvoice.GetNextInvoiceId();
             DTO_Invoice newInvoice = new DTO_Invoice
             {
-                InvoiceId = newInvoiceId, 
+                InvoiceId = nextInvoiceId,
                 TotalAmount = 0,
-                PaymentStatus = "Pending",
+                PaymentStatus = "Chưa thanh toán",
                 PaymentDate = null,
                 BookingRoomIds = new List<int>(),
                 BookingServiceIds = new List<int>()
             };
-            
             invoices.Add(newInvoice);
             dgvInvoices.DataSource = null;
             dgvInvoices.DataSource = invoices;
             dgvInvoices.Refresh();
-            
-            // Focus on the new row for editing
             dgvInvoices.CurrentCell = dgvInvoices.Rows[dgvInvoices.Rows.Count - 1].Cells[0];
             dgvInvoices.BeginEdit(true);
         }
@@ -302,7 +294,6 @@ namespace HotelSystem.View.StaffForm
 
         private void btnReload_Click(object sender, EventArgs e)
         {
-            txtSearch.Clear();
             LoadInvoiceData();
         }
 
@@ -312,7 +303,7 @@ namespace HotelSystem.View.StaffForm
             {
                 int invoiceId = invoices[e.RowIndex].InvoiceId;
                 
-                // Open the invoice details form with this form as caller
+                // Mở form chi tiết hóa đơn với form này là người gọi
                 Invoice invoiceForm = new Invoice(invoiceId, this);
                 invoiceForm.ShowDialog();
             }
@@ -325,7 +316,7 @@ namespace HotelSystem.View.StaffForm
             {
                 int invoiceId = invoices[dgvInvoices.CurrentRow.Index].InvoiceId;
                 
-                // Open the invoice details form with this form as caller
+                // Mở form chi tiết hóa đơn với form này là người gọi
                 Invoice invoiceForm = new Invoice(invoiceId, this);
                 invoiceForm.ShowDialog();
             }
@@ -335,11 +326,11 @@ namespace HotelSystem.View.StaffForm
         {
             Application.Exit();
         }
-        
+
         private void btnBack_Click(object sender, EventArgs e)
         {
-            CustomerForm op = new CustomerForm();
-            op.Show();
+            CustomerForm customerForm = new CustomerForm();
+            customerForm.Show();
             this.Hide();
         }
     }

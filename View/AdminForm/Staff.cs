@@ -1,55 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using HotelSystem.BLL;
+using HotelSystem.DTO;
 using HotelSystem.Model;
 
 namespace HotelSystem.View.AdminForm
 {
     public partial class Staff : Form
     {
+        private BLL_Staff bllStaff = new BLL_Staff();
+
         public Staff()
         {
             InitializeComponent();
             SetupDataGridView();
-            LoadStaffData(); // Load initial data
+            LoadStaffData(); // Tải dữ liệu nhân viên ban đầu
         }
 
         private void SetupDataGridView()
         {
-            // Clear existing columns
+            // Cấu hình DataGridView
             dataGridView1.Columns.Clear();
 
-            // Add columns to the DataGridView
-            //name: lấy từ bảng Employee
+            // Thêm các cột vào DataGridView
             dataGridView1.Columns.Add("name", "Họ tên");
-            //phone: lấy từ bảng Employee
-            dataGridView1.Columns.Add("phone", "Số điện thoại");
-            //cccd: lấy từ bảng Employee
+            dataGridView1.Columns.Add("phone", "SĐT");
             dataGridView1.Columns.Add("cccd", "CCCD");
-            //gender: lấy từ bảng Employee
             dataGridView1.Columns.Add("gender", "Giới tính");
-            //position: lấy từ bảng Employee
             dataGridView1.Columns.Add("position", "Chức vụ");
-            //shift_date: lấy từ bảng WorkSchedule
             dataGridView1.Columns.Add("shift_date", "Lịch làm việc");
-            //shift_time: lấy từ bảng WorkSchedule
             dataGridView1.Columns.Add("shift_time", "Ca làm việc");
-            //salary: lấy từ bảng Employee
             dataGridView1.Columns.Add("salary", "Lương");
+            dataGridView1.Columns.Add("username", "Username");
+            dataGridView1.Columns.Add("password", "Password");
+            dataGridView1.Columns.Add("role", "Vai trò");
 
-            // Set column properties for better display
+            // Cấu hình hiển thị
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ReadOnly = true;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            // Add handler for cell click event to populate text fields when a row is selected
+            // Gắn sự kiện khi click vào ô
             dataGridView1.CellClick += DataGridView1_CellClick;
         }
 
@@ -62,7 +57,7 @@ namespace HotelSystem.View.AdminForm
                 txtPhone.Text = row.Cells["phone"].Value.ToString();
                 txtCCCD.Text = row.Cells["cccd"].Value.ToString();
 
-                // Set gender radio buttons based on the gender value
+                // Gán giá trị giới tính
                 string gender = row.Cells["gender"].Value.ToString();
                 if (gender == "Nam")
                 {
@@ -76,66 +71,57 @@ namespace HotelSystem.View.AdminForm
                 }
 
                 txbChucVu.Text = row.Cells["position"].Value.ToString();
-
-                // Set work schedule information
                 txbLichLamViec.Text = row.Cells["shift_date"].Value.ToString();
                 txbCaLamViec.Text = row.Cells["shift_time"].Value.ToString();
+                txbLuong.Text = row.Cells["salary"].Value.ToString().Replace(",", "");
+                txbTenDangNhap.Text = row.Cells["username"].Value.ToString();
+                txbMatKhau.Text = row.Cells["password"].Value.ToString();
 
-                // Clean salary value - remove formatted separators for editing
-                string salaryText = row.Cells["salary"].Value.ToString();
-                txbLuong.Text = salaryText.Replace(",", "");
             }
         }
 
-        // Method to load staff data into the DataGridView
         private void LoadStaffData()
         {
-            // Clear existing rows
+            // Tải dữ liệu nhân viên từ BLL
             dataGridView1.Rows.Clear();
 
             try
             {
-                using (var dbContext = new DBHotelSystem())
+                var staffList = bllStaff.GetAllStaff();
+
+                foreach (var staff in staffList)
                 {
-                    // Get all employees from the database with their work schedules
-                    var employees = dbContext.Employees.ToList();
+                    string genderText = staff.Gender ? "Nam" : "Nữ";
 
-                    // Add each employee to the DataGridView
-                    foreach (var employee in employees)
-                    {
-                        string genderText = employee.gender.HasValue && employee.gender.Value ? "Nam" : "Nữ";
-
-                        // Get the most recent work schedule for this employee (if any)
-                        var workSchedule = dbContext.WorkSchedules
-                            .Where(ws => ws.employee_id == employee.employee_id)
-                            .OrderByDescending(ws => ws.schedule_id)
-                            .FirstOrDefault();
-
-                        string shiftDate = workSchedule != null ? workSchedule.shift_date : "";
-                        string shiftTime = workSchedule != null ? workSchedule.shift_time : "";
-
-                        dataGridView1.Rows.Add(
-                            employee.name,
-                            employee.phone,
-                            employee.cccd,
-                            genderText,
-                            employee.position,
-                            shiftDate,
-                            shiftTime,
-                            employee.salary.ToString("N0")
-                        );
-                    }
+                    dataGridView1.Rows.Add(
+                        staff.Name,
+                        staff.Phone,
+                        staff.CCCD,
+                        genderText,
+                        staff.Position,
+                        staff.ShiftDate ?? "",
+                        staff.ShiftTime ?? "",
+                        staff.Salary.ToString("N0"),
+                        staff.Username ?? "",
+                        staff.Password ?? "",
+                        staff.Role ?? "Staff"
+                    );
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading staff data: {ex.Message}", "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi tải dữ liệu nhân viên: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
         private void ClearFields()
         {
+            // Xóa trắng các trường nhập liệu
             txtName.Text = "";
             txtPhone.Text = "";
             txtCCCD.Text = "";
@@ -143,69 +129,139 @@ namespace HotelSystem.View.AdminForm
             txbLuong.Text = "";
             txbLichLamViec.Text = "";
             txbCaLamViec.Text = "";
-            // Reset gender selection
+            txbTenDangNhap.Text = "";
+            txbMatKhau.Text = "";
             radioButtonNam.Checked = true;
             radioButtonNu.Checked = false;
         }
 
         private bool ValidateInput()
         {
-            // Perform validation on input fields
+            // Kiểm tra tính hợp lệ của dữ liệu nhập
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show("Vui lòng nhập họ tên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập họ tên!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtPhone.Text))
             {
-                MessageBox.Show("Vui lòng nhập số điện thoại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập số điện thoại!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtCCCD.Text))
             {
-                MessageBox.Show("Vui lòng nhập CCCD!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập CCCD!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txbChucVu.Text))
             {
-                MessageBox.Show("Vui lòng nhập chức vụ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập chức vụ!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txbLuong.Text))
             {
-                MessageBox.Show("Vui lòng nhập lương!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập lương!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
-            // Validate that salary is a number
-            decimal salary;
-            if (!decimal.TryParse(txbLuong.Text.Replace(",", ""), out salary))
+            if (!decimal.TryParse(txbLuong.Text.Replace(",", ""), out _))
             {
-                MessageBox.Show("Lương phải là một số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Lương phải là một số hợp lệ!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
-            // Validate gender
             if (!radioButtonNam.Checked && !radioButtonNu.Checked)
             {
-                MessageBox.Show("Vui lòng chọn giới tính!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng chọn giới tính!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
-            // Lịch làm việc and Ca làm việc are optional, but if one is provided, the other should be too
-            if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) && string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+            if (
+                !string.IsNullOrWhiteSpace(txbLichLamViec.Text)
+                && string.IsNullOrWhiteSpace(txbCaLamViec.Text)
+            )
             {
-                MessageBox.Show("Vui lòng nhập ca làm việc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập ca làm việc!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txbLichLamViec.Text) && !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
+            if (
+                string.IsNullOrWhiteSpace(txbLichLamViec.Text)
+                && !string.IsNullOrWhiteSpace(txbCaLamViec.Text)
+            )
             {
-                MessageBox.Show("Vui lòng nhập lịch làm việc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng nhập lịch làm việc!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txbTenDangNhap.Text))
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập tên đăng nhập!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txbMatKhau.Text))
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập mật khẩu!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return false;
             }
 
@@ -217,111 +273,59 @@ namespace HotelSystem.View.AdminForm
             if (!ValidateInput())
                 return;
 
-            if (string.IsNullOrWhiteSpace(txtName.Text) ||
-                string.IsNullOrWhiteSpace(txtPhone.Text) ||
-                string.IsNullOrWhiteSpace(txtCCCD.Text))
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin khách hàng", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Kiểm tra số điện thoại phải là chuỗi số và đúng 10 ký tự
-            if (txtPhone.Text.Length != 10 || !txtPhone.Text.All(char.IsDigit))
-            {
-                MessageBox.Show("Số điện thoại phải gồm 10 chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Kiểm tra CCCD chỉ được chứa số và đúng 12 ký tự
-            if (!txtCCCD.Text.All(char.IsDigit) || txtCCCD.Text.Length != 12)
-            {
-                MessageBox.Show("CCCD chỉ được chứa các ký tự số và dài 12 ký tự.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-
             try
             {
-                using (var dbContext = new DBHotelSystem())
+                bool gender = radioButtonNam.Checked;
+                decimal salary = decimal.Parse(txbLuong.Text.Replace(",", ""));
+
+                // Tạo DTO_Staff để truyền dữ liệu
+                var staffDto = new DTO_Staff
                 {
-                    // Kiểm tra xem nhân viên đã tồn tại chưa
-                    bool isExists = dbContext.Employees.Any(emp => emp.phone == txtPhone.Text || emp.cccd == txtCCCD.Text);
+                    Name = txtName.Text,
+                    Phone = txtPhone.Text,
+                    CCCD = txtCCCD.Text,
+                    Gender = gender,
+                    Position = txbChucVu.Text,
+                    Salary = salary,
+                    Username = txbTenDangNhap.Text,
+                    Password = txbMatKhau.Text,
+                    Role = "Staff",
+                    ShiftDate = txbLichLamViec.Text,
+                    ShiftTime = txbCaLamViec.Text
+                };
 
-                    if (isExists)
-                    {
-                        MessageBox.Show("Nhân viên với số điện thoại hoặc CCCD này đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
+                // Gọi phương thức thêm nhân viên từ BLL
+                bool success = bllStaff.AddStaff(staffDto);
 
-                    // Get gender value from radio buttons
-                    bool gender = radioButtonNam.Checked;
-
-                    // Parse the salary (already validated in ValidateInput)
-                    decimal salary = decimal.Parse(txbLuong.Text.Replace(",", ""));
-
-                    // First create a User account for the employee
-                    var newUser = new User
-                    {
-                        username = txtPhone.Text, // Using phone as username
-                        password = "defaultpassword", // Default password - should be changed by user
-                        role = "staff",
-                        status = "active",
-                        date_register = DateTime.Now
-                    };
-
-                    // Add user to context
-                    dbContext.Users.Add(newUser);
-                    dbContext.SaveChanges(); // Save to get the ID
-
-                    // Create new employee with reference to the User
-                    var newEmployee = new Employee
-                    {
-                        name = txtName.Text,
-                        phone = txtPhone.Text,
-                        cccd = txtCCCD.Text,
-                        gender = gender,
-                        position = txbChucVu.Text,
-                        salary = salary,
-                        id = newUser.id // Link to the User record
-                    };
-
-                    // Add to database
-                    dbContext.Employees.Add(newEmployee);
-                    dbContext.SaveChanges();
-
-                    // Create work schedule if the data is provided
-                    if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) &&
-                        !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
-                    {
-                        var workSchedule = new WorkSchedule
-                        {
-                            employee_id = newEmployee.employee_id,
-                            shift_date = txbLichLamViec.Text,
-                            shift_time = txbCaLamViec.Text
-                        };
-
-                        dbContext.WorkSchedules.Add(workSchedule);
-                        dbContext.SaveChanges();
-                    }
-
-                    // Refresh data
+                if (success)
+                {
                     LoadStaffData();
-
-                    MessageBox.Show("Thêm nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Clear input fields after adding
+                    MessageBox.Show(
+                        "Thêm nhân viên thành công!",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                     ClearFields();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Nhân viên với số điện thoại, CCCD hoặc tên đăng nhập này đã tồn tại!",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
                 }
             }
             catch (Exception ex)
             {
-                // Show more detailed error information
-                string errorMessage = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    errorMessage += "\n\nInner Exception: " + ex.InnerException.Message;
-                }
-                MessageBox.Show($"Lỗi: {errorMessage}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi thêm nhân viên: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -329,133 +333,87 @@ namespace HotelSystem.View.AdminForm
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên cần cập nhật!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng chọn nhân viên cần cập nhật!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return;
             }
 
             if (!ValidateInput())
                 return;
 
-            if (string.IsNullOrWhiteSpace(txtName.Text) ||
-                string.IsNullOrWhiteSpace(txtPhone.Text) ||
-                string.IsNullOrWhiteSpace(txtCCCD.Text))
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin khách hàng", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Kiểm tra số điện thoại phải là chuỗi số và đúng 10 ký tự
-            if (txtPhone.Text.Length != 10 || !txtPhone.Text.All(char.IsDigit))
-            {
-                MessageBox.Show("Số điện thoại phải gồm 10 chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Kiểm tra CCCD chỉ được chứa số và đúng 12 ký tự
-            if (!txtCCCD.Text.All(char.IsDigit) || txtCCCD.Text.Length != 12)
-            {
-                MessageBox.Show("CCCD chỉ được chứa các ký tự số và dài 12 ký tự.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             try
             {
-                // Get the selected employee's CCCD from the row
                 string selectedCccd = dataGridView1.SelectedRows[0].Cells["cccd"].Value.ToString();
+                var staffInfo = bllStaff.GetStaffByCCCD(selectedCccd);
 
-                using (var dbContext = new DBHotelSystem())
+                if (staffInfo != null)
                 {
-                    // Find the employee by CCCD
-                    var employee = dbContext.Employees.FirstOrDefault(emp => emp.cccd == selectedCccd);
+                    bool gender = radioButtonNam.Checked;
+                    decimal salary = decimal.Parse(txbLuong.Text.Replace(",", ""));
 
-                    if (employee != null)
+                    // Tạo DTO_Staff để truyền dữ liệu
+                    var staffDto = new DTO_Staff
                     {
-                        // Kiểm tra xem thông tin nhân viên đã tồn tại chưa (trừ chính nhân viên này)
-                        bool isExists = dbContext.Employees.Any(emp =>
-                            (emp.phone == txtPhone.Text || emp.cccd == txtCCCD.Text) &&
-                            emp.employee_id != employee.employee_id);
+                        EmployeeId = staffInfo.EmployeeId,
+                        Name = txtName.Text,
+                        Phone = txtPhone.Text,
+                        CCCD = txtCCCD.Text,
+                        Gender = gender,
+                        Position = txbChucVu.Text,
+                        Salary = salary,
+                        Username = txbTenDangNhap.Text,
+                        Password = txbMatKhau.Text,
+                        Role = "Staff",
+                        ShiftDate = txbLichLamViec.Text,
+                        ShiftTime = txbCaLamViec.Text
+                    };
 
-                        if (isExists)
-                        {
-                            MessageBox.Show("Nhân viên với số điện thoại hoặc CCCD này đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
+                    // Gọi phương thức cập nhật nhân viên từ BLL
+                    bool success = bllStaff.UpdateStaff(staffDto);
 
-                        // Get gender value from radio buttons
-                        bool gender = radioButtonNam.Checked;
-
-                        // Parse the salary (already validated in ValidateInput)
-                        decimal salary = decimal.Parse(txbLuong.Text.Replace(",", ""));
-
-                        // Update employee data
-                        employee.name = txtName.Text;
-                        employee.phone = txtPhone.Text;
-                        employee.cccd = txtCCCD.Text;
-                        employee.gender = gender;
-                        employee.position = txbChucVu.Text;
-                        employee.salary = salary;
-
-                        // Also update the associated user's phone (since we're using phone as username)
-                        var user = dbContext.Users.Find(employee.id);
-                        if (user != null)
-                        {
-                            user.username = txtPhone.Text;
-                        }
-
-                        // Update or create work schedule if the data is provided
-                        if (!string.IsNullOrWhiteSpace(txbLichLamViec.Text) &&
-                            !string.IsNullOrWhiteSpace(txbCaLamViec.Text))
-                        {
-                            var workSchedule = dbContext.WorkSchedules
-                                .Where(ws => ws.employee_id == employee.employee_id)
-                                .OrderByDescending(ws => ws.schedule_id)
-                                .FirstOrDefault();
-
-                            if (workSchedule != null)
-                            {
-                                // Update existing work schedule
-                                workSchedule.shift_date = txbLichLamViec.Text;
-                                workSchedule.shift_time = txbCaLamViec.Text;
-                            }
-                            else
-                            {
-                                // Create new work schedule
-                                var newWorkSchedule = new WorkSchedule
-                                {
-                                    employee_id = employee.employee_id,
-                                    shift_date = txbLichLamViec.Text,
-                                    shift_time = txbCaLamViec.Text
-                                };
-                                dbContext.WorkSchedules.Add(newWorkSchedule);
-                            }
-                        }
-
-                        // Save changes to database
-                        dbContext.SaveChanges();
-
-                        // Refresh data
+                    if (success)
+                    {
                         LoadStaffData();
-
-                        MessageBox.Show("Cập nhật nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        // Clear input fields after updating
+                        MessageBox.Show(
+                            "Cập nhật nhân viên thành công!",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
                         ClearFields();
                     }
                     else
                     {
-                        MessageBox.Show("Không tìm thấy nhân viên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            "Nhân viên với số điện thoại, CCCD hoặc tên đăng nhập này đã tồn tại!",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
                     }
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy nhân viên!",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                 }
             }
             catch (Exception ex)
             {
-                // Show more detailed error information
-                string errorMessage = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    errorMessage += "\n\nInner Exception: " + ex.InnerException.Message;
-                }
-                MessageBox.Show($"Lỗi: {errorMessage}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi cập nhật nhân viên: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -463,65 +421,73 @@ namespace HotelSystem.View.AdminForm
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên cần xóa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Vui lòng chọn nhân viên cần xóa!",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return;
             }
 
-            // Confirm deletion
-            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa nhân viên này?", "Xác nhận",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(
+                "Bạn có chắc chắn muốn xóa nhân viên này?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
             if (result == DialogResult.Yes)
             {
                 try
                 {
-                    // Get the selected employee's CCCD from the row
                     string selectedCccd = dataGridView1.SelectedRows[0].Cells["cccd"].Value.ToString();
+                    var staffInfo = bllStaff.GetStaffByCCCD(selectedCccd);
 
-                    using (var dbContext = new DBHotelSystem())
+                    if (staffInfo != null)
                     {
-                        // Find the employee by CCCD
-                        var employee = dbContext.Employees.FirstOrDefault(emp => emp.cccd == selectedCccd);
+                        // Gọi phương thức xóa nhân viên từ BLL
+                        bool success = bllStaff.DeleteStaff(staffInfo.EmployeeId);
 
-                        if (employee != null)
+                        if (success)
                         {
-                            // Delete work schedules first (due to foreign key constraint)
-                            var workSchedules = dbContext.WorkSchedules
-                                .Where(ws => ws.employee_id == employee.employee_id)
-                                .ToList();
-
-                            foreach (var schedule in workSchedules)
-                            {
-                                dbContext.WorkSchedules.Remove(schedule);
-                            }
-
-                            // Delete employee from database
-                            dbContext.Employees.Remove(employee);
-                            dbContext.SaveChanges();
-
-                            // Refresh data
                             LoadStaffData();
-
-                            MessageBox.Show("Xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            // Clear input fields after deleting
+                            MessageBox.Show(
+                                "Xóa nhân viên thành công!",
+                                "Thông báo",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information
+                            );
                             ClearFields();
                         }
                         else
                         {
-                            MessageBox.Show("Không tìm thấy nhân viên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(
+                                "Không thể xóa nhân viên!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error
+                            );
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Không tìm thấy nhân viên!",
+                            "Lỗi",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Show more detailed error information
-                    string errorMessage = ex.Message;
-                    if (ex.InnerException != null)
-                    {
-                        errorMessage += "\n\nInner Exception: " + ex.InnerException.Message;
-                    }
-                    MessageBox.Show($"Lỗi: {errorMessage}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        $"Lỗi khi xóa nhân viên: {ex.Message}",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                 }
             }
         }
@@ -534,100 +500,62 @@ namespace HotelSystem.View.AdminForm
             string searchPosition = txbChucVu.Text.ToLower();
             string searchShiftDate = txbLichLamViec.Text;
             string searchShiftTime = txbCaLamViec.Text;
+            string searchUsername = txbTenDangNhap.Text;
 
             try
             {
-                using (var dbContext = new DBHotelSystem())
+                // Gọi phương thức tìm kiếm nhân viên từ BLL
+                var staffList = bllStaff.SearchStaff(
+                    searchName, searchPhone, searchCCCD, searchPosition, 
+                    searchShiftDate, searchShiftTime, searchUsername
+                );
+
+                dataGridView1.Rows.Clear();
+                foreach (var staff in staffList)
                 {
-                    // Get all employees with their work schedules
-                    var employees = dbContext.Employees.ToList();
-                    var filteredEmployees = new List<Employee>();
+                    string genderText = staff.Gender ? "Nam" : "Nữ";
 
-                    // First filter by employee properties
-                    var query = employees.AsQueryable();
+                    dataGridView1.Rows.Add(
+                        staff.Name,
+                        staff.Phone,
+                        staff.CCCD,
+                        genderText,
+                        staff.Position,
+                        staff.ShiftDate ?? "",
+                        staff.ShiftTime ?? "",
+                        staff.Salary.ToString("N0"),
+                        staff.Username ?? "",
+                        staff.Password ?? "",
+                        staff.Role ?? "Staff"
+                    );
+                }
 
-                    if (!string.IsNullOrWhiteSpace(searchName))
-                        query = query.Where(emp => emp.name.ToLower().Contains(searchName));
-
-                    if (!string.IsNullOrWhiteSpace(searchPhone))
-                        query = query.Where(emp => emp.phone.Contains(searchPhone));
-
-                    if (!string.IsNullOrWhiteSpace(searchCCCD))
-                        query = query.Where(emp => emp.cccd.Contains(searchCCCD));
-
-                    if (!string.IsNullOrWhiteSpace(searchPosition))
-                        query = query.Where(emp => emp.position.ToLower().Contains(searchPosition));
-
-                    // If searching for schedule, we need a different approach
-                    if (string.IsNullOrWhiteSpace(searchShiftDate) && string.IsNullOrWhiteSpace(searchShiftTime))
-                    {
-                        // No schedule search, just use the employee filters
-                        filteredEmployees = query.ToList();
-                    }
-                    else
-                    {
-                        // Filter by schedule as well
-                        foreach (var employee in query)
-                        {
-                            var workSchedules = dbContext.WorkSchedules
-                                .Where(ws => ws.employee_id == employee.employee_id).ToList();
-
-                            bool matchesSchedule = workSchedules.Any(ws =>
-                                (string.IsNullOrWhiteSpace(searchShiftDate) || ws.shift_date.Contains(searchShiftDate)) &&
-                                (string.IsNullOrWhiteSpace(searchShiftTime) || ws.shift_time.Contains(searchShiftTime))
-                            );
-
-                            if (matchesSchedule)
-                            {
-                                filteredEmployees.Add(employee);
-                            }
-                        }
-                    }
-
-                    // Display results
-                    dataGridView1.Rows.Clear();
-                    foreach (var employee in filteredEmployees)
-                    {
-                        string genderText = employee.gender.HasValue && employee.gender.Value ? "Nam" : "Nữ";
-
-                        // Get the most recent work schedule for this employee (if any)
-                        var workSchedule = dbContext.WorkSchedules
-                            .Where(ws => ws.employee_id == employee.employee_id)
-                            .OrderByDescending(ws => ws.schedule_id)
-                            .FirstOrDefault();
-
-                        string shiftDate = workSchedule != null ? workSchedule.shift_date : "";
-                        string shiftTime = workSchedule != null ? workSchedule.shift_time : "";
-
-                        dataGridView1.Rows.Add(
-                            employee.name,
-                            employee.phone,
-                            employee.cccd,
-                            genderText,
-                            employee.position,
-                            shiftDate,
-                            shiftTime,
-                            employee.salary.ToString("N0")
-                        );
-                    }
-
-                    if (filteredEmployees.Count == 0)
-                    {
-                        MessageBox.Show("Không tìm thấy nhân viên nào phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // Load all staff data again
-                        LoadStaffData();
-                    }
+                if (staffList.Count == 0)
+                {
+                    MessageBox.Show(
+                        "Không tìm thấy nhân viên nào phù hợp!",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                    LoadStaffData();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi tìm kiếm: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi tìm kiếm: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
         private void btnTaiLai_Click(object sender, EventArgs e)
         {
             LoadStaffData();
+            ClearFields();
         }
     }
 }

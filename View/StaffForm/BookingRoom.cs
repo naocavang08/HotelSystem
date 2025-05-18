@@ -1,4 +1,4 @@
-﻿    using HotelSystem.BLL;
+﻿using HotelSystem.BLL;
 using HotelSystem.DTO;
 using HotelSystem.Model;
 using System;
@@ -57,10 +57,24 @@ namespace HotelSystem.View.StaffForm
         {
             if (_isEditMode)
             {
-                // Chế độ chỉnh sửa - Tải thông tin đặt phòng hiện có
                 LoadBookingData();
+                label1.Text = "Chỉnh sửa đặt phòng";
+                label1.Location = new Point(127, 44);
                 this.Text = "Chỉnh sửa đặt phòng";
                 btnSubmit.Text = "Cập nhật";
+                BLL_TTKH bllTTKH = new BLL_TTKH();
+                var customer = bllTTKH.GetCustomerByCustomerId(_customerId.Value);
+                if (customer != null)
+                {
+                    txtName.Text = customer.Name;
+                    txtCCCD.Text = customer.CCCD;
+                    txtPhone.Text = customer.Phone;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy thông tin khách hàng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
             }
             else
             {
@@ -217,21 +231,24 @@ namespace HotelSystem.View.StaffForm
 
             var bllRoom = new BLL_Room();
             var rooms = bllRoom.GetAllRooms();
-            var selectedRoom = rooms.FirstOrDefault(r => r.RoomName == _roomNumber);
+            var room_number = rooms.FirstOrDefault(r => r.RoomName == txtRoomNumber.Text.Trim());
 
             // Tính tổng giá tiền
-            decimal totalPrice = selectedRoom.Price * (decimal)(checkOut - checkIn).TotalDays;
+            decimal totalPrice = room_number.Price * (decimal)(checkOut - checkIn).TotalDays;
 
             var bllBookingRoom = new BLL_BookingRoom();
             
             if (_isEditMode && _bookingId.HasValue)
             {
+                var currentBooking = bllBookingRoom.GetBookingById(_bookingId.Value);
+                bllRoom.UpdateRoomStatus(currentBooking.RoomId, "Available");
+
                 // Cập nhật thông tin đặt phòng
                 var dtoUpdateBooking = new DTO_BookingRoom
                 {
                     BookingId = _bookingId.Value,
                     CustomerId = customer.CustomerId,
-                    RoomId = selectedRoom.RoomId,
+                    RoomId = room_number.RoomId,
                     CheckIn = checkIn,
                     CheckOut = checkOut,
                     Status = "Booked", // Vẫn giữ trạng thái đã đặt
@@ -239,12 +256,15 @@ namespace HotelSystem.View.StaffForm
                 };
                 
                 bllBookingRoom.UpdateBooking(dtoUpdateBooking);
+                bllRoom.UpdateRoomStatus(room_number.RoomId, "Booked");
+                DialogResult = DialogResult.OK;
                 MessageBox.Show("Cập nhật đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
             else
             {
                 // Check if the room is available for the selected dates
-                if (!IsRoomAvailable(selectedRoom.RoomId, checkIn, checkOut))
+                if (!IsRoomAvailable(room_number.RoomId, checkIn, checkOut))
                 {
                     MessageBox.Show("Phòng này đã được đặt trong khoảng thời gian bạn chọn!", 
                         "Phòng không khả dụng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -255,7 +275,7 @@ namespace HotelSystem.View.StaffForm
                 var dtobooking = new DTO_BookingRoom
                 {
                     CustomerId = customer.CustomerId,
-                    RoomId = selectedRoom.RoomId,
+                    RoomId = room_number.RoomId,
                     CheckIn = checkIn,
                     CheckOut = checkOut,
                     Status = "Booked",
@@ -266,16 +286,15 @@ namespace HotelSystem.View.StaffForm
                 bllBookingRoom.AddBooking(dtobooking);
 
                 // Cập nhật trạng thái phòng
-                bllRoom.UpdateRoomStatus(selectedRoom.RoomId, "Booked");
+                bllRoom.UpdateRoomStatus(room_number.RoomId, "Booked");
                 
                 MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                CustomerForm customerForm = new CustomerForm();
+                customerForm.LoadAvailableRooms(checkIn, checkOut);
+                customerForm.Show();
+                this.Close();
             }
-            
-            // Quay về CustomerForm với các ngày đã chọn
-            CustomerForm customerForm = new CustomerForm();
-            customerForm.LoadAvailableRooms(checkIn, checkOut);
-            customerForm.Show();
-            this.Close();
         }
         
         private bool IsRoomAvailable(int roomId, DateTime checkIn, DateTime checkOut)
@@ -312,9 +331,15 @@ namespace HotelSystem.View.StaffForm
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
-            CustomerForm op = new CustomerForm();
-            op.LoadAvailableRooms(_checkInDate, _checkOutDate);
-            op.Show();
+            if (_isEditMode == false)
+            {
+                CustomerForm op = new CustomerForm();
+                op.LoadAvailableRooms(_checkInDate, _checkOutDate);
+                op.Show();
+            }
+            else
+            {
+            }
         }
     }
 }

@@ -123,7 +123,7 @@
             // 
             this.pnLogout.Controls.Add(this.btnLogout);
             this.pnLogout.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnLogout.Location = new System.Drawing.Point(0, 744);
+            this.pnLogout.Location = new System.Drawing.Point(0, 760);
             this.pnLogout.Name = "pnLogout";
             this.pnLogout.Size = new System.Drawing.Size(234, 60);
             this.pnLogout.TabIndex = 5;

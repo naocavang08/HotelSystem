@@ -100,9 +100,6 @@ namespace HotelSystem.View.StaffForm
             // Get all rooms
             var allRooms = bllRoom.GetAllRooms();
             
-            // Get booked rooms that overlap with the selected dates
-            var bookedRoomIds = bllBookingRoom.GetBookedRoomIds(checkIn, checkOut);
-            
             // Create a container panel with full width for the count text
             Panel countPanel = new Panel
             {
@@ -112,7 +109,7 @@ namespace HotelSystem.View.StaffForm
             };
             
             // Create a label to show the count of available rooms
-            int availableRoomCount = allRooms.Count(r => !bookedRoomIds.Contains(r.RoomId) && r.Status == "Available");
+            int availableRoomCount = allRooms.Count(r => r.Status == "Available");
             Label lblCount = new Label
             {
                 Text = $"Tìm thấy {availableRoomCount} phòng trống",
@@ -128,7 +125,7 @@ namespace HotelSystem.View.StaffForm
             foreach (var room in allRooms)
             {
                 // Check if the room is already booked during the selected dates
-                bool isAvailable = !bookedRoomIds.Contains(room.RoomId) && room.Status == "Available";
+                bool isAvailable = room.Status == "Available";
                 
                 // Create room panel
                 Panel roomPanel = new Panel()
@@ -252,7 +249,7 @@ namespace HotelSystem.View.StaffForm
             if (result == DialogResult.Yes)
             {
                 UserSession.Clear();
-                this.Close();
+                this.Hide();
                 LoginForm op = new LoginForm();
                 op.Show();
             }

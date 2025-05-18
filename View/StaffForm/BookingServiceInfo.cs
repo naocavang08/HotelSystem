@@ -98,7 +98,7 @@ namespace HotelSystem.View.StaffForm
                 {
                     foreach (var bookingService in _bookingServices)
                     {
-                        // Get service name directly from database
+                        // Lấy tên dịch vụ từ bảng đặt dịch vụ
                         var service = db.Services.FirstOrDefault(s => s.service_id == bookingService.Service_id);
                         string serviceName = service?.name ?? "Unknown";
                         
@@ -136,9 +136,9 @@ namespace HotelSystem.View.StaffForm
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtName.Text.Trim()))
+            if (string.IsNullOrEmpty(txtName.Text.Trim()) || string.IsNullOrEmpty(txtCCCD.Text.Trim()) || string.IsNullOrEmpty(txtPhone.Text.Trim()))
             {
-                MessageBox.Show("Vui lòng nhập tên khách hàng để tìm kiếm!", "Thông báo", 
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }

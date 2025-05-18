@@ -86,14 +86,12 @@ namespace HotelSystem.View.AdminForm
         {
             try
             {
-                // Check if a row is selected in the data grid
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Please select a room to update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Validate input fields
                 if (string.IsNullOrEmpty(txbRoomNumber.Text) ||
                     cbbRoomType.SelectedValue == null)
                 {
@@ -101,20 +99,16 @@ namespace HotelSystem.View.AdminForm
                     return;
                 }
 
-                // Parse room number
                 if (!int.TryParse(txbRoomNumber.Text, out int roomNumber))
                 {
                     MessageBox.Show("Room number must be a valid integer", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Get room ID from the selected row
                 int roomId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["room_id"].Value);
 
-                // Get room type ID from the selected value of the combo box
                 int roomTypeId = Convert.ToInt32(cbbRoomType.SelectedValue);
 
-                // Update room in database using Entity Framework
                 using (var db = new DBHotelSystem())
                 {
                     // Kiểm tra số phòng đã tồn tại (trừ chính phòng đang sửa)
@@ -161,14 +155,12 @@ namespace HotelSystem.View.AdminForm
         {
             try
             {
-                // Check if a row is selected in the data grid
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Please select a room to delete", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Confirm deletion
                 DialogResult result = MessageBox.Show("Are you sure you want to delete this room?",
                     "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 

@@ -46,6 +46,8 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtCCCD = new System.Windows.Forms.TextBox();
             this.txtPhone = new System.Windows.Forms.TextBox();
+            this.lblBookRoomCount = new System.Windows.Forms.Label();
+            this.lblBookServiceCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListRoom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListService)).BeginInit();
             this.SuspendLayout();
@@ -232,12 +234,32 @@
             this.txtPhone.Size = new System.Drawing.Size(207, 27);
             this.txtPhone.TabIndex = 20;
             // 
+            // lblBookRoomCount
+            // 
+            this.lblBookRoomCount.AutoSize = true;
+            this.lblBookRoomCount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBookRoomCount.Location = new System.Drawing.Point(178, 245);
+            this.lblBookRoomCount.Name = "lblBookRoomCount";
+            this.lblBookRoomCount.Size = new System.Drawing.Size(0, 28);
+            this.lblBookRoomCount.TabIndex = 21;
+            // 
+            // lblBookServiceCount
+            // 
+            this.lblBookServiceCount.AutoSize = true;
+            this.lblBookServiceCount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBookServiceCount.Location = new System.Drawing.Point(178, 428);
+            this.lblBookServiceCount.Name = "lblBookServiceCount";
+            this.lblBookServiceCount.Size = new System.Drawing.Size(0, 28);
+            this.lblBookServiceCount.TabIndex = 22;
+            // 
             // Invoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(194)))), ((int)(((byte)(236)))));
             this.ClientSize = new System.Drawing.Size(555, 797);
+            this.Controls.Add(this.lblBookServiceCount);
+            this.Controls.Add(this.lblBookRoomCount);
             this.Controls.Add(this.txtPhone);
             this.Controls.Add(this.txtCCCD);
             this.Controls.Add(this.txtName);
@@ -288,5 +310,7 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtCCCD;
         private System.Windows.Forms.TextBox txtPhone;
+        private System.Windows.Forms.Label lblBookRoomCount;
+        private System.Windows.Forms.Label lblBookServiceCount;
     }
 }

@@ -50,7 +50,7 @@ namespace HotelSystem.View.AdminForm
             if (result == DialogResult.Yes)
             {
                 UserSession.Clear();
-                this.Close();
+                this.Hide();
                 LoginForm op = new LoginForm();
                 op.Show();
             }

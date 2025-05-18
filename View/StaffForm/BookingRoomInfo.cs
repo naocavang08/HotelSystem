@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HotelSystem.BLL;
+using HotelSystem.DTO;
 using HotelSystem.Model;
 
 namespace HotelSystem.View.StaffForm
@@ -20,6 +22,12 @@ namespace HotelSystem.View.StaffForm
         public BookingRoomInfo()
         {
             InitializeComponent();
+        }
+        
+        public BookingRoomInfo(int? customerId)
+        {
+            InitializeComponent();
+            this.customerId = customerId;
         }
         
         private void btnDelRoom_Click(object sender, EventArgs e)
@@ -44,11 +52,11 @@ namespace HotelSystem.View.StaffForm
                                 
                         if (result == DialogResult.Yes)
                         {
-                            // Remove the booking
+                            // Xóa đặt phòng
                             db.Bookings.Remove(bookingToDelete);
                             db.SaveChanges();
 
-                            // Update the room status to available
+                            // Cập nhật trạng thái phòng thành có sẵn
                             var bllRoom = new BLL_Room();
                             bllRoom.UpdateRoomStatus(bookingToDelete.room_id, "Available");
 
@@ -76,11 +84,11 @@ namespace HotelSystem.View.StaffForm
         
         private void BookingRoomInfo_Load(object sender, EventArgs e)
         {
-            // Set the selection mode to full row
+            // Đặt chế độ chọn hàng đầy đủ
             dgvDelRoom.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDelRoom.MultiSelect = false;
             
-            // Load booking rooms
+            // Tải danh sách đặt phòng
             LoadBookingRooms();
             
             // Thêm nút thanh toán nếu chưa tồn tại
@@ -130,20 +138,24 @@ namespace HotelSystem.View.StaffForm
                 int bookingId = Convert.ToInt32(dgvDelRoom.SelectedRows[0].Cells["booking_id"].Value);
                 try
                 {
-                    // Find the booking to edit
                     var bookingToEdit = db.Bookings.Find(bookingId);
                     
                     if (bookingToEdit != null)
                     {
-                        // Check if booking can be edited (e.g., not already checked-in)
                         if (bookingToEdit.status == "Booked")
                         {
-                            // Open edit form
+                            if (!customerId.HasValue)
+                            {
+                                customerId = bookingToEdit.customer_id;
+                            }
+                            
                             BookingRoom editBooking = new BookingRoom(customerId, bookingId);
                             editBooking.ShowDialog();
                             
-                            // Refresh the grid after returning
-                            LoadBookingRooms();
+                            if (editBooking.DialogResult == DialogResult.OK)
+                            {
+                                LoadBookingRooms();
+                            }
                         }
                         else
                         {
@@ -189,145 +201,175 @@ namespace HotelSystem.View.StaffForm
                         return;
                     }
 
-                    // Tạo DTO_BookingRoom từ booking
-                    var bllBookingRoom = new BLL_BookingRoom();
-                    var bookingRooms = bllBookingRoom.GetBookingRoomsByCustomerId(customerId.Value);
-                    var selectedBooking = bookingRooms.FirstOrDefault(br => br.BookingId == bookingId);
-                    
-                    if (selectedBooking == null)
+                    // Lấy customerId từ booking nếu chưa có
+                    if (!customerId.HasValue)
                     {
-                        MessageBox.Show("Không tìm thấy thông tin đặt phòng!", "Lỗi", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        customerId = bookingToPayment.customer_id;
                     }
-                    
-                    // Lấy danh sách booking có trạng thái "Booked"
-                    var bookingsToPayment = new List<HotelSystem.DTO.DTO_BookingRoom> { selectedBooking };
-                    
-                    // Lấy dịch vụ đã đặt (chỉ lấy những dịch vụ có trạng thái "Booked")
-                    var bllBookingService = new BLL_BookingService();
-                    var allBookingServices = bllBookingService.GetBookingServicesByCustomerId(customerId.Value);
-                    var bookingServices = allBookingServices.Where(bs => bs.Status == "Booked").ToList();
-                    
-                    // Mở form Invoice để thanh toán
-                    Invoice invoiceForm = new Invoice(bookingsToPayment, bookingServices);
-                    invoiceForm.ShowDialog();
-                    
-                    // Refresh lại danh sách sau khi thanh toán
-                    LoadBookingRooms();
+
+                    // Tạo DTO_BookingRoom từ booking
+                    List<DTO.DTO_BookingRoom> bookingRooms = new List<DTO.DTO_BookingRoom>();
+                    var selectedBooking = db.Bookings
+                        .Include("Room.RoomType")
+                        .Include("Customer")
+                        .FirstOrDefault(b => b.booking_id == bookingId);
+
+                    if (selectedBooking != null)
+                    {
+                        bookingRooms.Add(new DTO.DTO_BookingRoom
+                        {
+                            BookingId = selectedBooking.booking_id,
+                            RoomId = selectedBooking.room_id,
+                            CustomerId = selectedBooking.customer_id,
+                            CheckIn = selectedBooking.check_in,
+                            CheckOut = selectedBooking.check_out,
+                            Status = selectedBooking.status,
+                            TotalPrice = selectedBooking.total_price
+                        });
+
+                        // Lấy danh sách booking có trạng thái "Booked"
+                        var otherBookings = db.Bookings
+                            .Where(b => b.customer_id == customerId && b.status == "Booked" && b.booking_id != bookingId)
+                            .ToList();
+
+                        // Lấy dịch vụ đã đặt (chỉ lấy những dịch vụ có trạng thái "Booked")
+                        var bookingServices = db.BookingServices
+                            .Where(bs => bs.customer_id == customerId && bs.status == "Booked")
+                            .ToList();
+
+                        // Mở form Invoice để thanh toán
+                        Invoice invoiceForm = new Invoice(bookingRooms, null, this);
+                        invoiceForm.ShowDialog();
+
+                        // Refresh lại danh sách sau khi thanh toán
+                        LoadBookingRooms();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", 
+                MessageBox.Show("Lỗi khi thanh toán: " + ex.Message, "Lỗi", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
         private void LoadBookingRooms()
         {
-            try
+            // Tạo đối tượng context mới để đảm bảo lấy dữ liệu mới nhất
+            using (var db = new DBHotelSystem())
             {
-                // Lấy tất cả booking (bao gồm cả "Checked Out")
-                var bookings = customerId.HasValue
-                    ? db.Bookings.Where(b => b.customer_id == customerId.Value).ToList()
-                    : db.Bookings.ToList();
-
-                var results = (from b in bookings
-                              join r in db.Rooms on b.room_id equals r.room_id
-                              join rt in db.RoomTypes on r.roomtype_id equals rt.roomtype_id
-                              select new
-                              {
-                                  b.booking_id,
-                                  RoomNumber = r.room_number,
-                                  RoomType = rt.room_type,
-                                  CheckinDate = b.check_in,
-                                  CheckoutDate = b.check_out,
-                                  b.status,
-                                  TotalPrice = b.total_price
-                              }).ToList();
-
-                dgvDelRoom.DataSource = results;
+                var bookings = new List<Model.BookingRoom>();
                 
-                // Định dạng DataGridView
-                FormatDataGrid();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message, "Lỗi", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (customerId.HasValue)
+                {
+                    bookings = db.Bookings
+                        .Include("Room.RoomType")
+                        .Include("Customer")
+                        .Where(b => b.customer_id == customerId.Value)
+                        .OrderByDescending(b => b.booking_id)
+                        .ToList();
+                }
+                else
+                {
+                    bookings = db.Bookings
+                        .Include("Room.RoomType")
+                        .Include("Customer")
+                        .OrderByDescending(b => b.booking_id)
+                        .ToList();
+                }
+                
+                dgvDelRoom.DataSource = null;
+                
+                if (bookings.Count > 0)
+                {
+                    var bookingData = bookings.Select(b => new
+                    {
+                        booking_id = b.booking_id,
+                        customer_name = b.Customer?.name ?? "N/A",
+                        room_number = b.Room?.room_number ?? "N/A",
+                        room_type = b.Room?.RoomType?.room_type ?? "N/A",
+                        check_in = b.check_in,
+                        check_out = b.check_out,
+                        total_price = b.total_price,
+                        status = b.status
+                    }).ToList();
+                    
+                    dgvDelRoom.DataSource = bookingData;
+                    FormatDataGrid();
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy thông tin đặt phòng nào!", "Thông báo", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
-        
+
         private void FormatDataGrid()
         {
-            dgvDelRoom.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            
             // Rename column headers for better display
-            if (dgvDelRoom.Columns["booking_id"] != null)
+            if (dgvDelRoom.Columns.Count > 0)
+            {
                 dgvDelRoom.Columns["booking_id"].HeaderText = "Mã đặt phòng";
-                
-            if (dgvDelRoom.Columns["RoomNumber"] != null)
-                dgvDelRoom.Columns["RoomNumber"].HeaderText = "Số phòng";
-                
-            if (dgvDelRoom.Columns["RoomType"] != null)
-                dgvDelRoom.Columns["RoomType"].HeaderText = "Loại phòng";
-                
-            if (dgvDelRoom.Columns["CheckinDate"] != null)
-            {
-                dgvDelRoom.Columns["CheckinDate"].HeaderText = "Ngày nhận phòng";
-                dgvDelRoom.Columns["CheckinDate"].DefaultCellStyle.Format = "dd/MM/yyyy";
-            }
-                
-            if (dgvDelRoom.Columns["CheckoutDate"] != null)
-            {
-                dgvDelRoom.Columns["CheckoutDate"].HeaderText = "Ngày trả phòng";
-                dgvDelRoom.Columns["CheckoutDate"].DefaultCellStyle.Format = "dd/MM/yyyy";
-            }
-                
-            if (dgvDelRoom.Columns["status"] != null)
-            {
+                dgvDelRoom.Columns["customer_name"].HeaderText = "Tên khách hàng";
+                dgvDelRoom.Columns["room_number"].HeaderText = "Số phòng";
+                dgvDelRoom.Columns["room_type"].HeaderText = "Loại phòng";
+                dgvDelRoom.Columns["check_in"].HeaderText = "Ngày nhận phòng";
+                dgvDelRoom.Columns["check_out"].HeaderText = "Ngày trả phòng";
+                dgvDelRoom.Columns["total_price"].HeaderText = "Tổng tiền";
                 dgvDelRoom.Columns["status"].HeaderText = "Trạng thái";
                 
                 // Tùy chỉnh hiển thị trạng thái
-                foreach (DataGridViewRow row in dgvDelRoom.Rows)
+                dgvDelRoom.CellFormatting += (s, e) => 
                 {
-                    if (row.Cells["status"].Value != null)
+                    if (e.ColumnIndex == dgvDelRoom.Columns["status"].Index && e.Value != null)
                     {
-                        string status = row.Cells["status"].Value.ToString();
-                        switch (status.ToLower())
+                        string status = e.Value.ToString();
+                        switch (status)
                         {
-                            case "booked":
-                                row.Cells["status"].Value = "Đã đặt";
+                            case "Booked":
+                                e.Value = "Đã đặt";
                                 break;
-                            case "checked in":
-                                row.Cells["status"].Value = "Đã nhận phòng";
+                            case "Checked In":
+                                e.Value = "Đã nhận phòng";
                                 break;
-                            case "checked out":
-                                row.Cells["status"].Value = "Đã trả phòng";
+                            case "Checked Out":
+                                e.Value = "Đã trả phòng";
+                                break;
+                            case "Cancelled":
+                                e.Value = "Đã hủy";
                                 break;
                         }
+                        e.FormattingApplied = true;
                     }
-                }
-            }
+                };
                 
-            if (dgvDelRoom.Columns["TotalPrice"] != null)
-            {
-                dgvDelRoom.Columns["TotalPrice"].HeaderText = "Tổng tiền";
-                dgvDelRoom.Columns["TotalPrice"].DefaultCellStyle.Format = "N0";
+                // Set the grid to read-only
+                dgvDelRoom.ReadOnly = true;
+                dgvDelRoom.AllowUserToAddRows = false;
+                dgvDelRoom.AllowUserToDeleteRows = false;
+                dgvDelRoom.AllowUserToOrderColumns = true;
+                
+                // Auto-size columns
+                dgvDelRoom.AutoResizeColumns();
+                dgvDelRoom.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
-            
-            // Set the grid to read-only
-            dgvDelRoom.ReadOnly = true;
         }
+
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             LoadBookingRooms();
         }
 
-
         private void dgvDelRoom_SelectionChanged(object sender, EventArgs e)
         {
+            // Cập nhật trạng thái các nút dựa trên hàng được chọn
+            if (dgvDelRoom.SelectedRows.Count > 0)
+            {
+                string status = dgvDelRoom.SelectedRows[0].Cells["status"].Value.ToString();
+                btnEditRoom.Enabled = status == "Booked";
+                btnDelRoom.Enabled = status == "Booked";
+            }
         }
     }
 }
