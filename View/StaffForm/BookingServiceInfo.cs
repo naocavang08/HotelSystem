@@ -125,7 +125,7 @@ namespace HotelSystem.View.StaffForm
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            CustomerForm op = new CustomerForm();
+            StaffForm op = new StaffForm();
             op.Show();
             this.Close();
         }

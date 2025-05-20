@@ -53,7 +53,7 @@ namespace HotelSystem.View
                 }
                 else if (user.Role == "staff")
                 {
-                    StaffForm.CustomerForm op = new StaffForm.CustomerForm();
+                    StaffForm.StaffForm op = new StaffForm.StaffForm();
                     op.Show();
                 }
                 
@@ -71,6 +71,11 @@ namespace HotelSystem.View
             op.Show();
 
             this.Hide();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

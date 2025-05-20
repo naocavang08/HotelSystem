@@ -224,7 +224,7 @@ namespace HotelSystem.View.StaffForm
                     }
                     else
                     {
-                        CustomerForm customerForm = new CustomerForm();
+                        StaffForm customerForm = new StaffForm();
                         customerForm.Show();
                     }
                     this.Close();
@@ -245,7 +245,7 @@ namespace HotelSystem.View.StaffForm
             }
             else if (_invoiceId == null) // Mở từ CustomerForm
             {
-                CustomerForm customerForm = new CustomerForm();
+                StaffForm customerForm = new StaffForm();
                 customerForm.Show();
             }
             this.Close();
@@ -303,7 +303,7 @@ namespace HotelSystem.View.StaffForm
                 // Nếu được gọi từ InvoiceForm, chỉ hiển thị phòng đã check-out
                 _bookingRooms = allBookingRooms.ToList();
             }
-            else if (_callerForm is CustomerForm)
+            else if (_callerForm is StaffForm)
             {
                 // Nếu được gọi từ CustomerForm, chỉ hiển thị phòng đã đặt (Booked)
                 _bookingRooms = allBookingRooms.Where(b => b.Status == "Booked").ToList();
@@ -359,7 +359,7 @@ namespace HotelSystem.View.StaffForm
             {
                 _bookingServices = allBookingServices.ToList();
             }
-            else if (_callerForm is CustomerForm)
+            else if (_callerForm is StaffForm)
             {
                 _bookingServices = allBookingServices.Where(s => s.Status == "Booked").ToList();
             }

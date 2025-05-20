@@ -56,39 +56,41 @@ namespace HotelSystem.View.AdminForm
 
         private void cbbLoaiThongKe_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (cbbLoaiThongKe.SelectedIndex)
-            {
-                case 0: // Theo tháng
-                    SetPanelState(panelThang, true);
-                    SetPanelState(panelQuy, false);
-                    SetPanelState(panelNam, false);
-                    UpdateThongKeThang();
-                    break;
-                case 1: // Theo quý
-                    SetPanelState(panelThang, false);
-                    SetPanelState(panelQuy, true);
-                    SetPanelState(panelNam, false);
-                    UpdateThongKeQuy();
-                    break;
-                case 2: // Theo năm
-                    SetPanelState(panelThang, false);
-                    SetPanelState(panelQuy, false);
-                    SetPanelState(panelNam, true);
-                    UpdateThongKeNam();
-                    break;
-            }
+            // Đặt màu mặc định cho các panel (giống Designer)
+            panelThang.BackColor = Color.FromArgb(64, 64, 64);
+            panelQuy.BackColor = Color.FromArgb(64, 64, 64);
+            panelNam.BackColor = Color.FromArgb(64, 64, 64);
+
+            // Đặt màu chữ cho tất cả label trong các panel là WhiteSmoke
+            SetPanelLabelColor(panelThang, Color.WhiteSmoke);
+            SetPanelLabelColor(panelQuy, Color.WhiteSmoke);
+            SetPanelLabelColor(panelNam, Color.WhiteSmoke);
+
+            // Hiển thị panel tương ứng và đổi màu nền sang đen khi được chọn
+            panelThang.Visible = cbbLoaiThongKe.SelectedIndex == 0;
+            panelQuy.Visible = cbbLoaiThongKe.SelectedIndex == 1;
+            panelNam.Visible = cbbLoaiThongKe.SelectedIndex == 2;
+
+            if (panelThang.Visible) panelThang.BackColor = Color.Black;
+            if (panelQuy.Visible) panelQuy.BackColor = Color.Black;
+            if (panelNam.Visible) panelNam.BackColor = Color.Black;
+
+            if (cbbLoaiThongKe.SelectedIndex == 0) UpdateThongKeThang();
+            else if (cbbLoaiThongKe.SelectedIndex == 1) UpdateThongKeQuy();
+            else if (cbbLoaiThongKe.SelectedIndex == 2) UpdateThongKeNam();
         }
 
-        private void SetPanelState(Panel panel, bool enabled)
+        // Hàm phụ để đổi màu chữ cho tất cả Label trong panel
+        private void SetPanelLabelColor(Panel panel, Color color)
         {
-            panel.Enabled = enabled;
-            panel.BackColor = enabled ? SystemColors.Control : Color.FromArgb(173, 194, 236);
             foreach (Control ctrl in panel.Controls)
             {
-                ctrl.Enabled = enabled;
+                if (ctrl is Label lbl)
+                {
+                    lbl.ForeColor = color;
+                }
             }
         }
-
 
         private void cbbThang_SelectedIndexChanged(object sender, EventArgs e)
         {

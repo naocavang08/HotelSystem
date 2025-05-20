@@ -329,9 +329,16 @@ namespace HotelSystem.View.StaffForm
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            CustomerForm customerForm = new CustomerForm();
+            StaffForm customerForm = new StaffForm();
             customerForm.Show();
             this.Hide();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Hide(); 
+            StaffForm staff = new StaffForm();
+            staff.Show();
         }
     }
 }

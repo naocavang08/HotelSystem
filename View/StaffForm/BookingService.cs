@@ -193,7 +193,7 @@ namespace HotelSystem.View.StaffForm
             }
 
             MessageBox.Show("Đặt dịch vụ thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            CustomerForm op = new CustomerForm();
+            StaffForm op = new StaffForm();
             op.Show();
             this.Close();
         }
@@ -201,8 +201,13 @@ namespace HotelSystem.View.StaffForm
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
-            CustomerForm op = new CustomerForm();
+            StaffForm op = new StaffForm();
             op.Show();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

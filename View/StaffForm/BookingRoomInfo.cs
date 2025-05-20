@@ -110,7 +110,7 @@ namespace HotelSystem.View.StaffForm
         private void btnCancel_Click(object sender, EventArgs e)
         {
             // Kiểm tra xem form cha có thể là CustomerForm
-            if (this.Owner is CustomerForm customerForm)
+            if (this.Owner is StaffForm customerForm)
             {
                 this.Close();
             }
@@ -119,7 +119,7 @@ namespace HotelSystem.View.StaffForm
                 try
                 {
                     // Nếu không phải được gọi từ CustomerForm, tạo mới và hiển thị
-                    CustomerForm newCustomerForm = new CustomerForm();
+                    StaffForm newCustomerForm = new StaffForm();
                     newCustomerForm.Show();
                     this.Close();
                 }

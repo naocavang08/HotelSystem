@@ -290,7 +290,7 @@ namespace HotelSystem.View.StaffForm
                 
                 MessageBox.Show("Đặt phòng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 
-                CustomerForm customerForm = new CustomerForm();
+                StaffForm customerForm = new StaffForm();
                 customerForm.LoadAvailableRooms(checkIn, checkOut);
                 customerForm.Show();
                 this.Close();
@@ -333,13 +333,18 @@ namespace HotelSystem.View.StaffForm
             this.Close();
             if (_isEditMode == false)
             {
-                CustomerForm op = new CustomerForm();
+                StaffForm op = new StaffForm();
                 op.LoadAvailableRooms(_checkInDate, _checkOutDate);
                 op.Show();
             }
             else
             {
             }
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

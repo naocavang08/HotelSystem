@@ -1,4 +1,6 @@
-﻿namespace HotelSystem.View.AdminForm
+﻿using System.Drawing;
+
+namespace HotelSystem.View.AdminForm
 {
     partial class AdminForm
     {
@@ -28,10 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnHide = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnRoom = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -43,130 +42,86 @@
             this.btnStaff = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnService = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.btnClose = new Guna.UI2.WinForms.Guna2Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHome)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel7.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(173)))), ((int)(((byte)(194)))), ((int)(((byte)(236)))));
-            this.flowLayoutPanel1.Controls.Add(this.btnClose);
-            this.flowLayoutPanel1.Controls.Add(this.btnHide);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1200, 40);
-            this.flowLayoutPanel1.TabIndex = 0;
-            this.flowLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.flowLayoutPanel1_MouseDown);
-            // 
-            // btnClose
-            // 
-            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(34)))), ((int)(((byte)(217)))));
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(1167, 3);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(30, 30);
-            this.btnClose.TabIndex = 3;
-            this.btnClose.Text = "X";
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnHide
-            // 
-            this.btnHide.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(34)))), ((int)(((byte)(217)))));
-            this.btnHide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHide.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHide.ForeColor = System.Drawing.Color.White;
-            this.btnHide.Location = new System.Drawing.Point(1131, 3);
-            this.btnHide.Name = "btnHide";
-            this.btnHide.Size = new System.Drawing.Size(30, 30);
-            this.btnHide.TabIndex = 4;
-            this.btnHide.Text = "-";
-            this.btnHide.UseVisualStyleBackColor = false;
-            this.btnHide.Click += new System.EventHandler(this.btnHide_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(76)))), ((int)(((byte)(172)))));
-            this.panel1.Controls.Add(this.panel6);
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.picHome);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.panel3);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 40);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(250, 710);
-            this.panel1.TabIndex = 1;
+            
             // 
             // panel6
             // 
             this.panel6.Controls.Add(this.btnRoom);
             this.panel6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel6.Location = new System.Drawing.Point(0, 431);
+            this.panel6.Location = new System.Drawing.Point(-4, 518);
+            this.panel6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(250, 60);
+            this.panel6.Size = new System.Drawing.Size(281, 75);
             this.panel6.TabIndex = 6;
             // 
             // btnRoom
             // 
+            this.btnRoom.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnRoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRoom.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRoom.ForeColor = System.Drawing.Color.Black;
-            this.btnRoom.Image = global::HotelSystem.Properties.Resources.icons8_room_48;
+            this.btnRoom.ForeColor = System.Drawing.Color.DarkGray;
+            this.btnRoom.Image = global::HotelSystem.Properties.Resources.icons8_room_50;
             this.btnRoom.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRoom.Location = new System.Drawing.Point(-10, -6);
+            this.btnRoom.Location = new System.Drawing.Point(-11, -8);
+            this.btnRoom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRoom.Name = "btnRoom";
-            this.btnRoom.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.btnRoom.Size = new System.Drawing.Size(269, 77);
+            this.btnRoom.Padding = new System.Windows.Forms.Padding(22, 0, 0, 0);
+            this.btnRoom.Size = new System.Drawing.Size(303, 96);
             this.btnRoom.TabIndex = 2;
             this.btnRoom.Text = "               Phòng";
             this.btnRoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRoom.UseVisualStyleBackColor = true;
+            this.btnRoom.UseVisualStyleBackColor = false;
             this.btnRoom.Click += new System.EventHandler(this.btnRoom_Click);
             // 
             // panel5
             // 
             this.panel5.Controls.Add(this.btnLogout);
             this.panel5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel5.Location = new System.Drawing.Point(0, 638);
+            this.panel5.Location = new System.Drawing.Point(-4, 710);
+            this.panel5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(247, 60);
+            this.panel5.Size = new System.Drawing.Size(278, 75);
             this.panel5.TabIndex = 4;
             // 
             // btnLogout
             // 
+            this.btnLogout.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogout.ForeColor = System.Drawing.Color.White;
-            this.btnLogout.Image = global::HotelSystem.Properties.Resources.icons8_log_out_64_white_rotate;
+            this.btnLogout.ForeColor = System.Drawing.Color.DarkGray;
+            this.btnLogout.Image = global::HotelSystem.Properties.Resources.icons8_exit_64;
             this.btnLogout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLogout.Location = new System.Drawing.Point(-10, -8);
+            this.btnLogout.Location = new System.Drawing.Point(-11, -10);
+            this.btnLogout.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.btnLogout.Size = new System.Drawing.Size(269, 77);
+            this.btnLogout.Padding = new System.Windows.Forms.Padding(22, 0, 0, 0);
+            this.btnLogout.Size = new System.Drawing.Size(303, 96);
             this.btnLogout.TabIndex = 2;
             this.btnLogout.Text = "               Đăng xuất";
             this.btnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // picHome
             // 
             this.picHome.Image = global::HotelSystem.Properties.Resources.iconAdmin;
-            this.picHome.Location = new System.Drawing.Point(65, 30);
+            this.picHome.Location = new System.Drawing.Point(58, 81);
+            this.picHome.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.picHome.Name = "picHome";
-            this.picHome.Size = new System.Drawing.Size(120, 120);
+            this.picHome.Size = new System.Drawing.Size(135, 150);
             this.picHome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picHome.TabIndex = 0;
             this.picHome.TabStop = false;
@@ -175,111 +130,172 @@
             // 
             this.panel2.Controls.Add(this.btnStatistic);
             this.panel2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel2.Location = new System.Drawing.Point(0, 233);
+            this.panel2.Location = new System.Drawing.Point(-4, 270);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(250, 60);
+            this.panel2.Size = new System.Drawing.Size(281, 75);
             this.panel2.TabIndex = 3;
             // 
             // btnStatistic
             // 
+            this.btnStatistic.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnStatistic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStatistic.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStatistic.ForeColor = System.Drawing.Color.Black;
-            this.btnStatistic.Image = global::HotelSystem.Properties.Resources.icons8_data_analyst_48;
+            this.btnStatistic.ForeColor = System.Drawing.Color.DarkGray;
+            this.btnStatistic.Image = global::HotelSystem.Properties.Resources.icons8_analytics_60;
             this.btnStatistic.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStatistic.Location = new System.Drawing.Point(-9, -12);
+            this.btnStatistic.Location = new System.Drawing.Point(-10, -15);
+            this.btnStatistic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnStatistic.Name = "btnStatistic";
-            this.btnStatistic.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.btnStatistic.Size = new System.Drawing.Size(269, 77);
+            this.btnStatistic.Padding = new System.Windows.Forms.Padding(22, 0, 0, 0);
+            this.btnStatistic.Size = new System.Drawing.Size(303, 96);
             this.btnStatistic.TabIndex = 2;
             this.btnStatistic.Text = "              Thống kê";
             this.btnStatistic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStatistic.UseVisualStyleBackColor = true;
+            this.btnStatistic.UseVisualStyleBackColor = false;
             this.btnStatistic.Click += new System.EventHandler(this.btnStatistic_Click);
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this.btnStaff);
             this.panel4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel4.Location = new System.Drawing.Point(0, 365);
+            this.panel4.Location = new System.Drawing.Point(-4, 435);
+            this.panel4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(250, 60);
+            this.panel4.Size = new System.Drawing.Size(281, 75);
             this.panel4.TabIndex = 5;
             // 
             // btnStaff
             // 
+            this.btnStaff.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnStaff.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStaff.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStaff.ForeColor = System.Drawing.Color.Black;
-            this.btnStaff.Image = global::HotelSystem.Properties.Resources.icons8_staff_48;
+            this.btnStaff.ForeColor = System.Drawing.Color.DarkGray;
+            this.btnStaff.Image = global::HotelSystem.Properties.Resources.icons8_staff_64;
             this.btnStaff.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStaff.Location = new System.Drawing.Point(-12, -9);
+            this.btnStaff.Location = new System.Drawing.Point(-14, -11);
+            this.btnStaff.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnStaff.Name = "btnStaff";
-            this.btnStaff.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.btnStaff.Size = new System.Drawing.Size(269, 77);
+            this.btnStaff.Padding = new System.Windows.Forms.Padding(22, 0, 0, 0);
+            this.btnStaff.Size = new System.Drawing.Size(303, 96);
             this.btnStaff.TabIndex = 2;
             this.btnStaff.Text = "               Nhân viên";
             this.btnStaff.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStaff.UseVisualStyleBackColor = true;
+            this.btnStaff.UseVisualStyleBackColor = false;
             this.btnStaff.Click += new System.EventHandler(this.btnStaff_Click);
             // 
             // panel3
             // 
             this.panel3.Controls.Add(this.btnService);
             this.panel3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel3.Location = new System.Drawing.Point(0, 299);
+            this.panel3.Location = new System.Drawing.Point(-4, 353);
+            this.panel3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(250, 60);
+            this.panel3.Size = new System.Drawing.Size(281, 75);
             this.panel3.TabIndex = 4;
             // 
             // btnService
             // 
+            this.btnService.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnService.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnService.ForeColor = System.Drawing.Color.Black;
-            this.btnService.Image = global::HotelSystem.Properties.Resources.icons8_customer_48;
+            this.btnService.ForeColor = System.Drawing.Color.DarkGray;
+            this.btnService.Image = global::HotelSystem.Properties.Resources.icons8_customer_service_48;
             this.btnService.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnService.Location = new System.Drawing.Point(-8, -11);
+            this.btnService.Location = new System.Drawing.Point(-9, -14);
+            this.btnService.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnService.Name = "btnService";
-            this.btnService.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.btnService.Size = new System.Drawing.Size(269, 77);
+            this.btnService.Padding = new System.Windows.Forms.Padding(22, 0, 0, 0);
+            this.btnService.Size = new System.Drawing.Size(303, 96);
             this.btnService.TabIndex = 2;
             this.btnService.Text = "              Dịch vụ";
             this.btnService.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnService.UseVisualStyleBackColor = true;
+            this.btnService.UseVisualStyleBackColor = false;
             this.btnService.Click += new System.EventHandler(this.btnService_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnClose.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnClose.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnClose.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnClose.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnClose.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnClose.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnClose.Font = new System.Drawing.Font("Gadugi", 16F, System.Drawing.FontStyle.Bold);
+            this.btnClose.ForeColor = System.Drawing.Color.LightGray;
+            this.btnClose.Location = new System.Drawing.Point(1189, 0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(161, 71);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "Thoát";
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("MS Reference Sans Serif", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(-10, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(309, 60);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "TML HOTEL";
+            // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.panel7.Controls.Add(this.btnClose);
+            this.panel7.Controls.Add(this.label1);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel7.Location = new System.Drawing.Point(0, 0);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(1350, 65);
+            this.panel7.TabIndex = 8;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.picHome);
+            this.panel1.Controls.Add(this.panel6);
+            this.panel1.Controls.Add(this.panel4);
+            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Controls.Add(this.panel5);
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 65);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(272, 873);
+            this.panel1.TabIndex = 9;
             // 
             // AdminForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(208)))), ((int)(((byte)(204)))));
-            this.ClientSize = new System.Drawing.Size(1200, 750);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1350, 938);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.panel7);
+            this.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "AdminForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AdminForm";
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picHome)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnHide;
-        private System.Windows.Forms.PictureBox picHome;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnStatistic;
         private System.Windows.Forms.Panel panel4;
@@ -290,5 +306,10 @@
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Button btnRoom;
+        private System.Windows.Forms.PictureBox picHome;
+        private Guna.UI2.WinForms.Guna2Button btnClose;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Panel panel1;
     }
 }

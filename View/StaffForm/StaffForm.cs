@@ -16,7 +16,7 @@ using HotelSystem.Model;
 
 namespace HotelSystem.View.StaffForm
 {
-    public partial class CustomerForm: Form
+    public partial class StaffForm: Form
     {
         // Dùng để gọi hàm API từ Windows
         [DllImport("user32.dll")]
@@ -34,7 +34,7 @@ namespace HotelSystem.View.StaffForm
         private DateTime checkInDate;
         private DateTime checkOutDate;
 
-        public CustomerForm()
+        public StaffForm()
         {
             InitializeComponent();
             bllRoom = new BLL_Room();
@@ -145,7 +145,7 @@ namespace HotelSystem.View.StaffForm
                     Font = new Font("Segoe UI", 16, FontStyle.Regular),
                     Size = new Size(32, 32),
                     Location = new Point(10, 10),
-                    ForeColor = Color.FromArgb(60, 34, 217)
+                    ForeColor = Color.FromArgb(31,31,31)
                 };
                 
                 Label lblRoomName = new Label
@@ -182,7 +182,7 @@ namespace HotelSystem.View.StaffForm
                     Text = $"Tổng: {totalPrice:N0}đ ({days} ngày)",
                     Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
                     Location = new Point(10, 100),
-                    ForeColor = Color.FromArgb(60, 34, 217),
+                    ForeColor = Color.FromArgb(31, 31, 31),
                     AutoSize = true
                 };
 
@@ -214,7 +214,7 @@ namespace HotelSystem.View.StaffForm
                         Font = new Font("Segoe UI", 9, FontStyle.Bold),
                         Size = new Size(100, 30),
                         Location = new Point(roomPanel.Width - 115, roomPanel.Height - 45),
-                        BackColor = Color.FromArgb(60, 34, 217),
+                        BackColor = Color.FromArgb(31,31,31),
                         ForeColor = Color.White,
                         FlatStyle = FlatStyle.Flat,
                         Cursor = Cursors.Hand
@@ -347,6 +347,11 @@ namespace HotelSystem.View.StaffForm
             BookingServiceInfo op = new BookingServiceInfo();
             op.Show();
             this.Hide();
+        }
+
+        private void flowLayoutPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

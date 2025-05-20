@@ -123,6 +123,16 @@ namespace HotelSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_account_60 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-account-60", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_account_96 {
             get {
                 object obj = ResourceManager.GetObject("icons8-account-96", resourceCulture);
@@ -136,6 +146,16 @@ namespace HotelSystem.Properties {
         internal static System.Drawing.Bitmap icons8_account_961 {
             get {
                 object obj = ResourceManager.GetObject("icons8-account-961", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_analytics_60 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-analytics-60", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,6 +233,16 @@ namespace HotelSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_customer_service_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-customer-service-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_data_analyst_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-data-analyst-48", resourceCulture);
@@ -236,6 +266,16 @@ namespace HotelSystem.Properties {
         internal static System.Drawing.Bitmap icons8_delete_document_96 {
             get {
                 object obj = ResourceManager.GetObject("icons8-delete-document-96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_exit_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-exit-64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -273,9 +313,39 @@ namespace HotelSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_password_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-password-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_person_72 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-person-72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_room_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-room-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_room_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-room-50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -333,9 +403,89 @@ namespace HotelSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_staff_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-staff-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_user_100 {
             get {
                 object obj = ResourceManager.GetObject("icons8-user-100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mau_ho_boi_sang_trong_ben_trong_khach_san_cao_cap_4_5_sao_bia {
+            get {
+                object obj = ResourceManager.GetObject("mau-ho-boi-sang-trong-ben-trong-khach-san-cao-cap-4-5-sao-bia", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mau_thiet_ke_noi_that_bar_chuyen_nghiep_trong_khach_san_4_5_sao_bia {
+            get {
+                object obj = ResourceManager.GetObject("mau-thiet-ke-noi-that-bar-chuyen-nghiep-trong-khach-san-4-5-sao-bia", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mau_thiet_ke_noi_that_phong_2_giuong_don_ben_trong_khach_san_3_4_5_sao_3 {
+            get {
+                object obj = ResourceManager.GetObject("mau-thiet-ke-noi-that-phong-2-giuong-don-ben-trong-khach-san-3-4-5-sao-3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mau_thiet_ke_noi_that_phong_2_giuong_don_ben_trong_khach_san_3_4_5_sao_4 {
+            get {
+                object obj = ResourceManager.GetObject("mau-thiet-ke-noi-that-phong-2-giuong-don-ben-trong-khach-san-3-4-5-sao-4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mau_thiet_ke_noi_that_phong_2_giuong_don_ben_trong_khach_san_3_4_5_sao_5 {
+            get {
+                object obj = ResourceManager.GetObject("mau-thiet-ke-noi-that-phong-2-giuong-don-ben-trong-khach-san-3-4-5-sao-5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap phong_ngu_mau_xam_13 {
+            get {
+                object obj = ResourceManager.GetObject("phong-ngu-mau-xam-13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap thiet_ke_cai_tao_noi_that_shophouse_sang_trong_dang_cap_bia_ngoai {
+            get {
+                object obj = ResourceManager.GetObject("thiet-ke-cai-tao-noi-that-shophouse-sang-trong-dang-cap-bia-ngoai", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
